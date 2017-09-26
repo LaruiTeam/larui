@@ -1,0 +1,55 @@
+//- 浏览器头文件属性设置
+mixin commonMeta
+	meta(charset="utf-8")
+	meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+	meta(name="description", content="larui,互联网类larui组件库")
+	meta(name="Keywords", content="larui,互联网类larui组件库")
+	meta(name="viewport" ,content="maximum-scale=1.0 , minimum-scale=1.0 , user-scalable=0 , width=device-width , initial-scale=1.0" )
+
+
+//- 公共头部链接
+mixin commonLink(baseUrl)
+	link(rel="icon", href=baseUrl + "images/favicon.ico", type="image/x-icon")
+	link(rel="stylesheet", href=baseUrl + "common/common.css")
+
+//-所有插件和公共js
+mixin commonScript(baseUrl)
+	script(src=baseUrl+"/src/dist/index.js")
+	script(src=baseUrl + "common/common.js")
+
+mixin anthenScript(baseUrl)
+	script(src=baseUrl + "lib/jquery.cookie.js")
+	script(src=baseUrl + "lib/jquery.base64.js")
+
+mixin leftMenu
+	div
+		dl#account
+			span.menu-icon.account
+			a(href="../userCenter/account.html?menu=account") 账号信息
+		//dl#initiationInfo
+			//span.menu-icon.declare-edit
+			//a(href="../userInitiationApproval/initiationInfo.html?menu=initiationInfo") 入会申报
+		dl#memberClaim
+			span.menu-icon.declare-edit
+			a(href="../memberClaim/memberClaimInfo.html?menu=memberClaim") 会员认领
+		dl#artistInfo.hidden
+			span.menu-icon.info-edit
+			a(href="../userCenter/artistInfo.html?menu=artistInfo") 会员信息
+		dl#changePassword
+			span.menu-icon.changePassword
+			a(href="../userCenter/changePassword.html?menu=changePassword") 修改密码
+		dl#messages
+			span.menu-icon.message
+			a(href="../userCenter/message.html?menu=messages") 消息中心
+
+//页面基本元素
+doctype html
+html
+	head
+		block head
+	body
+		//用于IDS虚拟登陆
+		iframe#virtualLogin.hidden
+		block body
+		block header
+		block footer
