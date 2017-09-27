@@ -1,0 +1,36 @@
+@charset "UTF-8";
+/*头部 */
+/* line 2, ../sass/common.sass */
+section.search-header {
+  background-color: #ffffff;
+}
+/* line 4, ../sass/common.sass */
+section.search-header .icon {
+  display: inline-block;
+  font-size: 28px;
+  width: 33%;
+}
+/* line 8, ../sass/common.sass */
+section.search-header .others {
+  display: inline-block;
+  width: 67%;
+}
+
+/*主题内容区 */
+/* line 14, ../sass/common.sass */
+section.content {
+  max-width: 1024px;
+  background-color: #000088;
+  width: 67%;
+}
+/* line 17, ../sass/common.sass */
+section.content .leftMenu {
+  width: 33%;
+}
+
+/* line 24, ../sass/common.sass */
+section.content > div {
+  display: inline-block;
+}
+
+/*尾部 */

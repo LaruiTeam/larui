@@ -1,23 +1,15 @@
-extends "common"
+extends common
 block head
     block metas
         +commonMeta
     block links
         +commonLink('../')
-        link(rel="stylesheet" href="../lar-ui/lar-ui.css")
-        link(rel="stylesheet" href="dynamicMsg.css")
     block scripts
         +commonScript('../')
-        script(src="../lib/jquery.mobile.custom.min.js")
-        script(src="../lib/layer/layer.js")
-        script(src="../zlhy-constant.js")
-        script(src="../common/util.js")
-        script(src="../lar-ui/lar-loading/lar-loading.js")
-        script(src="../lar-ui/lar-dynamicPage/dynamicPage.js")
-        script(src="dynamicMsg.js")
+
     block title
-        title 个人会员
-block body
+        title larUI-互联网组件库
+block rightContent
     //+header
     section.content.container.section
         div.row

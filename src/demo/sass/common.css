@@ -1,0 +1,26 @@
+@charset "UTF-8";
+/*头部 */
+section.search-header {
+  background-color: #ffffff; }
+  section.search-header .icon {
+    display: inline-block;
+    font-size: 28px;
+    width: 33%; }
+  section.search-header .others {
+    display: inline-block;
+    width: 67%; }
+
+/*主题内容区 */
+section.content {
+  max-width: 1024px;
+  background-color: #000088;
+  width: 67%; }
+  section.content .leftMenu {
+    width: 33%; }
+
+section.content > div {
+  display: inline-block; }
+
+/*尾部 */
+
+/*# sourceMappingURL=common.css.map */
