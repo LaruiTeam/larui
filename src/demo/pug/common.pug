@@ -41,6 +41,34 @@ mixin leftMenu
 		dl#messages
 			span.menu-icon.message
 			a(href="../userCenter/message.html?menu=messages") 消息中心
+mixin header
+	section.search-header
+	div.header-bg
+		div.header-search
+			div.row
+				div.col-xs-8
+					span 您好，欢迎访问全国文联组联工作服务平台！
+				div.col-xs-2
+					span 个人会员登陆
+				div.col-xs-2
+					div.input-group
+						input(type="text")
+						div.input-group-addon
+							div 搜索
+	div.banner
+		img(src="../images/header.png")
+mixin footer
+	section.search-footer
+	div.copyright
+		a(href="http://www.artnchina.com/page/witart/witart.html" target="_blank")
+			span 技术支持：中国文联网络文艺传播中心
+		p Copyright@2011 CFLAC Corporation ALL RIGHTS RESERVED 中国文学艺术界联合会
+		p.baidu_statistics
+			a(href="http://tongji.baidu.com/hm-web/welcome/ico?s=52744559f831bd9a8417325f30470803" target="blank")
+				img(src="../images/baidu_statistics.gif")
+		script(type='text/javascript').
+			var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?52744559f831bd9a8417325f30470803";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();
+
 
 //页面基本元素
 doctype html
