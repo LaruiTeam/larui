@@ -1,26 +1,83 @@
 @charset "UTF-8";
+/*公共样式 */
+body {
+  background: url("./../images/bg1.jpg");
+  background-size: cover; }
+
 /*头部 */
 section.search-header {
-  background-color: #ffffff; }
+  max-width: 1000px;
+  margin: 0 auto;
+  color: white;
+  background-color: #09387b;
+  border-bottom: 1px solid #009e96;
+  mso-border-shadow: 1px;
+  height: 60px;
+  line-height: 60px;
+  opacity: 0.8; }
   section.search-header .icon {
     display: inline-block;
     font-size: 28px;
-    width: 33%; }
+    width: 33%;
+    font-family: "华文行楷"; }
   section.search-header .others {
     display: inline-block;
-    width: 67%; }
+    width: 66%;
+    text-align: right; }
 
-/*主题内容区 */
-section.content {
-  max-width: 1024px;
-  background-color: #000088;
-  width: 67%; }
-  section.content .leftMenu {
-    width: 33%; }
+/*主体内容区 */
+section.bodyContent {
+  max-width: 1000px;
+  min-height: 500px;
+  margin: 0 auto;
+  background-color: #ffffff; }
+  section.bodyContent .leftMenu {
+    width: 33%;
+    min-height: 500px;
+    background: #E8E7E3;
+    display: inline-block; }
+    section.bodyContent .leftMenu ul {
+      padding: 0px 2px 0px 0px;
+      margin: 0px; }
+      section.bodyContent .leftMenu ul li {
+        padding-left: 10px;
+        height: 26px;
+        line-height: 22px;
+        border-bottom: 1px solid #888888;
+        box-shadow: 0px 0px 6px #000; }
+        section.bodyContent .leftMenu ul li a {
+          text-decoration: none;
+          color: white; }
+      section.bodyContent .leftMenu ul li.title {
+        padding-left: 0px;
+        box-shadow: none;
+        height: 38px;
+        line-height: 34px;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        text-align: center;
+        border-bottom: 2px solid #dddddd; }
+  section.bodyContent .rightContent {
+    width: 66%;
+    display: inline-block; }
+    section.bodyContent .rightContent .title {
+      border-bottom: 1px solid #dddddd; }
 
 section.content > div {
   display: inline-block; }
 
 /*尾部 */
+section.search-footer {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #09387b;
+  color: white;
+  text-align: center; }
+  section.search-footer .copyright {
+    padding-top: 28px; }
+    section.search-footer .copyright a {
+      text-decoration: none;
+      color: white; }
 
 /*# sourceMappingURL=common.css.map */

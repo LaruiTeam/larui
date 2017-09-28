@@ -9,59 +9,66 @@
     <meta name="viewport" content="maximum-scale=1.0 , minimum-scale=1.0 , user-scalable=0 , width=device-width , initial-scale=1.0"/>
     <link rel="icon" href="../images/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="../pages/common.css"/>
-    <script src="..//src/dist/index.js"></script>
-    <script src="../common/common.js"></script>
+    <script src="/larui/larui//src/dist/index.js"></script>
+    <script src="/larui/larui//src/demo/pages/common.js"></script>
     <title>larUI-互联网组件库</title>
   </head>
   <body>
     <!--用于IDS虚拟登陆-->
     <!--iframe#virtualLogin.hidden-->
     <section class="search-header">
-      <div class="icon"><span>larUI</span></div>
+      <div class="icon"><span>larUI--互联网组件库</span></div>
       <div class="others">
         <div class="input-group">
           <input type="text"/><span>搜索</span>
         </div>
       </div>
     </section>
-    <div class="banner"><img src="../images/header.png"/></div>
-    <section class="content">
-      <div class="row">
-        <div class="left-menu">
-          <div>
-            <dl id="account"><span class="menu-icon account"></span><a href="../userCenter/account.html?menu=account">账号信息</a></dl>
-            <!--dl#initiationInfo
-            //span.menu-icon.declare-edit
-            //a(href="../userInitiationApproval/initiationInfo.html?menu=initiationInfo") 入会申报
-            -->
-            <dl id="memberClaim"><span class="menu-icon declare-edit"></span><a href="../memberClaim/memberClaimInfo.html?menu=memberClaim">会员认领</a></dl>
-            <dl class="hidden" id="artistInfo"><span class="menu-icon info-edit"></span><a href="../userCenter/artistInfo.html?menu=artistInfo">会员信息</a></dl>
-            <dl id="changePassword"><span class="menu-icon changePassword"></span><a href="../userCenter/changePassword.html?menu=changePassword">修改密码</a></dl>
-            <dl id="messages"><span class="menu-icon message"></span><a href="../userCenter/message.html?menu=messages">消息中心</a></dl>
-          </div>
-        </div>
-        <div class="right-content">
-          <!--+header-->
-          <section class="content container section">
-            <div class="row">
-              <div class="left-menu col-sm-2 hidden-xs"></div>
-              <div class="right-content col-sm-10 col-xs-12 infomation"></div>
-            </div>
-          </section>
-          <!--+footer-->
+    <section class="bodyContent">
+      <div class="leftMenu">
+        <div>
+          <ul>
+            <li class="title"><span>组件列表</span></li>
+            <li><a href="./../unit/lar-gallery/galleryTemplate.html">lar-gallery组件</a>
+              <!--ul-->
+              <!--	each item in menu.secList-->
+              <!--		li-->
+              <!--			a(href=item.link) item.secMenuname-->
+            </li>
+            <li><a href="./../unit/lar-backTop/backTop.html">lar-backtop组件</a>
+              <!--ul-->
+              <!--	each item in menu.secList-->
+              <!--		li-->
+              <!--			a(href=item.link) item.secMenuname-->
+            </li>
+            <li><a href="./../unit/lar-thumbGallery/thumbGallery.html">lar-thumbGallery组件</a>
+              <!--ul-->
+              <!--	each item in menu.secList-->
+              <!--		li-->
+              <!--			a(href=item.link) item.secMenuname-->
+            </li>
+          </ul>
         </div>
       </div>
+      <div class="rightContent">
+        <!--+header-->
+        <section class="content">
+          <div><span>欢迎使用larui组件库中的组件</span></div>
+        </section>
+        <!--+footer-->
+      </div>
     </section>
-    <section class="search-footer"></section>
-    <div class="copyright"><a href="http://www.artnchina.com/page/witart/witart.html" target="_blank"><span>技术支持：中国软件与技术服务股份有限公司</span></a>
-      <p>Copyright@2011 CFLAC Corporation ALL RIGHTS RESERVED 中国软件与技术服务股份有限公司</p>
-      <p class="baidu_statistics"><a href="http://tongji.baidu.com/hm-web/welcome/ico?s=52744559f831bd9a8417325f30470803" target="blank"><img src="../images/baidu_statistics.gif"/></a></p>
-      <script type="text/javascript">
-        var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?52744559f831bd9a8417325f30470803";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();
-        
-        
-      </script>
-    </div>
+    <section class="search-footer">
+      <div class="copyright"><a href="http://www.artnchina.com/page/witart/witart.html" target="_blank"><span>技术支持：中国软件与技术服务股份有限公司</span></a>
+        <p>Copyright@2011 CFLAC Corporation ALL RIGHTS RESERVED 中国软件与技术服务股份有限公司</p>
+        <p class="baidu_statistics"><a href="http://tongji.baidu.com/hm-web/welcome/ico?s=52744559f831bd9a8417325f30470803" target="blank"><img src="../images/baidu_statistics.gif"/></a></p>
+        <script type="text/javascript">
+          var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?52744559f831bd9a8417325f30470803";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();
+          
+          
+        </script>
+      </div>
+    </section>
     <!--block header-->
     <!--block footer-->
   </body>

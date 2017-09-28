@@ -15,54 +15,46 @@ mixin commonLink(baseUrl)
 //-所有插件和公共js
 mixin commonScript(baseUrl)
 	script(src=baseUrl+"/src/dist/index.js")
-	script(src=baseUrl + "common/common.js")
+	script(src=baseUrl + "/src/demo/pages/common.js")
 
 mixin anthenScript(baseUrl)
-	script(src=baseUrl + "lib/jquery.cookie.js")
-	script(src=baseUrl + "lib/jquery.base64.js")
+	//script(src=baseUrl + "lib/jquery.cookie.js")
+	//script(src=baseUrl + "lib/jquery.base64.js")
 
 mixin leftMenu
+	- var menus = [{menuName:"lar-gallery组件",link:"./../unit/lar-gallery/galleryTemplate.html"},{menuName:"lar-backtop组件",link:"./../unit/lar-backTop/backTop.html"},{menuName:"lar-thumbGallery组件",link:"./../unit/lar-thumbGallery/thumbGallery.html"}]
 	div
-		dl#account
-			span.menu-icon.account
-			a(href="../userCenter/account.html?menu=account") 账号信息
-		//dl#initiationInfo
-			//span.menu-icon.declare-edit
-			//a(href="../userInitiationApproval/initiationInfo.html?menu=initiationInfo") 入会申报
-		dl#memberClaim
-			span.menu-icon.declare-edit
-			a(href="../memberClaim/memberClaimInfo.html?menu=memberClaim") 会员认领
-		dl#artistInfo.hidden
-			span.menu-icon.info-edit
-			a(href="../userCenter/artistInfo.html?menu=artistInfo") 会员信息
-		dl#changePassword
-			span.menu-icon.changePassword
-			a(href="../userCenter/changePassword.html?menu=changePassword") 修改密码
-		dl#messages
-			span.menu-icon.message
-			a(href="../userCenter/message.html?menu=messages") 消息中心
+		ul
+			li.title
+				span 组件列表
+			each item in menus
+				li
+					- var menuName=item.menuName
+					a(href=item.link) #{menuName}
+					//ul
+					//	each item in menu.secList
+					//		li
+					//			a(href=item.link) item.secMenuname
+
 mixin header
 	section.search-header
 		div.icon
-			span larUI
+			span larUI--互联网组件库
 		div.others
 			div.input-group
 				input(type="text")
 				span 搜索
-
-	div.banner
-		img(src="../images/header.png")
 mixin footer
 	section.search-footer
-	div.copyright
-		a(href="http://www.artnchina.com/page/witart/witart.html" target="_blank")
-			span 技术支持：中国软件与技术服务股份有限公司
-		p Copyright@2011 CFLAC Corporation ALL RIGHTS RESERVED 中国软件与技术服务股份有限公司
-		p.baidu_statistics
-			a(href="http://tongji.baidu.com/hm-web/welcome/ico?s=52744559f831bd9a8417325f30470803" target="blank")
-				img(src="../images/baidu_statistics.gif")
-		script(type='text/javascript').
-			var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?52744559f831bd9a8417325f30470803";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();
+		div.copyright
+			a(href="http://www.artnchina.com/page/witart/witart.html" target="_blank")
+				span 技术支持：中国软件与技术服务股份有限公司
+			p Copyright@2011 CFLAC Corporation ALL RIGHTS RESERVED 中国软件与技术服务股份有限公司
+			p.baidu_statistics
+				a(href="http://tongji.baidu.com/hm-web/welcome/ico?s=52744559f831bd9a8417325f30470803" target="blank")
+					img(src="../images/baidu_statistics.gif")
+			script(type='text/javascript').
+				var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?52744559f831bd9a8417325f30470803";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();
 
 
 //页面基本元素
@@ -71,15 +63,17 @@ html
 	head
 		block head
 	body
+
 		//用于IDS虚拟登陆
 		//iframe#virtualLogin.hidden
 		+header
-		section.content
-			div.row
-				div.left-menu
-					+leftMenu
-				div.right-content
-					block rightContent
+		section.bodyContent
+			div.leftMenu
+				+leftMenu
+			div.rightContent
+				block rightContent
+
+
 		+footer
 		//block header
 		//block footer

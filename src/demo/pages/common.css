@@ -1,36 +1,113 @@
 @charset "UTF-8";
-/*头部 */
+/*公共样式 */
 /* line 2, ../sass/common.sass */
-section.search-header {
-  background-color: #ffffff;
+body {
+  background: url("./../images/bg1.jpg");
+  background-size: cover;
 }
-/* line 4, ../sass/common.sass */
+
+/*头部 */
+/* line 7, ../sass/common.sass */
+section.search-header {
+  max-width: 1000px;
+  margin: 0 auto;
+  color: white;
+  background-color: #09387b;
+  border-bottom: 1px solid #009e96;
+  mso-border-shadow: 1px;
+  height: 60px;
+  line-height: 60px;
+  opacity: 0.8;
+}
+/* line 17, ../sass/common.sass */
 section.search-header .icon {
   display: inline-block;
   font-size: 28px;
   width: 33%;
+  font-family: "华文行楷";
 }
-/* line 8, ../sass/common.sass */
+/* line 22, ../sass/common.sass */
 section.search-header .others {
   display: inline-block;
-  width: 67%;
+  width: 66%;
+  text-align: right;
 }
 
-/*主题内容区 */
-/* line 14, ../sass/common.sass */
-section.content {
-  max-width: 1024px;
-  background-color: #000088;
-  width: 67%;
+/*主体内容区 */
+/* line 28, ../sass/common.sass */
+section.bodyContent {
+  max-width: 1000px;
+  min-height: 500px;
+  margin: 0 auto;
+  background-color: #ffffff;
 }
-/* line 17, ../sass/common.sass */
-section.content .leftMenu {
+/* line 34, ../sass/common.sass */
+section.bodyContent .leftMenu {
   width: 33%;
+  min-height: 500px;
+  background: #E8E7E3;
+  display: inline-block;
+}
+/* line 39, ../sass/common.sass */
+section.bodyContent .leftMenu ul {
+  padding: 0px 2px 0px 0px;
+  margin: 0px;
+}
+/* line 43, ../sass/common.sass */
+section.bodyContent .leftMenu ul li {
+  padding-left: 10px;
+  height: 26px;
+  line-height: 22px;
+  border-bottom: 1px solid #888888;
+  box-shadow: 0px 0px 6px #000;
+}
+/* line 49, ../sass/common.sass */
+section.bodyContent .leftMenu ul li a {
+  text-decoration: none;
+  color: white;
+}
+/* line 52, ../sass/common.sass */
+section.bodyContent .leftMenu ul li.title {
+  padding-left: 0px;
+  box-shadow: none;
+  height: 38px;
+  line-height: 34px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  border-bottom: 2px solid #dddddd;
+}
+/* line 64, ../sass/common.sass */
+section.bodyContent .rightContent {
+  width: 66%;
+  display: inline-block;
+}
+/* line 67, ../sass/common.sass */
+section.bodyContent .rightContent .title {
+  border-bottom: 1px solid #dddddd;
 }
 
-/* line 24, ../sass/common.sass */
+/* line 71, ../sass/common.sass */
 section.content > div {
   display: inline-block;
 }
 
 /*尾部 */
+/* line 77, ../sass/common.sass */
+section.search-footer {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #09387b;
+  color: white;
+  text-align: center;
+}
+/* line 83, ../sass/common.sass */
+section.search-footer .copyright {
+  padding-top: 28px;
+}
+/* line 85, ../sass/common.sass */
+section.search-footer .copyright a {
+  text-decoration: none;
+  color: white;
+}
