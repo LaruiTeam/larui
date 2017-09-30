@@ -10330,12 +10330,13 @@ return jQuery;
 //维护公共报错变量
 //CONST_ERROR = "系统报错！请联系管理员。";
 //var DEFAULT_IMAGE = baseUrl + '/lar-ui/images/noImageAlert/errorImage.jpg';
-var baseUrl = getServerPath() + "/src/";
+var baseUrl=getServerPath()+"/src/";
 module.exports = {
-	baseUrl: baseUrl,
-	placeholderImg: placeholderImg
-	//获取工程访问地址 返回结果形如:   http://localhost:8080/lar-region-search-web
-};function getServerPath() {
+	baseUrl:baseUrl,
+	placeholderImg:placeholderImg
+}
+//获取工程访问地址 返回结果形如:   http://localhost:8080/lar-region-search-web
+function getServerPath(){
 	var curWwwPath = window.document.location.href;
 	//获取主机地址之后的目录，如： cis/website/meun.htm
 	var pathName = window.document.location.pathname;
@@ -10350,15 +10351,15 @@ module.exports = {
 /*
 * 占位图
 * */
-function placeholderImg(name, element) {
-	if (!name) {
+function placeholderImg(name,element){
+	if(!name){
 		name = 'errorImage';
 	}
 	//var img=event.srcElement || event.target;
 	var img = element;
 	//baseUrl="http://localhost:63342/larui/";
-	img.src = '/images/noImageAlert/errorImage.jpg';
-	img.onerror = null;
+	img.src= '/images/noImageAlert/errorImage.jpg';
+	img.onerror=null;
 }
 
 //import $ from 'jquery';
@@ -10393,6 +10394,10 @@ function fullTextSearch(keyword){
 }
 */
 
+
+
+
+
 /***/ }),
 /* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -10418,7 +10423,9 @@ import '../node_modules/antd/dist/antd.css';*/
 
 __webpack_require__(5);
 
-window.$ = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a;
+window.$=__WEBPACK_IMPORTED_MODULE_0_jquery___default.a;
+
+
 
 /***/ }),
 /* 3 */
