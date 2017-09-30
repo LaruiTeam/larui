@@ -1,4 +1,4 @@
-extends common
+extends ./../../common
 block head
     block metas
         +commonMeta
@@ -6,12 +6,11 @@ block head
         +commonLink('/larui/larui/')
     block scripts
         +commonScript('/larui/larui/')
-
+        script(src="galleryTemplate.js")
     block title
         title larUI-互联网组件库
 block rightContent
-    //+header
-    section.content
+    //gallery--4张图片上下排版
+    section
         div
-            span 欢迎使用larui组件库中的组件，使用中如有任何问题，欢迎反馈。邮箱：1174525208@qq.com
-    //+footer
+            div.art_classfications1(style="height:320px;margin:10px;width:100%")

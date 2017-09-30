@@ -1,0 +1,29 @@
+extends ./../common
+block head
+    block metas
+        +commonMeta
+    block links
+        +commonLink('/larui/larui/')
+    block scripts
+        +commonScript('/larui/larui/')
+
+    block title
+        title larUI-互联网组件库
+block rightContent
+    div.api
+        div.title API说明
+    div.param
+        div.title
+            span 参数说明
+        div.paramDes
+            block paraDes
+    div.dataDes
+        div.title
+            span JSON数据样例
+        div.dataJson
+            block dataJson
+    div.example
+        div.title
+            span 示例
+        div.examDes
+            block example

@@ -1,0 +1,35 @@
+extends ./../unitCommon
+block paraDes
+    div
+        span 描述：gallery组件是一款主要为了实现图文左右滑动的组件，目前支持8种展现方式。
+    div
+        span 调用方式:$("选择器").gallery({params})
+    div.params
+        table
+            thead
+                tr
+                    th
+                        span 序号
+                    th
+                        span 参数名称
+                    th
+                        span 参数意义
+                    th
+                        span 是否必填项
+            tbody
+                - var paramList = [{name:'dataList',meaning:'图文数据,里面具体数据项参见2-5',isRequired:'是'},{name:'dataList-url',meaning:'图片地址',isRequired:'是'},{name:'dataList-title',meaning:'图片标题',isRequired:'否'},{name:'dataList-des',meaning:'图片简介',isRequired:'否'},{name:'dataList-hyperLink',meaning:'跳转链接',isRequired:'否'}]
+                each param ,idx in paramList
+                    - var paramName=param.name,paramMeaning=param.meaning,paramIsrequired=param.isRequired
+                    tr
+                        td #{idx}
+                        td #{paramName}
+                        td #{paramMeaning}
+                        td #{paramIsrequired}
+
+block dataJson
+    - var jsonStr=JSON.stringify(dataJson)
+    p #{jsonStr}
+
+block example
+    div
+        a(href="./galleryTemplate.html") 查看示例效果

@@ -14,19 +14,18 @@ section.search-header {
   color: white;
   background-color: #09387b;
   border-bottom: 1px solid #009e96;
-  mso-border-shadow: 1px;
   height: 60px;
   line-height: 60px;
   opacity: 0.8;
 }
-/* line 17, ../sass/common.sass */
+/* line 16, ../sass/common.sass */
 section.search-header .icon {
   display: inline-block;
   font-size: 28px;
   width: 33%;
   font-family: "华文行楷";
 }
-/* line 22, ../sass/common.sass */
+/* line 21, ../sass/common.sass */
 section.search-header .others {
   display: inline-block;
   width: 66%;
@@ -34,39 +33,39 @@ section.search-header .others {
 }
 
 /*主体内容区 */
-/* line 28, ../sass/common.sass */
+/* line 27, ../sass/common.sass */
 section.bodyContent {
   max-width: 1000px;
-  min-height: 500px;
+  min-height: 700px;
   margin: 0 auto;
   background-color: #ffffff;
 }
-/* line 34, ../sass/common.sass */
+/* line 33, ../sass/common.sass */
 section.bodyContent .leftMenu {
   width: 33%;
-  min-height: 500px;
-  background: #E8E7E3;
+  min-height: 700px;
+  background: #64b5bf;
   display: inline-block;
 }
-/* line 39, ../sass/common.sass */
+/* line 38, ../sass/common.sass */
 section.bodyContent .leftMenu ul {
   padding: 0px 2px 0px 0px;
   margin: 0px;
 }
-/* line 43, ../sass/common.sass */
+/* line 42, ../sass/common.sass */
 section.bodyContent .leftMenu ul li {
-  padding-left: 10px;
+  padding-left: 60px;
   height: 26px;
   line-height: 22px;
   border-bottom: 1px solid #888888;
   box-shadow: 0px 0px 6px #000;
 }
-/* line 49, ../sass/common.sass */
+/* line 48, ../sass/common.sass */
 section.bodyContent .leftMenu ul li a {
   text-decoration: none;
   color: white;
 }
-/* line 52, ../sass/common.sass */
+/* line 51, ../sass/common.sass */
 section.bodyContent .leftMenu ul li.title {
   padding-left: 0px;
   box-shadow: none;
@@ -78,23 +77,55 @@ section.bodyContent .leftMenu ul li.title {
   text-align: center;
   border-bottom: 2px solid #dddddd;
 }
-/* line 64, ../sass/common.sass */
+/* line 62, ../sass/common.sass */
 section.bodyContent .rightContent {
   width: 66%;
   display: inline-block;
 }
-/* line 67, ../sass/common.sass */
+/* line 66, ../sass/common.sass */
 section.bodyContent .rightContent .title {
-  border-bottom: 1px solid #dddddd;
+  height: 32px;
+  line-height: 32px;
+  font-weight: bold;
+}
+/* line 71, ../sass/common.sass */
+section.bodyContent .rightContent .api .title {
+  border-bottom: 1px solid #999999;
+}
+/* line 74, ../sass/common.sass */
+section.bodyContent .rightContent .param .title, section.bodyContent .rightContent .example .title {
+  height: 32px;
+  line-height: 32px;
+}
+/* line 78, ../sass/common.sass */
+section.bodyContent .rightContent .param .paramDes, section.bodyContent .rightContent .dataDes .dataJson, section.bodyContent .rightContent .example .examDes {
+  min-height: 100px;
+  padding-left: 32px;
+}
+/* line 81, ../sass/common.sass */
+section.bodyContent .rightContent .param table {
+  border-right: 1px solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3;
+}
+/* line 85, ../sass/common.sass */
+section.bodyContent .rightContent .param table thead tr {
+  background-color: #eee;
+}
+/* line 87, ../sass/common.sass */
+section.bodyContent .rightContent .param table th, section.bodyContent .rightContent .param table td {
+  border-left: 1px solid #e3e3e3;
+  border-top: 1px solid #e3e3e3;
+  text-align: center;
 }
 
-/* line 71, ../sass/common.sass */
-section.content > div {
+/* line 93, ../sass/common.sass */
+section.bodyContent > div {
   display: inline-block;
+  vertical-align: top;
 }
 
 /*尾部 */
-/* line 77, ../sass/common.sass */
+/* line 101, ../sass/common.sass */
 section.search-footer {
   max-width: 1000px;
   margin: 0 auto;
@@ -102,11 +133,11 @@ section.search-footer {
   color: white;
   text-align: center;
 }
-/* line 83, ../sass/common.sass */
+/* line 107, ../sass/common.sass */
 section.search-footer .copyright {
   padding-top: 28px;
 }
-/* line 85, ../sass/common.sass */
+/* line 109, ../sass/common.sass */
 section.search-footer .copyright a {
   text-decoration: none;
   color: white;

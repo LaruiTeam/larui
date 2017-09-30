@@ -11,7 +11,6 @@ section.search-header {
   color: white;
   background-color: #09387b;
   border-bottom: 1px solid #009e96;
-  mso-border-shadow: 1px;
   height: 60px;
   line-height: 60px;
   opacity: 0.8; }
@@ -28,19 +27,19 @@ section.search-header {
 /*主体内容区 */
 section.bodyContent {
   max-width: 1000px;
-  min-height: 500px;
+  min-height: 700px;
   margin: 0 auto;
   background-color: #ffffff; }
   section.bodyContent .leftMenu {
     width: 33%;
-    min-height: 500px;
-    background: #E8E7E3;
+    min-height: 700px;
+    background: #64b5bf;
     display: inline-block; }
     section.bodyContent .leftMenu ul {
       padding: 0px 2px 0px 0px;
       margin: 0px; }
       section.bodyContent .leftMenu ul li {
-        padding-left: 10px;
+        padding-left: 60px;
         height: 26px;
         line-height: 22px;
         border-bottom: 1px solid #888888;
@@ -62,10 +61,30 @@ section.bodyContent {
     width: 66%;
     display: inline-block; }
     section.bodyContent .rightContent .title {
-      border-bottom: 1px solid #dddddd; }
+      height: 32px;
+      line-height: 32px;
+      font-weight: bold; }
+    section.bodyContent .rightContent .api .title {
+      border-bottom: 1px solid #999999; }
+    section.bodyContent .rightContent .param .title, section.bodyContent .rightContent .example .title {
+      height: 32px;
+      line-height: 32px; }
+    section.bodyContent .rightContent .param .paramDes, section.bodyContent .rightContent .dataDes .dataJson, section.bodyContent .rightContent .example .examDes {
+      min-height: 100px;
+      padding-left: 32px; }
+    section.bodyContent .rightContent .param table {
+      border-right: 1px solid #e3e3e3;
+      border-bottom: 1px solid #e3e3e3; }
+    section.bodyContent .rightContent .param table thead tr {
+      background-color: #eee; }
+    section.bodyContent .rightContent .param table th, section.bodyContent .rightContent .param table td {
+      border-left: 1px solid #e3e3e3;
+      border-top: 1px solid #e3e3e3;
+      text-align: center; }
 
-section.content > div {
-  display: inline-block; }
+section.bodyContent > div {
+  display: inline-block;
+  vertical-align: top; }
 
 /*尾部 */
 section.search-footer {

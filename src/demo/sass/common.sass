@@ -10,7 +10,6 @@ section.search-header
   color: white
   background-color: #09387b
   border-bottom: 1px solid #009e96
-  mso-border-shadow: 1px
   height: 60px
   line-height: 60px
   opacity: 0.8
@@ -27,21 +26,21 @@ section.search-header
 /*主体内容区*/
 section.bodyContent
   max-width: 1000px
-  min-height: 500px
+  min-height: 700px
   margin: 0 auto
   background-color: #ffffff
   //opacity: 0.9
   .leftMenu
     width: 33%
-    min-height: 500px
-    background: #E8E7E3
+    min-height: 700px
+    background: rgb(100,181,191)
     display: inline-block
     ul
       padding: 0px 2px 0px 0px
       margin: 0px
 
       li
-        padding-left: 10px
+        padding-left: 60px
         height: 26px
         line-height: 22px
         border-bottom: 1px solid #888888
@@ -60,16 +59,41 @@ section.bodyContent
         text-align: center
         border-bottom: 2px solid #dddddd
 
-
   .rightContent
     width: 66%
     display: inline-block
+
     .title
-      border-bottom: 1px solid #dddddd
+      height: 32px
+      line-height: 32px
+      font-weight: bold
+
+    .api .title
+      border-bottom: 1px solid #999999
+
+    .param .title,.example .title
+      height: 32px
+      line-height: 32px
+
+    .param .paramDes,.dataDes .dataJson,.example .examDes
+      min-height: 100px
+      padding-left: 32px
+    .param table
+      border-right: 1px solid #e3e3e3
+      border-bottom: 1px solid #e3e3e3
+
+    .param table thead tr
+      background-color: #eee
+    .param table th,.param table td
+      border-left: 1px solid #e3e3e3
+      border-top: 1px solid #e3e3e3
+      text-align: center
 
 
-section.content > div
+section.bodyContent > div
   display: inline-block
+  vertical-align: top
+
 
 
 
