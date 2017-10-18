@@ -5,44 +5,6 @@ body{ margin: 0; padding: 0; font-family:"微软雅黑";}
 .icon{ background:url(./images/icon/icon.png);}
 button{ border:none;}
 ul li{ list-style:none;}
-@media (min-width: 768px){
-    .container{ width:1000px;} 
-
-   /*登陆登出样式*/
-   .header-database .container .nav li #logout{
-      padding-left: 0px;
-   }
-
-   .userIcon,.logoutIcon{
-      display: inline-block;
-      width: 40px;
-      height: 40px;
-      background-image: url("./images/icon/icon.png");
-   }
-
-   .userName, .logoutName{
-      display: none;
-   }
-
-   .userIcon{
-      background-position: -84px -73px;
-   }
-
-   .logoutIcon{
-      background-position: -157px -73px;
-      width: 20px;
-      margin-right: 20px;
-   }
-
-   ul li.set{
-      display: none;
-   }
-}
-
-/*  lar-ui-style  第一遍切图专用 */
-.adap{ 
-   img{ width:100%;}
-}
 .center{
    margin: 0 auto;
 }
@@ -68,7 +30,6 @@ $color-base-con: #333333;
 $color-base-sec: #555555;
 $color-white: #ffffff;
 $color-yellow: #fdbf2d;
-
 $color-artist-lightRed: #fd1444; /* artistHall艺术家馆 红*/
 $color-activity-lightYellow: #ffe401;/* activity活动库 黄 */
 $color-periodicals-lightBlue: #74c7f4; /* periodicals典籍期刊 天蓝 */
@@ -81,32 +42,10 @@ $color-news-lightBlue:#1f93ff; /* news新闻资讯 海蓝*/
 $color-encyclopedia-lightPurple: #6062aa;  /* encyclopedia百科 浅紫 */
 $color-encyclopedia-deepPurple: #4f518d;  /* encyclopedia百科 深紫 */
 
-
 /* ==========================================================================
-   lay-ui audio 新增百科分隔样式
+   lar-gallery 组件
    ========================================================================== */
-@import "sass/partials/_separate.scss";
-/* ==========================================================================
-   lay-ui audio 新增音频样式
-   ========================================================================== */
-@import "sass/partials/_audio.scss";
-/* ==========================================================================
-   lay-ui btn 按钮样式
-   ========================================================================== */
-@import "sass/partials/_btn.scss";
-/* 
-   ***************************************************************
-   lar-ui Icon定位 
-   ***************************************************************
-*/
-@import "sass/partials/_iconLocate.scss";
-/* 
-   ***************************************************************
-   lar-ui 常用样式定位
-   ***************************************************************
-*/
-@import "sass/partials/_styleLocate.scss";
-
+@import "./../lar-gallery/_gallery.scss";
 /* ==========================================================================
    lay-ui photowall组件
    ========================================================================== */
@@ -130,11 +69,7 @@ $color-encyclopedia-deepPurple: #4f518d;  /* encyclopedia百科 深紫 */
 /* ==========================================================================
    lay-ui selectDict组件
    ========================================================================== */
-@import "sass/partials/_selectDict.scss"; 
-/* ==========================================================================
-   lar-gallery 组件
-   ========================================================================== */
-@import "sass/partials/_gallery.scss"; 
+@import "sass/partials/_selectDict.scss";
 /* ==========================================================================
    lar-dynamicPage组件
    ========================================================================== */
