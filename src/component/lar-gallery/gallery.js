@@ -86,9 +86,10 @@
  * 2. 扩展的方法只对dom区扩展起作用，类似galleryDom中的几种情况
  */
 import $ from 'jquery';
-import larUi from './../../lar-ui.js';
-//var baseUrl=larUi.baseUrl;
-var baseUrl="./";
+import larUi from './../larui/lar-ui.js';
+alert("larUi.baseUrl"+larUi.baseUrl);
+var baseUrl=larUi.baseUrl;
+//var baseUrl="/";
 //window.$ = $;
 //$(".art_classfications1").html("AAAAA");
 var placeholderImg=larUi.placeholderImg;
@@ -141,8 +142,8 @@ var placeholderImg=larUi.placeholderImg;
 				containerHeight: "",
 				pageSize: "3",
 				pageSizeClass: "",
-				arrowLeftImg: "./../../images/arrows/arrowLeft.png",
-				arrowRightImg: "./../../images/arrows/arrowRight.png",
+				arrowLeftImg: baseUrl+"src/component/images/arrowLeft.png",
+				arrowRightImg:baseUrl+"src/component/images/arrowRight.png",
 				isSlide: true,
 				windowWidth: null
 			};
@@ -286,7 +287,7 @@ var placeholderImg=larUi.placeholderImg;
 					};
 					/*第i张图片路径有问题，采用默认图片路径*/
 					img.onerror = function () {
-						var defaultUrl = "../../images/noImageAlert/errorImage.jpg";
+						var defaultUrl = baseUrl+"src/component/images/errorImage.jpg";
 						var curImg = _this.$container.find(" .inner .galleryPic img").eq(i);
 						$(curImg).attr("src", defaultUrl);
 						img.src = defaultUrl;
@@ -309,7 +310,7 @@ var placeholderImg=larUi.placeholderImg;
 				var picHtml = "";
 				$.each(this.options.dataList, function (i, e) {
 					var wordRegion = e.title;
-					picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'><a target= _blank href='" + e.hyperLink + "' title='" + e.title + "'><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='title'><p>" + wordRegion + "</p></div></a></div>";
+					picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'><a target= _blank href='" + e.hyperLink + "' title='" + e.title + "'><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='title'><p>" + wordRegion + "</p></div></a></div>";
 				});
 				this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 				if (_this.options.setMaskColor != "") {
@@ -398,7 +399,7 @@ var placeholderImg=larUi.placeholderImg;
 					e.hyperLink = e.url;
 				}
 				var wordRegion = "";
-				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\'/></div><div class='title'><p>" + e.title + "</p></div></a> </div>"; //width="+(picWidth-10)+"px;'
+				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\'/></div><div class='title'><p>" + e.title + "</p></div></a> </div>"; //width="+(picWidth-10)+"px;'
 
 			});
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
@@ -442,9 +443,9 @@ var placeholderImg=larUi.placeholderImg;
 					pageSizeNum = 'pageSizeNine';
 				}
 				if (_this.options.isNoSkip) {
-					picHtml += "<div class='galleryPic " + pageSizeNum + "'><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='title'><p>" + wordRegion + "</p></div></div>"; //width="+(picWidth-10)+"px;'
+					picHtml += "<div class='galleryPic " + pageSizeNum + "'><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='title'><p>" + wordRegion + "</p></div></div>"; //width="+(picWidth-10)+"px;'
 				} else {
-					picHtml += "<div class='galleryPic " + pageSizeNum + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='title'><p>" + wordRegion + "</p></div></a> </div>"; //width="+(picWidth-10)+"px;'
+					picHtml += "<div class='galleryPic " + pageSizeNum + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='title'><p>" + wordRegion + "</p></div></a> </div>"; //width="+(picWidth-10)+"px;'
 				}
 			});
 
@@ -473,7 +474,7 @@ var placeholderImg=larUi.placeholderImg;
 				}
 				var wordRegion = e.des;
 
-				picHtml += "<div class='galleryPic pageSizeFour'><div><a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='wordRegion'><p><span class='userName title'>" + e.title + "</span><br/><span class='desc'>" + wordRegion + "<span></p></div></a></div></div>"; //width="+(picWidth-10)+"px;'
+				picHtml += "<div class='galleryPic pageSizeFour'><div><a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='wordRegion'><p><span class='userName title'>" + e.title + "</span><br/><span class='desc'>" + wordRegion + "<span></p></div></a></div></div>"; //width="+(picWidth-10)+"px;'
 			});
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 			$(this.$container).find(".title").css(_this.options.setTitleStyle);
@@ -496,7 +497,7 @@ var placeholderImg=larUi.placeholderImg;
 				if (_this.options.setPageSize == "") {
 					_this.options.pageSizeClass = "pageSizeFour";
 				}
-				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='title'>" + e.title + "</div><div class='desc'>" + wordRegion + "</div></a> </div>"; //width="+(picWidth-10)+"px;'
+				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='title'>" + e.title + "</div><div class='desc'>" + wordRegion + "</div></a> </div>"; //width="+(picWidth-10)+"px;'
 			});
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 			$(this.$container).find(".title").css(_this.options.setTitleStyle);
@@ -549,7 +550,7 @@ var placeholderImg=larUi.placeholderImg;
 				if (_this.options.setPageSize == "") {
 					_this.options.pageSizeClass = "pageSizeFour";
 				}
-				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='title'>" + e.title + "</div><div class='desc'>" + wordRegion + "</div></a> </div>"; //width="+(picWidth-10)+"px;'
+				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='title'>" + e.title + "</div><div class='desc'>" + wordRegion + "</div></a> </div>"; //width="+(picWidth-10)+"px;'
 			});
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 			$(this.$container).find(".title").css(_this.options.setTitleStyle);
@@ -585,7 +586,7 @@ var placeholderImg=larUi.placeholderImg;
 				}
 				var wordRegion = e.des;
 
-				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='wordRegion'><p><span class='title'>" + e.title + "</span><br/><span class='desc'>" + wordRegion + "<span></p></div></a><div class='artType'>" + e.artType + "</div> </div>"; //width="+(picWidth-10)+"px;'
+				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='wordRegion'><p><span class='title'>" + e.title + "</span><br/><span class='desc'>" + wordRegion + "<span></p></div></a><div class='artType'>" + e.artType + "</div> </div>"; //width="+(picWidth-10)+"px;'
 			});
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 			$(this.$container).find(".wordRegion .title").css(_this.options.setTitleStyle);
@@ -602,12 +603,12 @@ var placeholderImg=larUi.placeholderImg;
 			var picHtml = "";
 			for (var i = 0; i < dataListLength; i++) {
 				if (i % 2 == 1) {
-					picHtml += '<div class="imgArea"><a target= _blank href="' + this.options.dataList[i].hyperLink + '" title="' + this.options.dataList[i].title + '"><img src="' + this.options.dataList[i].url + '" onerror=\'placeholderImg(\"\",this);\' /><span class="title">' + this.options.dataList[i].title + '</span></a></div>';
+					picHtml += '<div class="imgArea"><a target= _blank href="' + this.options.dataList[i].hyperLink + '" title="' + this.options.dataList[i].title + '"><img src="' + this.options.dataList[i].url + '" onerror=\'placeholderImg(\"\",this,baseUrl);\' /><span class="title">' + this.options.dataList[i].title + '</span></a></div>';
 					this.$container.find(" .lar-galleryWrapper .inner").append("<div class='galleryPic' />");
 					this.$container.find(" .lar-galleryWrapper ." + _this.options.galleryMode + " .galleryPic:last").append(picHtml);
 					picHtml = "";
 				} else {
-					picHtml += '<div class="imgArea"><a target= _blank href="' + this.options.dataList[i].hyperLink + '" title="' + this.options.dataList[i].title + '"><img src="' + this.options.dataList[i].url + '" onerror=\'placeholderImg(\"\",this);\'/><span class="title">' + this.options.dataList[i].title + '</span></a></div>';
+					picHtml += '<div class="imgArea"><a target= _blank href="' + this.options.dataList[i].hyperLink + '" title="' + this.options.dataList[i].title + '"><img src="' + this.options.dataList[i].url + '" onerror=\'placeholderImg(\"\",this,baseUrl);\'/><span class="title">' + this.options.dataList[i].title + '</span></a></div>';
 				}
 			}
 			_this.options.setTitleStyle.textAlign = "center";
@@ -634,7 +635,7 @@ var placeholderImg=larUi.placeholderImg;
 					e.hyperLink = "#";
 				}
 				var wordRegion = e.des;
-				picHtml += "<div class='galleryPic pageSizeOne'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='wordRegion'><p><span class='title'>" + e.title + "</span><span class='bottomBorder'></span><br/><span class='desc'>" + wordRegion + "</span><div class='gotoDetail'><span class='tip'>进入详情</span><span class='gotoIcon'></span></div></p></div></a></div>"; //width="+(picWidth-10)+"px;'
+				picHtml += "<div class='galleryPic pageSizeOne'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='wordRegion'><p><span class='title'>" + e.title + "</span><span class='bottomBorder'></span><br/><span class='desc'>" + wordRegion + "</span><div class='gotoDetail'><span class='tip'>进入详情</span><span class='gotoIcon'></span></div></p></div></a></div>"; //width="+(picWidth-10)+"px;'
 			});
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 			if (_this.options.hideDetailButton) {

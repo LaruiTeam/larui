@@ -6,9 +6,9 @@ var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 module.exports = {
     context: path.join(__dirname)+'/src',
     /*devtool: debug ? "inline-sourcemap" : null,*/
-    //entry: "./demo/lar-gallery/galleryTemplate.js",
-    //entry: "./index.js",
-    entry: {index:"./index.js",galleryTemplate:"./demo/pages/unit/lar-gallery/galleryTemplate.js"},
+    //entry: "./demo/lar-gallery/gallery.js",
+    entry: "./index.js",
+    //entry: {index:"./index.js",galleryTemplate:"./demo/pages/unit/lar-gallery/gallery.js"},
     module: {
         loaders: [
             {
@@ -17,7 +17,7 @@ module.exports = {
                     //path.resolve(__dirname, "node_modules"),
                     path.resolve(__dirname, "src/demo"),
                 ] ,*/
-                include:[path.resolve(__dirname, "src/component")],
+                include:[path.resolve(__dirname, "component")],
                 loader: 'babel-loader',
                /* query: {
                     presets: ['react', 'es2015'],
@@ -39,9 +39,9 @@ module.exports = {
         ]
     },
     output: {
-        path:path.join(__dirname, "src")+"/dist",
-        //filename: "./src/bundle.js"
-        filename: "[name].js",
+        path:path.resolve(__dirname, 'dist'),
+        filename: "larui.js",
+        //filename: "larui.[hash:8].js",
         chunkFilename: "[name].bundle.js"
     },
    /* externals: {

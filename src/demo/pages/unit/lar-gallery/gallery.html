@@ -10,8 +10,10 @@
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="/src/demo/pages/common.css"/>
     <!--+commonLink('/larui/larui/')-->
-    <script src="/dist/index.js"></script>
+    <script src="/dist/larui.js"></script>
     <script src="/src/demo/pages/common.js"></script>
+    <!--+commonScript('/')-->
+    <script src="gallery.js"></script>
     <!--+commonScript('/larui/larui/')-->
     <title>larUI-互联网组件库</title>
   </head>
@@ -19,7 +21,7 @@
     <!--用于IDS虚拟登陆-->
     <!--iframe#virtualLogin.hidden-->
     <section class="search-header">
-      <div class="icon"><span>larUI--互联网组件仓库</span></div>
+      <div class="icon"><span>larUI--互联网组件共享仓库</span></div>
       <div class="others">
         <div class="input-group">
           <input type="text"/><span>搜索</span>
@@ -32,22 +34,10 @@
           <ul>
             <li class="title"><span>组件列表</span></li>
             <li><a href="/src/demo/pages//unit/lar-gallery/gallery.html">lar-gallery组件</a>
-              <!--ul-->
-              <!--	each item in menu.secList-->
-              <!--		li-->
-              <!--			a(href=item.link) item.secMenuname-->
             </li>
             <li><a href="/src/demo/pages/unit/lar-backTop/backTop.html">lar-backtop组件</a>
-              <!--ul-->
-              <!--	each item in menu.secList-->
-              <!--		li-->
-              <!--			a(href=item.link) item.secMenuname-->
             </li>
             <li><a href="/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html">lar-thumbGallery组件</a>
-              <!--ul-->
-              <!--	each item in menu.secList-->
-              <!--		li-->
-              <!--			a(href=item.link) item.secMenuname-->
             </li>
           </ul>
         </div>
@@ -59,13 +49,13 @@
         <div class="param">
           <div class="title"><span>参数说明</span></div>
           <div class="paramDes">
-            <div><span>test描述：gallery组件是一款主要为了实现图文左右滑动的组件，目前支持8种展现方式test。</span></div>
+            <div><span>test描述：gallery组件是一款主要为了实现图文左右滑动的组件，目前支持8种展现方式teeeee。</span></div>
             <div><span>调用方式:$("选择器").gallery({params})</span></div>
             <div class="params">
               <table>
                 <thead>
                   <tr>
-                    <th><span>序号--testtt</span></th>
+                    <th><span>序号y</span></th>
                     <th><span>参数名称</span></th>
                     <th><span>参数意义</span></th>
                     <th><span>是否必填项</span></th>
@@ -110,13 +100,13 @@
         <div class="dataDes">
           <div class="title"><span>JSON数据样例</span></div>
           <div class="dataJson">
-            <p>{&quot;model&quot;:{&quot;allDataCount&quot;:&quot;null&quot;,&quot;curPageData&quot;:&quot;null&quot;,&quot;entity&quot;:[{&quot;url&quot;:&quot;img/figureHead/03.jpg&quot;,&quot;title&quot;:&quot;张三三&quot;,&quot;artType&quot;:&quot;美术&quot;,&quot;des&quot;:&quot;111111发东换大股东换发的郭东换个地方范的规定发给给对方德纲个地方官的&quot;},{&quot;url&quot;:&quot;img/figureHead/hyLayout.png&quot;,&quot;title&quot;:&quot;李四四&quot;,&quot;artType&quot;:&quot;电影&quot;,&quot;des&quot;:&quot;2222发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的&quot;},{&quot;url&quot;:&quot;img/figureHead/03.jpg&quot;,&quot;title&quot;:&quot;王五888&quot;,&quot;artType&quot;:&quot;音乐&quot;,&quot;des&quot;:&quot;3333发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的&quot;},{&quot;url&quot;:&quot;img/figureHead/hyLayout.png&quot;,&quot;title&quot;:&quot;小六&quot;,&quot;artType&quot;:&quot;书法&quot;,&quot;des&quot;:&quot;4444发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的&quot;},{&quot;url&quot;:&quot;img/figureHead/03.jpg&quot;,&quot;title&quot;:&quot;麻七&quot;,&quot;artType&quot;:&quot;美术&quot;,&quot;des&quot;:&quot;5555发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的&quot;}]},&quot;msg&quot;:&quot;&quot;,&quot;status&quot;:&quot;200&quot;}</p>
+            <p></p>
           </div>
         </div>
         <div class="example">
           <div class="title"><span>示例</span></div>
           <div class="examDes">
-            <div><a href="./galleryTemplate.html">查看示例效果</a></div>
+            <div><a href="./galleryTemplate.html" target="_blank">查看示例效果</a></div>
           </div>
         </div>
       </div>
@@ -125,11 +115,8 @@
       <div class="copyright"><a href="http://www.artnchina.com/page/witart/witart.html" target="_blank"><span>技术支持：中国软件与技术服务股份有限公司</span></a>
         <p>Copyright@2011 CFLAC Corporation ALL RIGHTS RESERVED 中国软件与技术服务股份有限公司</p>
         <p class="baidu_statistics"><a href="http://tongji.baidu.com/hm-web/welcome/ico?s=52744559f831bd9a8417325f30470803" target="blank"><img src="../images/baidu_statistics.gif"/></a></p>
-        <script type="text/javascript">
-          var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?52744559f831bd9a8417325f30470803";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();
-          
-          
-        </script>
+        <!--script(type='text/javascript')-->
+        <!--	var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?52744559f831bd9a8417325f30470803";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();-->
       </div>
     </section>
     <!--block header-->

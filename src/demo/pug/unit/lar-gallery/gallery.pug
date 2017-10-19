@@ -1,7 +1,10 @@
 extends ./../unitCommon
+block unitScripts
+    //+commonScript('/')
+    script(src= "gallery.js")
 block paraDes
     div
-        span test描述：gallery组件是一款主要为了实现图文左右滑动的组件，目前支持8种展现方式test。
+        span test描述：gallery组件是一款主要为了实现图文左右滑动的组件，目前支持8种展现方式teeeee。
     div
         span 调用方式:$("选择器").gallery({params})
     div.params
@@ -9,7 +12,7 @@ block paraDes
             thead
                 tr
                     th
-                        span 序号--testtt
+                        span 序号y
                     th
                         span 参数名称
                     th
@@ -27,9 +30,10 @@ block paraDes
                         td #{paramIsrequired}
 
 block dataJson
-    - var jsonStr=JSON.stringify(dataJson)
-    p #{jsonStr}
+    p
+
 
 block example
     div
-        a(href="./galleryTemplate.html") 查看示例效果
+        a(href="./galleryTemplate.html",target="_blank") 查看示例效果
+

@@ -11,7 +11,7 @@ mixin commonLink(baseUrl)
 	link(rel="stylesheet", href=baseUrl + "src/demo/pages/common.css")
 //-所有插件和公共js
 mixin commonScript(baseUrl)
-	script(src=baseUrl+"dist/index.js")
+	script(src=baseUrl+"dist/larui.js")
 	script(src=baseUrl + "src/demo/pages/common.js")
 mixin anthenScript(baseUrl)
 	//script(src=baseUrl + "lib/jquery.cookie.js")
@@ -27,15 +27,12 @@ mixin leftMenu
 				li
 					- var menuName=item.menuName
 					a(href=item.link) #{menuName}
-					//ul
-					//	each item in menu.secList
-					//		li
-					//			a(href=item.link) item.secMenuname
+
 
 mixin header
 	section.search-header
 		div.icon
-			span larUI--互联网组件仓库
+			span larUI--互联网组件共享仓库
 		div.others
 			div.input-group
 				input(type="text")
@@ -49,8 +46,8 @@ mixin footer
 			p.baidu_statistics
 				a(href="http://tongji.baidu.com/hm-web/welcome/ico?s=52744559f831bd9a8417325f30470803" target="blank")
 					img(src="../images/baidu_statistics.gif")
-			script(type='text/javascript').
-				var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?52744559f831bd9a8417325f30470803";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();
+			//script(type='text/javascript')
+			//	var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?52744559f831bd9a8417325f30470803";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();
 
 
 //页面基本元素
@@ -63,10 +60,7 @@ html
 		//iframe#virtualLogin.hidden
 		+header
 		section.bodyContent
-			div.leftMenu
-				+leftMenu
-			div.rightContent
-				block rightContent
+			block bodyContent
 
 
 		+footer

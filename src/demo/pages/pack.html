@@ -7,13 +7,13 @@
     <meta name="description" content="larui,互联网类larui组件库"/>
     <meta name="Keywords" content="larui,互联网类larui组件库"/>
     <meta name="viewport" content="maximum-scale=1.0 , minimum-scale=1.0 , user-scalable=0 , width=device-width , initial-scale=1.0"/>
+    <!--+commonLink('/larui/larui/')-->
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="/src/demo/pages/common.css"/>
-    <!--+commonLink('/larui/larui/')-->
     <script src="/dist/larui.js"></script>
     <script src="/src/demo/pages/common.js"></script>
     <!--+commonScript('/larui/larui/')-->
-    <title>larUI-互联网组件库</title>
+    <title>larUI-互联网组件仓库</title>
   </head>
   <body>
     <!--用于IDS虚拟登陆-->
@@ -41,24 +41,22 @@
         </div>
       </div>
       <div class="rightContent">
-        <div class="api">
-          <div class="title">API说明--test</div>
-        </div>
-        <div class="param">
-          <div class="title"><span>参数说明</span></div>
-          <div class="paramDes">
-          </div>
-        </div>
-        <div class="dataDes">
-          <div class="title"><span>JSON数据样例</span></div>
-          <div class="dataJson">
-          </div>
-        </div>
-        <div class="example">
-          <div class="title"><span>示例</span></div>
-          <div class="examDes">
-          </div>
-        </div>
+        <section class="content">
+          <ul></ul>
+          <li>
+            <input type="checkbox" value="lar-gallery"><span>gallery</span>
+          </li>
+          <li>
+            <input type="checkbox" value="lar-backtop"><span>backtop</span>
+          </li>
+          <li>
+            <input type="checkbox" value="lar-galleryWall"><span>galleryWall</span>
+          </li>
+          <li>
+            <input type="checkbox" value="lar-gallery"><span>gallery</span>
+          </li>
+        </section>
+        <button class="button1" value="commit" style="width:100px;height:40px;background:#64b5bf;border-radius:6px;">打包</button>
       </div>
     </section>
     <section class="search-footer">
