@@ -19,5 +19,12 @@
     "style-loader": "^0.13.1",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.7.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-pug": "^3.3.0",
+    "gulp-sass": "^3.1.0",
+    "minimist": "^1.2.0"
   }
 }
