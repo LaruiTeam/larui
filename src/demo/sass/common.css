@@ -17,11 +17,11 @@ section.search-header {
   section.search-header .icon {
     display: inline-block;
     font-size: 28px;
-    width: 33%;
+    width: 35%;
     font-family: "华文行楷"; }
   section.search-header .others {
     display: inline-block;
-    width: 66%;
+    width: 64%;
     text-align: right; }
 
 /*主体内容区 */

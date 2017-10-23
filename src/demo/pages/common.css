@@ -1,13 +1,10 @@
 @charset "UTF-8";
-/*公共样式 */
-/* line 2, ../sass/common.sass */
+/*公共样式*/
 body {
   background: url("./../images/bg1.jpg");
-  background-size: cover;
-}
+  background-size: cover; }
 
-/*头部 */
-/* line 7, ../sass/common.sass */
+/*头部*/
 section.search-header {
   max-width: 1000px;
   margin: 0 auto;
@@ -16,129 +13,88 @@ section.search-header {
   border-bottom: 1px solid #009e96;
   height: 60px;
   line-height: 60px;
-  opacity: 0.8;
-}
-/* line 16, ../sass/common.sass */
-section.search-header .icon {
-  display: inline-block;
-  font-size: 28px;
-  width: 33%;
-  font-family: "华文行楷";
-}
-/* line 21, ../sass/common.sass */
-section.search-header .others {
-  display: inline-block;
-  width: 66%;
-  text-align: right;
-}
+  opacity: 0.8; }
+  section.search-header .icon {
+    display: inline-block;
+    font-size: 28px;
+    width: 35%;
+    font-family: "华文行楷"; }
+  section.search-header .others {
+    display: inline-block;
+    width: 64%;
+    text-align: right; }
 
-/*主体内容区 */
-/* line 27, ../sass/common.sass */
+/*主体内容区*/
 section.bodyContent {
   max-width: 1000px;
   min-height: 700px;
   margin: 0 auto;
-  background-color: #ffffff;
-}
-/* line 33, ../sass/common.sass */
-section.bodyContent .leftMenu {
-  width: 33%;
-  min-height: 700px;
-  background: #64b5bf;
-  display: inline-block;
-}
-/* line 38, ../sass/common.sass */
-section.bodyContent .leftMenu ul {
-  padding: 0px 2px 0px 0px;
-  margin: 0px;
-}
-/* line 42, ../sass/common.sass */
-section.bodyContent .leftMenu ul li {
-  padding-left: 60px;
-  height: 26px;
-  line-height: 22px;
-  border-bottom: 1px solid #888888;
-  box-shadow: 0px 0px 6px #000;
-}
-/* line 48, ../sass/common.sass */
-section.bodyContent .leftMenu ul li a {
-  text-decoration: none;
-  color: white;
-}
-/* line 51, ../sass/common.sass */
-section.bodyContent .leftMenu ul li.title {
-  padding-left: 0px;
-  box-shadow: none;
-  height: 38px;
-  line-height: 34px;
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
-  text-align: center;
-  border-bottom: 2px solid #dddddd;
-}
-/* line 62, ../sass/common.sass */
-section.bodyContent .rightContent {
-  width: 66%;
-  display: inline-block;
-}
-/* line 66, ../sass/common.sass */
-section.bodyContent .rightContent .title {
-  height: 32px;
-  line-height: 32px;
-  font-weight: bold;
-}
-/* line 71, ../sass/common.sass */
-section.bodyContent .rightContent .api .title {
-  border-bottom: 1px solid #999999;
-}
-/* line 74, ../sass/common.sass */
-section.bodyContent .rightContent .param .title, section.bodyContent .rightContent .example .title {
-  height: 32px;
-  line-height: 32px;
-}
-/* line 78, ../sass/common.sass */
-section.bodyContent .rightContent .param .paramDes, section.bodyContent .rightContent .dataDes .dataJson, section.bodyContent .rightContent .example .examDes {
-  min-height: 100px;
-  padding-left: 32px;
-}
-/* line 81, ../sass/common.sass */
-section.bodyContent .rightContent .param table {
-  border-right: 1px solid #e3e3e3;
-  border-bottom: 1px solid #e3e3e3;
-}
-/* line 85, ../sass/common.sass */
-section.bodyContent .rightContent .param table thead tr {
-  background-color: #eee;
-}
-/* line 87, ../sass/common.sass */
-section.bodyContent .rightContent .param table th, section.bodyContent .rightContent .param table td {
-  border-left: 1px solid #e3e3e3;
-  border-top: 1px solid #e3e3e3;
-  text-align: center;
-}
+  background-color: #ffffff; }
+  section.bodyContent .leftMenu {
+    width: 33%;
+    min-height: 700px;
+    background: #64b5bf;
+    display: inline-block; }
+    section.bodyContent .leftMenu ul {
+      padding: 0px 2px 0px 0px;
+      margin: 0px; }
+      section.bodyContent .leftMenu ul li {
+        padding-left: 60px;
+        height: 26px;
+        line-height: 22px;
+        border-bottom: 1px solid #888888;
+        box-shadow: 0px 0px 6px #000; }
+        section.bodyContent .leftMenu ul li a {
+          text-decoration: none;
+          color: white; }
+      section.bodyContent .leftMenu ul li.title {
+        padding-left: 0px;
+        box-shadow: none;
+        height: 38px;
+        line-height: 34px;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        text-align: center;
+        border-bottom: 2px solid #dddddd; }
+  section.bodyContent .rightContent {
+    width: 66%;
+    display: inline-block; }
+    section.bodyContent .rightContent .title {
+      height: 32px;
+      line-height: 32px;
+      font-weight: bold; }
+    section.bodyContent .rightContent .api .title {
+      border-bottom: 1px solid #999999; }
+    section.bodyContent .rightContent .param .title, section.bodyContent .rightContent .example .title {
+      height: 32px;
+      line-height: 32px; }
+    section.bodyContent .rightContent .param .paramDes, section.bodyContent .rightContent .dataDes .dataJson, section.bodyContent .rightContent .example .examDes {
+      min-height: 100px;
+      padding-left: 32px; }
+    section.bodyContent .rightContent .param table {
+      border-right: 1px solid #e3e3e3;
+      border-bottom: 1px solid #e3e3e3; }
+    section.bodyContent .rightContent .param table thead tr {
+      background-color: #eee; }
+    section.bodyContent .rightContent .param table th, section.bodyContent .rightContent .param table td {
+      border-left: 1px solid #e3e3e3;
+      border-top: 1px solid #e3e3e3;
+      text-align: center; }
 
-/* line 93, ../sass/common.sass */
 section.bodyContent > div {
   display: inline-block;
-  vertical-align: top;
-}
+  vertical-align: top; }
 
-/*尾部 */
-/* line 101, ../sass/common.sass */
+/*尾部*/
 section.search-footer {
   max-width: 1000px;
   margin: 0 auto;
   background-color: #09387b;
   color: white;
-  text-align: center;
-}
-/* line 107, ../sass/common.sass */
-section.search-footer .copyright {
-  padding-top: 28px;
-}
-/* line 109, ../sass/common.sass */
-section.search-footer .copyright a {
-  text-decoration: none;
-  color: white;
-}
+  text-align: center; }
+  section.search-footer .copyright {
+    padding-top: 28px; }
+    section.search-footer .copyright a {
+      text-decoration: none;
+      color: white; }
