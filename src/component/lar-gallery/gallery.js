@@ -90,11 +90,7 @@ import larUi from './../util/util.js';
 import  './../sass/css/lar-gallery.css';
 /*import '../util/larui.css';*/
 window.$=$;
-//alert("larUi.baseUrl"+larUi.baseUrl);
 var baseUrl=larUi.baseUrl;
-//var baseUrl="/";
-//window.$ = $;
-//$(".art_classfications1").html("AAAAA");
 var placeholderImg=larUi.placeholderImg;
 	/*组件状态：v0.2*/
 	(function ($) {
@@ -145,8 +141,8 @@ var placeholderImg=larUi.placeholderImg;
 				containerHeight: "",
 				pageSize: "3",
 				pageSizeClass: "",
-				arrowLeftImg: baseUrl+"src/component/images/arrowLeft.png",
-				arrowRightImg:baseUrl+"src/component/images/arrowRight.png",
+				arrowLeftImg: baseUrl+"src/component/images/arrows/arrowLeft.png",
+				arrowRightImg:baseUrl+"src/component/images/arrows/arrowRight.png",
 				isSlide: true,
 				windowWidth: null
 			};
@@ -455,12 +451,12 @@ var placeholderImg=larUi.placeholderImg;
 			if (_this.options.setArrowLeftImg) {
 				this.$container.find(".arrow-right img").attr("src", this.options.arrowLeftImg);
 			} else {
-				this.$container.find(".arrow-left img").attr("src", baseUrl + "/lar-gallery/img/yellowArrowLeft.png");
+				this.$container.find(".arrow-left img").attr("src", baseUrl + "src/component/images/arrows/yellowArrowLeft.png");
 			}
 			if (_this.options.setArrowRightImg) {
 				this.$container.find(".arrow-right img").attr("src", this.options.arrowRightImg);
 			} else {
-				this.$container.find(".arrow-right img").attr("src", baseUrl + "/lar-gallery/img/yellowArrowRight.png");
+				this.$container.find(".arrow-right img").attr("src", baseUrl + "src/component/images/arrows/yellowArrowRight.png");
 			}
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 			_this.options.setTitleStyle.overflow = "visible";
