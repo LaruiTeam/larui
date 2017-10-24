@@ -40,17 +40,13 @@ gulp.task('pugUnit', function() {
 // sass编译
 gulp.task('sass', function() {
     gulp.src(sassPath + '*.sass').pipe(sass()).pipe(
-            gulp.dest(destPath));
+        gulp.dest(destPath));
 });
+
 // sass编译--单个组件组件 -contentPath + '/src/component/sass/css/'
 gulp.task('sassUnit', function() {
-    gulp.src(sassUnitPath+'*.sass').pipe(sass()).pipe(gulp.dest(sassUnitPath+"css/"));
+    gulp.src(sassUnitPath+'*.scss').pipe(sass()).pipe(gulp.dest(sassUnitPath+"css/"));
 });
-/*// sass编译--单个组件组件
-gulp.task('sass', function() {
-    gulp.src(contentPath + 'component/!**!/!*.sass').pipe(sass()).pipe(
-        gulp.dest(destPath));
-});*/
 
 // 监控--只在开发环境进行
 gulp.task('watch', function() {

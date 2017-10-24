@@ -1,5 +1,44 @@
 @charset "UTF-8";
 /* ==========================================================================
+   lar-ui Public
+   ========================================================================== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "微软雅黑"; }
+
+/*.icon{ background:url(./images/icon/icon.png);}*/
+button {
+  border: none; }
+
+ul li {
+  list-style: none; }
+
+.center {
+  margin: 0 auto; }
+
+.hidden {
+  overflow: hidden;
+  white-space: nowrap;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis; }
+
+/* ==========================================================================
+   lay-ui Font
+   ========================================================================== */
+/* artistHall艺术家馆 红*/
+/* activity活动库 黄 */
+/* periodicals典籍期刊 天蓝 */
+/* 组织团体 橙*/
+/* 作品 暂无*/
+/* award奖节 酒红*/
+/* news新闻资讯 海蓝*/
+/* encyclopedia百科 浅紫 */
+/* encyclopedia百科 深紫 */
+/* ==========================================================================
+   lar-gallery 组件
+   ========================================================================== */
+/* ==========================================================================
    lay-ui galley组件
    ========================================================================== */
 /*gallery组件--公共样式区*/
@@ -539,3 +578,66 @@
   /*资源展示首页9个图标*/
   .lar-galleryWrapper .artType .pageSizeNine {
     padding: 5px; } }
+
+/* ==========================================================================
+   lay-ui 补充
+   ========================================================================== */
+/* tablets 做，就当作平板以上的样式是统一的 */
+/*  desktop 暂时不做 */
+/* large desktop 暂时不做 */
+/*校验提示信息*/
+.error {
+  color: red;
+  font-size: 14px;
+  font-family: "宋体"; }
+
+.line-limit {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical; }
+
+.specialColumn {
+  /*display:none;*/
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #184e98; }
+  .specialColumn .specialColumnTitle {
+    width: 56px;
+    height: 232px;
+    position: absolute;
+    background: url(http://www.cflac.org.cn/sywdh/sywdh.png);
+    float: left;
+    margin: -34px 0px 0px -52px; }
+  .specialColumn .specialContent {
+    width: 950px;
+    height: 330px; }
+
+.specialFloatRight {
+  width: 102px;
+  background: white;
+  top: 100px;
+  position: fixed;
+  right: 1px;
+  z-index: 10;
+  height: auto; }
+  .specialFloatRight .text {
+    background: #e6e6e6;
+    font-size: 12px;
+    padding: 7px 11px 7px 11px;
+    margin-top: 1px;
+    text-align: center; }
+  .specialFloatRight a {
+    color: #333; }
+
+@media (max-width: 1000px) {
+  .specialColumn {
+    display: none; }
+  .specialFloatRight {
+    display: none; } }
+
+@media (max-width: 767px) {
+  .searchHeader {
+    display: none; } }

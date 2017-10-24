@@ -87,8 +87,8 @@
  */
 import $ from 'jquery';
 import larUi from './../util/util.js';
-/*import  './../sass/css/lar-gallery.css';*/
-import '../util/larui.css';
+import  './../sass/css/lar-gallery.css';
+/*import '../util/larui.css';*/
 window.$=$;
 //alert("larUi.baseUrl"+larUi.baseUrl);
 var baseUrl=larUi.baseUrl;

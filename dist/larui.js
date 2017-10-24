@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -10325,42 +10325,324 @@ return jQuery;
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function() {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		var result = [];
+		for(var i = 0; i < this.length; i++) {
+			var item = this[i];
+			if(item[2]) {
+				result.push("@media " + item[2] + "{" + item[1] + "}");
+			} else {
+				result.push(item[1]);
+			}
+		}
+		return result.join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+var stylesInDom = {},
+	memoize = function(fn) {
+		var memo;
+		return function () {
+			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+			return memo;
+		};
+	},
+	isOldIE = memoize(function() {
+		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
+	}),
+	getHeadElement = memoize(function () {
+		return document.head || document.getElementsByTagName("head")[0];
+	}),
+	singletonElement = null,
+	singletonCounter = 0,
+	styleElementsInsertedAtTop = [];
+
+module.exports = function(list, options) {
+	if(typeof DEBUG !== "undefined" && DEBUG) {
+		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the bottom of <head>.
+	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+	var styles = listToStyles(list);
+	addStylesToDom(styles, options);
+
+	return function update(newList) {
+		var mayRemove = [];
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+		if(newList) {
+			var newStyles = listToStyles(newList);
+			addStylesToDom(newStyles, options);
+		}
+		for(var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+			if(domStyle.refs === 0) {
+				for(var j = 0; j < domStyle.parts.length; j++)
+					domStyle.parts[j]();
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+}
+
+function addStylesToDom(styles, options) {
+	for(var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+		if(domStyle) {
+			domStyle.refs++;
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles(list) {
+	var styles = [];
+	var newStyles = {};
+	for(var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+		if(!newStyles[id])
+			styles.push(newStyles[id] = {id: id, parts: [part]});
+		else
+			newStyles[id].parts.push(part);
+	}
+	return styles;
+}
+
+function insertStyleElement(options, styleElement) {
+	var head = getHeadElement();
+	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+	if (options.insertAt === "top") {
+		if(!lastStyleElementInsertedAtTop) {
+			head.insertBefore(styleElement, head.firstChild);
+		} else if(lastStyleElementInsertedAtTop.nextSibling) {
+			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			head.appendChild(styleElement);
+		}
+		styleElementsInsertedAtTop.push(styleElement);
+	} else if (options.insertAt === "bottom") {
+		head.appendChild(styleElement);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement(styleElement) {
+	styleElement.parentNode.removeChild(styleElement);
+	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+	if(idx >= 0) {
+		styleElementsInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement(options) {
+	var styleElement = document.createElement("style");
+	styleElement.type = "text/css";
+	insertStyleElement(options, styleElement);
+	return styleElement;
+}
+
+function createLinkElement(options) {
+	var linkElement = document.createElement("link");
+	linkElement.rel = "stylesheet";
+	insertStyleElement(options, linkElement);
+	return linkElement;
+}
+
+function addStyle(obj, options) {
+	var styleElement, update, remove;
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+		styleElement = singletonElement || (singletonElement = createStyleElement(options));
+		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+	} else if(obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function") {
+		styleElement = createLinkElement(options);
+		update = updateLink.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+			if(styleElement.href)
+				URL.revokeObjectURL(styleElement.href);
+		};
+	} else {
+		styleElement = createStyleElement(options);
+		update = applyToTag.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle(newObj) {
+		if(newObj) {
+			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+				return;
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag(styleElement, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = styleElement.childNodes;
+		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+		if (childNodes.length) {
+			styleElement.insertBefore(cssNode, childNodes[index]);
+		} else {
+			styleElement.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag(styleElement, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		styleElement.setAttribute("media", media)
+	}
+
+	if(styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = css;
+	} else {
+		while(styleElement.firstChild) {
+			styleElement.removeChild(styleElement.firstChild);
+		}
+		styleElement.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink(linkElement, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	if(sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = linkElement.href;
+
+	linkElement.href = URL.createObjectURL(blob);
+
+	if(oldSrc)
+		URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component_lar_gallery_gallery__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_component_larui_lar_ui_css__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_component_larui_lar_ui_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__src_component_larui_lar_ui_css__);
-/**
- * Created by EasyLiang on 2017/8/21.
- */
-/*import {Router,Route,hashHistory} from 'react-router';
-import {Button} from 'antd';
-import '../node_modules/antd/dist/antd.css';*/
-
-//import cssLoad from  'css-loader';
-//import './component/larui/lar-ui';
-
-//import './component/lar-backTop/lar-backTop';
-
-
-window.$=__WEBPACK_IMPORTED_MODULE_0_jquery___default.a;
-//window.placeholderImg=placeholderImg;
-
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_util_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_util_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__util_util_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sass_css_lar_gallery_css__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sass_css_lar_gallery_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__sass_css_lar_gallery_css__);
 /*!
  * Created by skye on 2015/9/29.
  * larui lar-gallery  v0.1
@@ -10450,12 +10732,15 @@ window.$=__WEBPACK_IMPORTED_MODULE_0_jquery___default.a;
  */
 
 
-alert("larUi.baseUrl"+__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.baseUrl);
-var baseUrl=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.baseUrl;
+
+/*import '../util/larui.css';*/
+window.$=__WEBPACK_IMPORTED_MODULE_0_jquery___default.a;
+//alert("larUi.baseUrl"+larUi.baseUrl);
+var baseUrl=__WEBPACK_IMPORTED_MODULE_1__util_util_js___default.a.baseUrl;
 //var baseUrl="/";
 //window.$ = $;
 //$(".art_classfications1").html("AAAAA");
-var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.placeholderImg;
+var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__util_util_js___default.a.placeholderImg;
 	/*组件状态：v0.2*/
 	(function ($) {
 		function Gallery(element, options) {
@@ -11074,12 +11359,12 @@ var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.plac
 
 		$.fn.gallery.addBulidDom("wordRegionRight", wordRegionRight);
 
-	})(__WEBPACK_IMPORTED_MODULE_0_jquery___default.a,__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a);
+	})(__WEBPACK_IMPORTED_MODULE_0_jquery___default.a,__WEBPACK_IMPORTED_MODULE_1__util_util_js___default.a);
 //window.$ = $;
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 //维护公共报错变量
@@ -11110,30 +11395,29 @@ function placeholderImg(name,element,baseUrl){
 	}
 	//var img=event.srcElement || event.target;
 	var img = element;
-	//baseUrl="http://localhost:63342/larui/";
-	alert("压缩包baseUrl测试："+baseUrl);
+	//baseUrl="http://localhost:63342/util/";
 	img.src= baseUrl+'src/component/images/errorImage.jpg';
 	img.onerror=null;
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(5);
+var content = __webpack_require__(6);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(7)(content, {});
+var update = __webpack_require__(2)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!./lar-ui.css", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!./lar-ui.css");
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!./lar-gallery.css", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!./lar-gallery.css");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -11143,325 +11427,81 @@ if(false) {
 }
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(6)();
+exports = module.exports = __webpack_require__(1)();
 // imports
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/* ==========================================================================\r\n   lar-ui Public\r\n   ========================================================================== */\r\n/* line 4, lar-ui.scss */\r\nbody {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-family: \"\\5FAE\\8F6F\\96C5\\9ED1\";\r\n}\r\n\r\n/* line 5, lar-ui.scss */\r\n.icon {\r\n  /*background: url(./images/icon/icon.png);*/\r\n}\r\n\r\n/* line 6, lar-ui.scss */\r\nbutton {\r\n  border: none;\r\n}\r\n\r\n/* line 7, lar-ui.scss */\r\nul li {\r\n  list-style: none;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n  /* line 9, lar-ui.scss */\r\n  .container {\r\n    width: 1000px;\r\n  }\r\n\r\n  /* ==========================================================================\r\n     lay-ui Font\r\n     ========================================================================== */\r\n  /* artistHall艺术家馆 红*/\r\n  /* activity活动库 黄 */\r\n  /* periodicals典籍期刊 天蓝 */\r\n  /* 组织团体 橙*/\r\n  /* 作品 暂无*/\r\n  /* award奖节 酒红*/\r\n  /* news新闻资讯 海蓝*/\r\n  /* encyclopedia百科 浅紫 */\r\n  /* encyclopedia百科 深紫 */\r\n  /* ==========================================================================\r\n     lay-ui audio 新增百科分隔样式\r\n     ========================================================================== */\r\n  /* line 2, sass/partials/_separate.scss */\r\n  .bkSeparate {\r\n    width: 100%;\r\n    height: 40px;\r\n    position: relative;\r\n  }\r\n\r\n  /* line 4, sass/partials/_separate.scss */\r\n  .bkSeparate .line {\r\n    width: 100%;\r\n    height: 8px;\r\n    background-color: #f3f5f7;\r\n    position: absolute;\r\n    top: 50%;\r\n    margin-top: -4px;\r\n  }\r\n\r\n  /* line 5, sass/partials/_separate.scss */\r\n  .bkSeparate .titBlock {\r\n    width: 160px;\r\n    height: 40px;\r\n    position: absolute;\r\n    top: 0;\r\n    font-size: 28px;\r\n    font-weight: bold;\r\n    color: #4f518d;\r\n    background-color: #fff;\r\n  }\r\n\r\n  /* line 7, sass/partials/_separate.scss */\r\n  .bkSeparate .titBlock .glyphicon-stop {\r\n    transform: rotate(45deg);\r\n  }\r\n\r\n  /* line 8, sass/partials/_separate.scss */\r\n  .bkSeparate .titBlock .glyphicon {\r\n    margin-right: 5px;\r\n  }\r\n\r\n  /* ==========================================================================\r\n     lay-ui btn 按钮样式\r\n     ========================================================================== */\r\n  /* line 2, sass/partials/_btn.scss */\r\n  .btn {\r\n    width: 100%;\r\n    margin: 0 auto;\r\n    margin-top: 50px;\r\n  }\r\n\r\n  /* line 4, sass/partials/_btn.scss */\r\n  .btn .btn_more {\r\n    color: #000;\r\n    border: 1px solid #000;\r\n    background-color: none;\r\n    padding: 15px 110px;\r\n    text-decoration: none;\r\n  }\r\n\r\n  /* line 6, sass/partials/_btn.scss */\r\n  .btn .btn_more:hover {\r\n    background-color: #fdbf2d;\r\n    text-decoration: none;\r\n    border: none;\r\n  }\r\n\r\n  /* line 7, sass/partials/_btn.scss */\r\n  .btn .btn_more:active {\r\n    opacity: 0.5;\r\n    border: none;\r\n  }\r\n\r\n  /* line 11, sass/partials/_btn.scss */\r\n  .btn_dropDown {\r\n    width: 100%;\r\n    text-align: center;\r\n    margin-top: 50px;\r\n  }\r\n\r\n  /* line 13, sass/partials/_btn.scss */\r\n  .btn_dropDown button {\r\n    width: 70px;\r\n    height: 35px;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n    background-position: -328px -325px;\r\n  }\r\n\r\n  /* line 15, sass/partials/_btn.scss */\r\n  .btn_dropDown button:hover {\r\n    background-position: -408px -325px;\r\n    border: none;\r\n  }\r\n\r\n  /* line 16, sass/partials/_btn.scss */\r\n  .btn_dropDown button:active {\r\n    opacity: 0.5;\r\n    border: none;\r\n  }\r\n\r\n  /* line 20, sass/partials/_btn.scss */\r\n  .btn_readDownload {\r\n    font-size: 28px;\r\n    margin: 0 35px;\r\n    padding: 8px 20px;\r\n    color: #3390c2;\r\n    border: 1px solid #3390c2;\r\n    background-color: #fff;\r\n  }\r\n\r\n  /* line 22, sass/partials/_btn.scss */\r\n  .btn_readDownload:hover {\r\n    background-color: #74c7f4;\r\n    color: #fff;\r\n  }\r\n\r\n  /* line 23, sass/partials/_btn.scss */\r\n  .btn_readDownload:active {\r\n    opacity: 0.5;\r\n  }\r\n\r\n  /* line 26, sass/partials/_btn.scss */\r\n  .btn_library {\r\n    width: 220px;\r\n    height: 60px;\r\n    background-position: -490px -1235px;\r\n  }\r\n\r\n  /* line 30, sass/partials/_btn.scss */\r\n  .btn_inquire {\r\n    color: #fff;\r\n    font-size: 28px;\r\n    border: 1px solid #3390c2;\r\n    background-color: #74c7f4;\r\n    padding: 10px 35px;\r\n  }\r\n\r\n  /* line 32, sass/partials/_btn.scss */\r\n  .btn_inquire:hover {\r\n    background-color: #74c7f4;\r\n    color: #fff;\r\n  }\r\n\r\n  /* line 33, sass/partials/_btn.scss */\r\n  .btn_inquire:active {\r\n    opacity: 0.5;\r\n  }\r\n\r\n  @media (min-width: 768px) {\r\n    /* line 36, sass/partials/_btn.scss */\r\n    .btn_readDownload {\r\n      font-size: 18px;\r\n      margin: 0 15px;\r\n    }\r\n\r\n    /* line 37, sass/partials/_btn.scss */\r\n    .btn_inquire {\r\n      font-size: 20px;\r\n    }\r\n  }\r\n\r\n  /*\r\n     ***************************************************************\r\n     lar-ui 常用样式定位\r\n     ***************************************************************\r\n  */\r\n  /* line 1, sass/partials/_styleLocate.scss */\r\n  .lar-text-left {\r\n    text-align: left;\r\n  }\r\n\r\n  /* line 5, sass/partials/_styleLocate.scss */\r\n  .lar-text-right {\r\n    text-align: right;\r\n  }\r\n\r\n  /* line 9, sass/partials/_styleLocate.scss */\r\n  .lar-text-center {\r\n    text-align: center;\r\n  }\r\n\r\n  /* line 13, sass/partials/_styleLocate.scss */\r\n  .lar-div-center {\r\n    margin: 0 auto;\r\n  }\r\n\r\n  /* line 17, sass/partials/_styleLocate.scss */\r\n  .lar-float-left {\r\n    float: left;\r\n  }\r\n\r\n  /* line 21, sass/partials/_styleLocate.scss */\r\n  .lar-float-right {\r\n    float: right;\r\n  }\r\n\r\n  /* line 25, sass/partials/_styleLocate.scss */\r\n  .lar-relative {\r\n    position: relative;\r\n  }\r\n\r\n  /* line 29, sass/partials/_styleLocate.scss */\r\n  .lar-position {\r\n    position: absolute;\r\n  }\r\n\r\n  /* ==========================================================================\r\n     lay-ui photowall组件\r\n     ========================================================================== */\r\n  /* line 1, sass/partials/_photoWall.scss */\r\n  .lar-photoWall, .photoWall .dataList, .photoWall .arrow {\r\n    position: relative;\r\n  }\r\n\r\n  /*照片墙区*/\r\n  /* line 6, sass/partials/_photoWall.scss */\r\n  .lar-photoWall .dataList {\r\n    margin: 0 auto;\r\n  }\r\n\r\n  /* line 10, sass/partials/_photoWall.scss */\r\n  .lar-photoWall .dataList .hid {\r\n    position: absolute;\r\n    text-align: center;\r\n  }\r\n\r\n  /* line 15, sass/partials/_photoWall.scss */\r\n  .lar-photoWall .dataList, .lar-photoWall .dataList .hid {\r\n    transition: all 2s;\r\n  }\r\n\r\n  /* line 19, sass/partials/_photoWall.scss */\r\n  .lar-photoWall .dataList .hid .img {\r\n    margin: 6px 12px 6px 0;\r\n  }\r\n\r\n  /* line 23, sass/partials/_photoWall.scss */\r\n  .lar-photoWall .dataList, .photoWall .dataList .hid img {\r\n    display: block;\r\n    margin: 0 auto;\r\n  }\r\n\r\n  /*按钮区*/\r\n  /* line 28, sass/partials/_photoWall.scss */\r\n  .lar-photoWall .arrow {\r\n    width: 65px;\r\n    height: 35px;\r\n    margin: 0 auto;\r\n    /*background-image: url(\"images/lar-ui-icon.png\");*/\r\n    background-position: -277px -96px;\r\n  }\r\n\r\n  /* line 36, sass/partials/_photoWall.scss */\r\n  .lar-photoWall .arrow:hover {\r\n    background-position: -342px -96px;\r\n  }\r\n\r\n  /* line 40, sass/partials/_photoWall.scss */\r\n  .lar-photoWall .arrow:active {\r\n    background-position: -406px -96px;\r\n  }\r\n\r\n  /* ==========================================================================\r\n     lay-ui backTop组件样式\r\n     ========================================================================== */\r\n  /* line 1, sass/partials/_backTop.scss */\r\n  .lar-backTop {\r\n    background-position: 0px -79px;\r\n    background-repeat: no-repeat;\r\n    width: 103px;\r\n    height: 50px;\r\n    margin: 0 auto;\r\n    cursor: pointer;\r\n  }\r\n\r\n  /* line 10, sass/partials/_backTop.scss */\r\n  .lar-backTop:hover {\r\n    background-position: -103px -79px;\r\n  }\r\n\r\n  /* ==========================================================================\r\n     lay-ui sideMenu组件样式\r\n     ========================================================================== */\r\n  @media screen and (max-width: 767px) {\r\n    /* line 2, sass/partials/_sideMenu.scss */\r\n    .lar-sideMenu a {\r\n      display: none;\r\n    }\r\n\r\n    /* line 6, sass/partials/_sideMenu.scss */\r\n    .navbar-nav > li > a.lar-sideMenu-a {\r\n      display: block;\r\n    }\r\n  }\r\n  @media (min-width: 768px) {\r\n    /* line 12, sass/partials/_sideMenu.scss */\r\n    .navbar-nav > li > a.lar-sideMenu-a {\r\n      display: none;\r\n    }\r\n\r\n    /* line 16, sass/partials/_sideMenu.scss */\r\n    .lar-sideMenu a {\r\n      font-family: \"\\5FAE\\8F6F\\96C5\\9ED1\";\r\n      font-size: 14px;\r\n      color: white;\r\n      background-color: #4c4d51;\r\n      text-align: center;\r\n      position: fixed;\r\n      left: 6%;\r\n      height: 50px;\r\n      line-height: 50px;\r\n      width: 85px;\r\n      border-bottom-width: 1px;\r\n      border-bottom-color: #a58727;\r\n      border-bottom-style: solid;\r\n      display: block;\r\n      z-index: 8888;\r\n      text-decoration: none;\r\n    }\r\n\r\n    /* line 35, sass/partials/_sideMenu.scss */\r\n    .lar-sideMenu .lar-active, .lar-sideMenu a:hover {\r\n      background-color: #ffc000;\r\n    }\r\n\r\n    /* line 39, sass/partials/_sideMenu.scss */\r\n    .lar-sideMenu a:nth-child(1) {\r\n      top: 250px;\r\n    }\r\n\r\n    /* line 43, sass/partials/_sideMenu.scss */\r\n    .lar-sideMenu a:nth-child(2) {\r\n      top: 300px;\r\n    }\r\n\r\n    /* line 47, sass/partials/_sideMenu.scss */\r\n    .lar-sideMenu a:nth-child(3) {\r\n      top: 350px;\r\n    }\r\n\r\n    /* line 51, sass/partials/_sideMenu.scss */\r\n    .lar-sideMenu a:nth-child(4) {\r\n      top: 400px;\r\n    }\r\n\r\n    /* line 55, sass/partials/_sideMenu.scss */\r\n    .lar-sideMenu a:nth-child(5) {\r\n      top: 450px;\r\n    }\r\n\r\n    /* line 59, sass/partials/_sideMenu.scss */\r\n    .lar-sideMenu a:nth-child(6) {\r\n      top: 500px;\r\n    }\r\n\r\n    /* line 63, sass/partials/_sideMenu.scss */\r\n    .lar-sideMenu a:nth-child(7) {\r\n      top: 550px;\r\n    }\r\n\r\n    /* line 67, sass/partials/_sideMenu.scss */\r\n    .lar-sideMenu a:nth-child(8) {\r\n      top: 600px;\r\n    }\r\n\r\n    /* line 71, sass/partials/_sideMenu.scss */\r\n    .sideLine-dot {\r\n      width: 15px;\r\n      height: 15px;\r\n      -moz-border-radius: 50px;\r\n      -webkit-border-radius: 50px;\r\n      border-radius: 50px;\r\n      background-color: #e0e0e0;\r\n      margin-left: 160px;\r\n    }\r\n\r\n    /* line 81, sass/partials/_sideMenu.scss */\r\n    .sideLine-dot.yellow {\r\n      background-color: #ffc000;\r\n    }\r\n\r\n    /* line 85, sass/partials/_sideMenu.scss */\r\n    .sideLine-dot-title {\r\n      position: absolute;\r\n      margin-left: 185px;\r\n      margin-top: -18px;\r\n      font-weight: bolder;\r\n    }\r\n  }\r\n  /* ==========================================================================\r\n     lay-ui 时间轴timeLine组件样式\r\n     ========================================================================== */\r\n  /* ==========================================================================\r\n     lay-ui 时间轴2组件样式\r\n     ========================================================================== */\r\n  /* line 5, sass/partials/_timingLine.scss */\r\n  .lar-timeline2-container {\r\n    margin-top: 75px;\r\n    margin-bottom: 75px;\r\n    font-family: \"\\5FAE\\8F6F\\96C5\\9ED1\";\r\n    margin: 0px 10em;\r\n    border-left: 4px solid #c2c4c4;\r\n  }\r\n\r\n  /* line 13, sass/partials/_timingLine.scss */\r\n  .lar-timeline2-block {\r\n    position: relative;\r\n  }\r\n\r\n  /* line 17, sass/partials/_timingLine.scss */\r\n  .lar-timeline2-img {\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    border-radius: 50%;\r\n    box-shadow: 0 0 0 4px white, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);\r\n  }\r\n\r\n  /* line 25, sass/partials/_timingLine.scss */\r\n  .lar-timeline2-figure {\r\n    float: left;\r\n    margin-right: 15px;\r\n  }\r\n\r\n  /* line 30, sass/partials/_timingLine.scss */\r\n  .lar-timeline2-figure img {\r\n    height: 160px;\r\n    width: 160px;\r\n  }\r\n\r\n  /* line 35, sass/partials/_timingLine.scss */\r\n  .lar-timeline2-article {\r\n    text-align: left;\r\n    font-size: 14px;\r\n  }\r\n\r\n  /* line 40, sass/partials/_timingLine.scss */\r\n  .lar-timeline2-title {\r\n    margin-top: 0px;\r\n    margin-bottom: 20px;\r\n    font-size: 20px;\r\n  }\r\n\r\n  /* line 46, sass/partials/_timingLine.scss */\r\n  .lar-timeline2-icon {\r\n    cursor: pointer;\r\n    background-color: #c2c4c4;\r\n  }\r\n\r\n  /* line 51, sass/partials/_timingLine.scss */\r\n  .lar-timeline2-icon:hover {\r\n    /*background: url(\"images/lar-ui-biz-icon.png\");*/\r\n    background-position: -468px -6px;\r\n  }\r\n\r\n  /* line 56, sass/partials/_timingLine.scss */\r\n  .lar-timeline2-block:after {\r\n    content: \"\";\r\n    display: table;\r\n    clear: both;\r\n  }\r\n\r\n  /* line 62, sass/partials/_timingLine.scss */\r\n  .lar-timeline2-more {\r\n    position: absolute;\r\n    right: 25px;\r\n    bottom: 15px;\r\n  }\r\n\r\n  /* line 68, sass/partials/_timingLine.scss */\r\n  .lar-timeline2-year {\r\n    width: 60px;\r\n    height: 60px;\r\n    background: #ffc000;\r\n    -moz-border-radius: 25px;\r\n    -webkit-border-radius: 25px;\r\n    border-radius: 30px;\r\n    padding-top: 20px;\r\n    margin-left: -33px;\r\n    color: #fff;\r\n    text-align: center;\r\n    font-size: 14px;\r\n  }\r\n\r\n  /* line 82, sass/partials/_timingLine.scss */\r\n  .lar-timeline-normal {\r\n    background: none;\r\n    color: #000;\r\n    padding-top: 0px;\r\n    position: absolute;\r\n    left: -40px;\r\n    top: 26px;\r\n  }\r\n\r\n  /* line 91, sass/partials/_timingLine.scss */\r\n  .artist_info_more_right, .artist_info_more_left {\r\n    margin-top: 10px;\r\n  }\r\n\r\n  /* line 95, sass/partials/_timingLine.scss */\r\n  .lar-timeline2-more-arrow {\r\n    margin-top: 30px;\r\n  }\r\n\r\n  /* 平板 + 普通PC桌面 + 大分辨率PC桌面 */\r\n  @media (min-width: 768px) {\r\n    /* line 101, sass/partials/_timingLine.scss */\r\n    .lar-timeline2-img {\r\n      width: 10px;\r\n      height: 10px;\r\n      margin-left: -7px;\r\n      margin-top: 30px;\r\n      -webkit-transform: translateZ(0);\r\n      -webkit-backface-visibility: hidden;\r\n    }\r\n\r\n    /* line 110, sass/partials/_timingLine.scss */\r\n    .lar-timeline2-content {\r\n      width: 95%;\r\n      position: relative;\r\n      padding: 15px 25px;\r\n      margin-top: 10px;\r\n      border: 1px solid #c2c4c4;\r\n      float: right;\r\n    }\r\n\r\n    /* line 119, sass/partials/_timingLine.scss */\r\n    .lar-timeline2-arrow {\r\n      width: 0;\r\n      height: 0;\r\n      border-top: 10px solid transparent;\r\n      border-bottom: 10px solid transparent;\r\n      border-right: 10px solid #c2c4c4;\r\n      position: absolute;\r\n      left: -10px;\r\n    }\r\n\r\n    /* line 129, sass/partials/_timingLine.scss */\r\n    .lar-timeline2-paragraph {\r\n      height: 112px;\r\n      overflow: hidden;\r\n    }\r\n  }\r\n  /* 手机 */\r\n  @media screen and (max-width: 767px) {\r\n    /* line 137, sass/partials/_timingLine.scss */\r\n    .lar-timeline2-container {\r\n      margin: 0px 0px 0px 50px;\r\n    }\r\n\r\n    /* line 141, sass/partials/_timingLine.scss */\r\n    .lar-timeline2-img {\r\n      width: 10px;\r\n      height: 10px;\r\n      margin-left: -7px;\r\n      margin-top: 30px;\r\n      -webkit-transform: translateZ(0);\r\n      -webkit-backface-visibility: hidden;\r\n    }\r\n\r\n    /* line 150, sass/partials/_timingLine.scss */\r\n    .lar-timeline2-content {\r\n      width: 95%;\r\n      position: relative;\r\n      padding: 15px 25px;\r\n      margin-top: 10px;\r\n      border: 1px solid #c2c4c4;\r\n      float: right;\r\n    }\r\n\r\n    /* line 159, sass/partials/_timingLine.scss */\r\n    .lar-timeline2-arrow {\r\n      width: 0;\r\n      height: 0;\r\n      border-top: 10px solid transparent;\r\n      border-bottom: 10px solid transparent;\r\n      border-right: 10px solid #c2c4c4;\r\n      position: absolute;\r\n      left: -10px;\r\n    }\r\n\r\n    /* line 169, sass/partials/_timingLine.scss */\r\n    .lar-timeline2-paragraph {\r\n      height: 84px;\r\n      overflow: hidden;\r\n    }\r\n\r\n    /* line 174, sass/partials/_timingLine.scss */\r\n    .lar-timeline2-more {\r\n      margin-bottom: -12px;\r\n    }\r\n  }\r\n  /* ==========================================================================\r\n     lay-ui sideLine组件\r\n     ========================================================================== */\r\n  /* line 1, sass/partials/_sideLine.scss */\r\n  .sideLine-container {\r\n    margin-left: 10.375rem;\r\n    border-left: 3px #e0e0e0 solid;\r\n    padding: 0rem 8rem 3rem 6rem;\r\n    position: relative;\r\n    min-height: 200px;\r\n  }\r\n\r\n  /* line 9, sass/partials/_sideLine.scss */\r\n  .arrow-container {\r\n    border-left: none;\r\n  }\r\n\r\n  /* line 13, sass/partials/_sideLine.scss */\r\n  .sideLine-icon {\r\n    position: absolute;\r\n    left: -32px;\r\n    top: 0px;\r\n    cursor: default;\r\n  }\r\n\r\n  /* line 20, sass/partials/_sideLine.scss */\r\n  .sideLine-description-pic {\r\n    position: relative;\r\n    padding: 1px 40px 30px 40px;\r\n    background-color: #FFF;\r\n    -moz-box-shadow: 3px 3px 5px 0px #ccc;\r\n    -webkit-box-shadow: 3px 3px 5px 0px #ccc;\r\n    box-shadow: 3px 3px 5px 0px #ccc;\r\n    cursor: pointer;\r\n  }\r\n\r\n  /* line 30, sass/partials/_sideLine.scss */\r\n  .sideLine-description-pic figure img {\r\n    width: 100%;\r\n  }\r\n\r\n  /* line 34, sass/partials/_sideLine.scss */\r\n  .sideLine-description {\r\n    position: relative;\r\n    padding: 1px 40px 30px 40px;\r\n    background-color: #2d3642;\r\n    -moz-box-shadow: 3px 3px 5px 0px #ccc;\r\n    -webkit-box-shadow: 3px 3px 5px 0px #ccc;\r\n    box-shadow: 3px 3px 5px 0px #ccc;\r\n  }\r\n\r\n  /* line 44, sass/partials/_sideLine.scss */\r\n  .sideLine-description p {\r\n    color: #fff;\r\n  }\r\n\r\n  /* line 48, sass/partials/_sideLine.scss */\r\n  .sideLine-description h3 {\r\n    color: #fff;\r\n  }\r\n\r\n  /* line 52, sass/partials/_sideLine.scss */\r\n  .lar-sideLine-arrow {\r\n    width: 0;\r\n    height: 0;\r\n    border-top: 10px solid transparent;\r\n    border-bottom: 10px solid transparent;\r\n    position: absolute;\r\n    left: -10px;\r\n    top: 20px;\r\n  }\r\n\r\n  /* line 62, sass/partials/_sideLine.scss */\r\n  .lar-sideLine-arrow-white {\r\n    border-right: 10px solid #FFF;\r\n  }\r\n\r\n  /* line 66, sass/partials/_sideLine.scss */\r\n  .lar-sideLine-arrow-blue {\r\n    border-right: 10px solid #2d3642;\r\n  }\r\n\r\n  /* line 70, sass/partials/_sideLine.scss */\r\n  .sideLine-introContent {\r\n    margin-top: 20px;\r\n    border-top: 1px solid #f2f1f1;\r\n    padding-top: 20px;\r\n  }\r\n\r\n  /* ==========================================================================\r\n     lay-ui selectDict组件\r\n     ========================================================================== */\r\n  /* line 1, sass/partials/_selectDict.scss */\r\n  .lar-selectDict {\r\n    width: 100%;\r\n    min-width: 5em;\r\n    height: 2.5em;\r\n    line-height: 2.5em;\r\n    background: #f4f4f4;\r\n    border: 1px solid #d7d7d7;\r\n  }\r\n\r\n  /* line 10, sass/partials/_selectDict.scss */\r\n  .lar-spin {\r\n    -webkit-animation: lar-spin 2s infinite linear;\r\n    animation: lar-spin 2s infinite linear;\r\n  }\r\n\r\n  /* ==========================================================================\r\n     lar-gallery 组件\r\n     ========================================================================== */\r\n  /* ==========================================================================\r\n     lay-ui galley组件\r\n     ========================================================================== */\r\n  /*gallery组件--公共样式区*/\r\n  /* line 6, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper {\r\n    position: relative;\r\n    height: 100%;\r\n    width: 100%;\r\n  }\r\n\r\n  /* line 12, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .inner, .lar-galleryWrapper .inner .galleryPic, .lar-galleryWrapper .inner .galleryPic .img, .lar-galleryWrapper .inner .galleryPic .img, .lar-galleryWrapper .inner .galleryPic .img img {\r\n    height: 100%;\r\n  }\r\n\r\n  /*所有的标题单行显示*/\r\n  /* line 17, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .title {\r\n    white-space: nowrap;\r\n    overflow: hidden;\r\n  }\r\n\r\n  /*适合所有，但不适合12大门类*/\r\n  /* line 23, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .inner .galleryPic .img img {\r\n    width: 100%;\r\n  }\r\n\r\n  /* line 27, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .artType .galleryPic .img img {\r\n    width: 100%;\r\n    height: 100%;\r\n  }\r\n\r\n  /* line 32, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .artType .galleryPic .img {\r\n    height: auto;\r\n  }\r\n\r\n  /* line 36, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper a:hover {\r\n    text-decoration: none;\r\n  }\r\n\r\n  /* line 39, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .galleryPic .img {\r\n    width: 100%;\r\n    height: 100%;\r\n  }\r\n\r\n  /* line 44, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .onlyMobileSlide {\r\n    display: none;\r\n  }\r\n\r\n  /* line 48, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .pageSizeOne {\r\n    width: 100%;\r\n  }\r\n\r\n  /* line 52, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .pageSizeTwo {\r\n    width: 50%;\r\n  }\r\n\r\n  /* line 56, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .pageSizeThree {\r\n    width: 33.3%;\r\n  }\r\n\r\n  /* line 60, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .pageSizeFour {\r\n    width: 25%;\r\n  }\r\n\r\n  /* line 64, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .pageSizeFive {\r\n    width: 20%;\r\n  }\r\n\r\n  /* line 68, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .pageSizeNine {\r\n    width: 11.1%;\r\n  }\r\n\r\n  /* line 72, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .pageSizeTwelve {\r\n    width: 8.3%;\r\n  }\r\n\r\n  /* line 76, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .inner {\r\n    white-space: nowrap;\r\n  }\r\n\r\n  /* line 80, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .inner .galleryPic {\r\n    display: inline-block;\r\n  }\r\n\r\n  /*左右箭头按钮区域*/\r\n  /* line 85, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .arrow {\r\n    position: absolute;\r\n    top: 40%;\r\n    background-size: contain;\r\n    background-repeat: no-repeat;\r\n  }\r\n\r\n  /* line 92, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .arrow-left {\r\n    left: 0px;\r\n    margin-left: 0px;\r\n  }\r\n\r\n  /* line 97, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .arrow-right {\r\n    right: 0px;\r\n    margin-right: 0px;\r\n  }\r\n\r\n  /* line 102, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .arrow .img {\r\n    margin-top: -50%;\r\n  }\r\n\r\n  /* line 105, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .arrow .img:hover {\r\n    cursor: pointer;\r\n    background-color: rgba(255, 255, 255, 0.1);\r\n  }\r\n\r\n  /* 3张图片的遮罩效果区样式 */\r\n  /* line 111, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .maskEffect {\r\n    position: relative;\r\n    margin: 0 42px;\r\n    white-space: nowrap;\r\n    overflow: hidden;\r\n  }\r\n\r\n  /*本身只为有遮罩的设置*/\r\n  /* line 119, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .galleryPic {\r\n    text-align: center;\r\n    position: relative;\r\n    padding: 10px;\r\n    overflow: hidden;\r\n  }\r\n\r\n  /* line 126, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .maskEffect .galleryPic .title {\r\n    position: absolute;\r\n    top: 0px;\r\n    left: 0px;\r\n    bottom: 0px;\r\n    display: table-cell;\r\n    width: 100%;\r\n    opacity: 0;\r\n    vertical-align: middle;\r\n    transition: opacity .25s ease-in-out, background .25s ease-in-out;\r\n    -moz-transition: opacity .25s ease-in-out, background .25s ease-in-out;\r\n    -webkit-transition: opacity .25s ease-in-out, background .25s ease-in-out;\r\n  }\r\n\r\n  /* line 140, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .maskEffect .galleryPic .title:hover {\r\n    opacity: 0.9;\r\n    background: rgba(255, 192, 0, 0.9);\r\n    padding-left: 10px;\r\n    padding-right: 10px;\r\n    /* background: rgba(0,0,0,0.8); */\r\n  }\r\n\r\n  /* line 147, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .maskEffect .galleryPic .title p {\r\n    margin-top: 30%;\r\n    color: white;\r\n    font-size: 1.2em;\r\n    text-align: center;\r\n  }\r\n\r\n  /* 3张图片的图文上下排版样式 */\r\n  /* line 156, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .squareTitleBelow {\r\n    position: relative;\r\n    margin: 0 42px;\r\n    white-space: nowrap;\r\n    overflow: hidden;\r\n  }\r\n\r\n  /* line 163, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .squareTitleBelow .galleryPic {\r\n    text-align: center;\r\n    position: relative;\r\n    padding: 0 10px;\r\n  }\r\n\r\n  /* line 170, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .squareTitleBelow .galleryPic .title {\r\n    text-align: center;\r\n    display: inline-block;\r\n    height: 4em;\r\n    overflow: hidden;\r\n  }\r\n\r\n  /* line 177, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .squareTitleBelow .imgFrame {\r\n    border: 4px solid #ffffff;\r\n  }\r\n\r\n  /* 12大艺术门类的gallery组件 */\r\n  /* line 183, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .artType {\r\n    position: relative;\r\n    overflow: hidden;\r\n  }\r\n\r\n  /* line 188, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .artType .galleryPic {\r\n    text-align: center;\r\n    position: relative;\r\n  }\r\n\r\n  /* line 193, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .artType .pageSizeTwelve, .lar-galleryWrapper .pageSizeTwelve p {\r\n    text-align: center;\r\n  }\r\n\r\n  /* line 196, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .artType .pageSizeTwelve .title {\r\n    height: 1.5em;\r\n    overflow: hidden;\r\n  }\r\n\r\n  /* 4张图片的上、遮罩、下排版样式 */\r\n  /* line 237, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bTitleMaskDes, .lar-galleryWrapper .bTitleMaskDesSquare {\r\n    position: relative;\r\n    margin: 0 42px;\r\n    overflow: hidden;\r\n    border-radius: 8px;\r\n  }\r\n\r\n  /*.lar-galleryWrapper .bTitleMaskDes .galleryPic,.lar-galleryWrapper .bTitleMaskDesSquare .galleryPic{\r\n      text-align:center;\r\n      position:relative;\r\n      background:rgba(255,255,255,0.1);\r\n  }*/\r\n  /* line 250, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bTitleMaskDes .galleryPic, .lar-galleryWrapper .bTitleMaskDes .galleryPic p, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic p {\r\n    text-align: center;\r\n    padding: 0px 10px;\r\n  }\r\n\r\n  /* line 256, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bTitleMaskDes .galleryPic .img img {\r\n    width: 100%;\r\n    border-radius: 50%;\r\n  }\r\n\r\n  /* line 261, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic .img img {\r\n    width: 100%;\r\n  }\r\n\r\n  /* line 265, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bTitleMaskDes .galleryPic .wordRegion, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic .wordRegion {\r\n    height: 10.5em;\r\n    overflow: hidden;\r\n    white-space: normal;\r\n    word-wrap: break-word;\r\n  }\r\n\r\n  /* line 272, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bTitleMaskDes .desc, .lar-galleryWrapper .bTitleMaskDesSquare .desc {\r\n    position: absolute;\r\n    top: 0px;\r\n    bottom: 32px;\r\n    display: table-cell;\r\n    left: 10px;\r\n    opacity: 0;\r\n    vertical-align: middle;\r\n    white-space: normal;\r\n    word-break: normal;\r\n    overflow: hidden;\r\n    transition: opacity .25s ease-in-out, background .25s ease-in-out;\r\n    -moz-transition: opacity .25s ease-in-out, background .25s ease-in-out;\r\n    -webkit-transition: opacity .25s ease-in-out, background .25s ease-in-out;\r\n  }\r\n\r\n  /*圆形遮罩*/\r\n  /* line 289, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bTitleMaskDes .desc {\r\n    border-radius: 50%;\r\n    padding: 15%;\r\n  }\r\n\r\n  /*方形遮罩*/\r\n  /* line 294, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bTitleMaskDesSquare .desc {\r\n    -webkit-border-radius: 0px;\r\n    -moz-border-radius: 0px;\r\n    border-radius: 0px;\r\n  }\r\n\r\n  /* line 300, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bTitleMaskDesSquare .desc:hover {\r\n    opacity: 0.8;\r\n  }\r\n\r\n  /* line 304, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bTitleMaskDes .title, .lar-galleryWrapper .bTitleMaskDesSquare .title {\r\n    height: 32px;\r\n    line-height: 32px;\r\n    font-size: 18px;\r\n    overflow: hidden;\r\n  }\r\n\r\n  /* 3张图片的上下排版,加上艺术类别样式 */\r\n  /* line 313, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bwordRegionArtType {\r\n    position: relative;\r\n    margin: 0 42px;\r\n    overflow: hidden;\r\n    border-radius: 8px;\r\n  }\r\n\r\n  /* line 320, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bwordRegionArtType .pageSizeThree {\r\n    width: 31.3%;\r\n    margin: 0 1%;\r\n    padding: 0px;\r\n  }\r\n\r\n  /* line 326, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bwordRegionArtType .galleryPic {\r\n    text-align: center;\r\n    position: relative;\r\n    background: rgba(0, 0, 0, 0.2);\r\n    border-radius: 4px;\r\n  }\r\n\r\n  /* line 333, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bwordRegionArtType .galleryPic .img img {\r\n    width: 100%;\r\n  }\r\n\r\n  /* line 337, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionBelowFour .pageSizeThree p {\r\n    text-align: center;\r\n    padding: 0px 10px;\r\n    margin-left: 1%;\r\n  }\r\n\r\n  /* line 343, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion {\r\n    height: 8.5em;\r\n    overflow: hidden;\r\n    white-space: normal;\r\n    word-wrap: break-word;\r\n    padding: 0px 16px 10px 16px;\r\n    text-align: left;\r\n  }\r\n\r\n  /* line 352, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion .title {\r\n    font-weight: bold;\r\n  }\r\n\r\n  /* line 355, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion .desc {\r\n    font-size: 0.75em;\r\n    text-align: left;\r\n    display: inline-block;\r\n    height: 4em;\r\n    overflow: hidden;\r\n  }\r\n\r\n  /* line 363, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .bwordRegionArtType .artType {\r\n    position: absolute;\r\n    top: 10px;\r\n    width: 4em;\r\n    display: table-cell;\r\n    right: 0px;\r\n    /*background: url(\"./images/responsive/artTypeBgPic.png\");*/\r\n  }\r\n\r\n  /* 每次显示2行2列的gallery */\r\n  /* line 374, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .twoRowsGallery .arrow {\r\n    top: 45%;\r\n  }\r\n\r\n  /* line 378, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .twoRowsGallery {\r\n    position: relative;\r\n    margin: 0 42px;\r\n    white-space: nowrap;\r\n    overflow: hidden;\r\n  }\r\n\r\n  /* line 385, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .twoRowsGallery .galleryPic {\r\n    width: 50%;\r\n    padding: 0px;\r\n  }\r\n\r\n  /* line 390, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea {\r\n    width: 100%;\r\n    height: 50%;\r\n    display: block;\r\n    text-align: center;\r\n    overflow: hidden;\r\n    position: relative;\r\n    padding: 6px 0;\r\n  }\r\n\r\n  /* line 400, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea img {\r\n    width: 100%;\r\n    height: 100%;\r\n  }\r\n\r\n  /* line 405, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea .title {\r\n    position: absolute;\r\n    bottom: 1rem;\r\n    left: 0px;\r\n    display: block;\r\n    width: 100%;\r\n    text-align: center;\r\n    color: #ffffff;\r\n    font-size: 16px;\r\n    font-weight: bold;\r\n  }\r\n\r\n  /* 4张图片的上下排版样式-有简介 */\r\n  /* line 417, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionBelowFour {\r\n    position: relative;\r\n    margin: 0 42px;\r\n    overflow: hidden;\r\n    border-radius: 8px;\r\n  }\r\n\r\n  /* line 424, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionBelowFour .galleryPic {\r\n    padding: 0px 6px;\r\n  }\r\n\r\n  /* line 428, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionBelowFour .galleryPic > div {\r\n    text-align: center;\r\n    position: relative;\r\n    background: rgba(255, 255, 255, 0.1);\r\n    padding: 12px;\r\n    height: 100%;\r\n  }\r\n\r\n  /* line 436, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionBelowFour .galleryPic .img img {\r\n    border-radius: 50%;\r\n  }\r\n\r\n  /* line 440, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionBelowFour .pageSizeFour p {\r\n    text-align: center;\r\n    padding: 0px 10px;\r\n  }\r\n\r\n  /* line 445, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion {\r\n    overflow: hidden;\r\n    white-space: normal;\r\n    word-wrap: break-word;\r\n    color: #ffffff;\r\n  }\r\n\r\n  /* line 452, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .title {\r\n    font-weight: bold;\r\n  }\r\n\r\n  /* line 455, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .desc {\r\n    font-size: 0.75em;\r\n    text-align: left;\r\n    display: inline-block;\r\n  }\r\n\r\n  /*每屏显示1条记录，左右排版*/\r\n  /* line 463, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionRight {\r\n    position: relative;\r\n    margin: 0 42px;\r\n    overflow: hidden;\r\n    border-radius: 8px;\r\n  }\r\n\r\n  /* line 470, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionRight .galleryPic {\r\n    text-align: left;\r\n    position: relative;\r\n    background: rgba(255, 255, 255, 0.1);\r\n    position: relative;\r\n  }\r\n\r\n  /* line 477, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionRight .galleryPic .img {\r\n    display: inline-block;\r\n    width: 45%;\r\n    overflow: hidden;\r\n    text-align: center;\r\n  }\r\n\r\n  /* line 484, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion {\r\n    display: inline-block;\r\n    overflow: hidden;\r\n    white-space: normal;\r\n    word-wrap: break-word;\r\n    width: 53%;\r\n    margin-left: 2%;\r\n    vertical-align: top;\r\n    color: black;\r\n    font-family: \"\\5FAE\\8F6F\\96C5\\9ED1\";\r\n  }\r\n\r\n  /* line 496, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion p {\r\n    color: black;\r\n  }\r\n\r\n  /* line 500, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .title {\r\n    font-size: 22px;\r\n    line-height: 4rem;\r\n    height: 4rem;\r\n  }\r\n\r\n  /* line 506, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .bottomBorder {\r\n    display: block;\r\n    width: 3rem;\r\n    border-bottom: 2px solid #fc9510;\r\n  }\r\n\r\n  /* line 512, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .desc {\r\n    display: inline-block;\r\n    font-size: 15px;\r\n    overflow: hidden;\r\n  }\r\n\r\n  /* line 521, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail {\r\n    display: inline-block;\r\n    background: #fc9510;\r\n    padding: 1px 20px;\r\n    border-radius: 16px;\r\n    position: absolute;\r\n    bottom: 1rem;\r\n  }\r\n\r\n  /* line 530, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail span {\r\n    color: #ffffff;\r\n  }\r\n\r\n  /* line 534, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail span.tip {\r\n    display: inline-block;\r\n    vertical-align: top;\r\n    margin-top: 10px;\r\n    font-size: 16px;\r\n    margin-right: 10px;\r\n  }\r\n\r\n  /* line 542, sass/partials/_gallery.scss */\r\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail .gotoIcon {\r\n    display: inline-block;\r\n    width: 37px;\r\n    height: 37px;\r\n    /*background: url(./images/icon/icon.png) -1342px -28px;*/\r\n  }\r\n\r\n  /* 基于bootstrap的二次封装,一张图片的轮训 */\r\n  /* line 550, sass/partials/_gallery.scss */\r\n  .oneSlide .carousel-inner .item a {\r\n    display: inline-block;\r\n  }\r\n\r\n  /* line 554, sass/partials/_gallery.scss */\r\n  .oneSlide, .oneSlide .carousel-inner, .oneSlide .carousel-inner .item, .oneSlide .carousel-inner .item a {\r\n    height: 100%;\r\n    width: 100%;\r\n  }\r\n\r\n  /* line 559, sass/partials/_gallery.scss */\r\n  .oneSlide .item img {\r\n    margin: 0 auto;\r\n    width: 100%;\r\n  }\r\n\r\n  /* line 564, sass/partials/_gallery.scss */\r\n  .oneSlide .carousel-caption {\r\n    display: inline-block;\r\n    background-color: rgba(0, 0, 0, 0.5);\r\n    left: 0px;\r\n    bottom: 0px;\r\n    width: 100%;\r\n    right: auto;\r\n    padding: 5px 15px;\r\n    overflow: hidden;\r\n    height: 4rem;\r\n    line-height: 3rem;\r\n  }\r\n\r\n  /* line 577, sass/partials/_gallery.scss */\r\n  .oneSlide .carousel-indicators {\r\n    bottom: 0px;\r\n  }\r\n\r\n  /* line 581, sass/partials/_gallery.scss */\r\n  .oneSlide .carousel-control {\r\n    top: 40%;\r\n    background-image: none;\r\n    width: auto;\r\n  }\r\n\r\n  /* line 587, sass/partials/_gallery.scss */\r\n  .oneSlide .carousel-control img {\r\n    margin-top: -50%;\r\n  }\r\n\r\n  @media (max-width: 768px) {\r\n    /* line 592, sass/partials/_gallery.scss */\r\n    .lar-galleryWrapper .onlyMobileSlide {\r\n      display: block;\r\n    }\r\n\r\n    /* line 596, sass/partials/_gallery.scss */\r\n    .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea .title {\r\n      position: absolute;\r\n      bottom: 0rem;\r\n      left: 2px;\r\n    }\r\n\r\n    /* line 602, sass/partials/_gallery.scss */\r\n    .lar-galleryWrapper .pageSizeOne, .lar-galleryWrapper .pageSizeTwo, .lar-galleryWrapper .pageSizeThree, .lar-galleryWrapper .pageSizeFour, .lar-galleryWrapper .pageSizeFive {\r\n      width: 99%;\r\n    }\r\n\r\n    /* line 605, sass/partials/_gallery.scss */\r\n    .lar-galleryWrapper .pageSizeTwelve, .lar-galleryWrapper .pageSizeNine {\r\n      width: 24%;\r\n    }\r\n\r\n    /* line 609, sass/partials/_gallery.scss */\r\n    .lar-galleryWrapper .bwordRegionArtType .pageSizeThree {\r\n      width: 99%;\r\n    }\r\n\r\n    /* line 613, sass/partials/_gallery.scss */\r\n    .oneSlide .carousel-caption {\r\n      bottom: 6px;\r\n      height: 4rem;\r\n      line-height: 3rem;\r\n    }\r\n\r\n    /* line 619, sass/partials/_gallery.scss */\r\n    .carousel-control img {\r\n      height: 60%;\r\n    }\r\n\r\n    /*两行两列的样式*/\r\n    /* line 625, sass/partials/_gallery.scss */\r\n    .lar-galleryWrapper .twoRowsGallery .galleryPic {\r\n      display: block;\r\n      width: 100%;\r\n      height: 50%;\r\n    }\r\n\r\n    /* line 631, sass/partials/_gallery.scss */\r\n    .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea {\r\n      width: 100%;\r\n      display: block;\r\n      padding-bottom: 3px;\r\n    }\r\n\r\n    /*每屏显示1条记录，左右排版*/\r\n    /* line 638, sass/partials/_gallery.scss */\r\n    .lar-galleryWrapper .wordRegionRight .galleryPic .img {\r\n      display: block;\r\n      width: 100%;\r\n    }\r\n\r\n    /* line 643, sass/partials/_gallery.scss */\r\n    .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion {\r\n      display: block;\r\n      width: 100%;\r\n    }\r\n\r\n    /* line 648, sass/partials/_gallery.scss */\r\n    .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail {\r\n      bottom: 0px;\r\n      padding: 0px 32px;\r\n      min-width: 175px;\r\n      min-height: 42px;\r\n    }\r\n\r\n    /*资源展示首页9个图标*/\r\n    /* line 656, sass/partials/_gallery.scss */\r\n    .lar-galleryWrapper .artType .pageSizeNine {\r\n      padding: 5px;\r\n    }\r\n  }\r\n  /* ==========================================================================\r\n     lar-dynamicPage组件\r\n     ========================================================================== */\r\n  /* ==========================================================================\r\n     lay-ui lar-dynamicPage组件样式\r\n     ========================================================================== */\r\n  /* line 4, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .resultList {\r\n    padding: 0px;\r\n    margin: 12px 0px 0px 0px;\r\n  }\r\n\r\n  /* line 8, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .loadAll {\r\n    text-align: center;\r\n    color: #666;\r\n    padding-top: 10px;\r\n    padding-bottom: 10px;\r\n    display: none;\r\n  }\r\n\r\n  /* line 16, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .resultList .tipNoData {\r\n    text-align: center;\r\n  }\r\n\r\n  /* line 20, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .resultList li, .lar-dynamicPage .pagesList li {\r\n    list-style-type: none;\r\n    position: relative;\r\n    padding: 0px 0px 0px 56px;\r\n    font-family: \"Microsoft YaHei\";\r\n  }\r\n\r\n  /* line 27, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .resultList li em {\r\n    position: absolute;\r\n    left: 10px;\r\n    top: 0px;\r\n    /* width: 3.5em; */\r\n    padding: 0px 10px;\r\n    display: inline-block;\r\n    font-size: 29px;\r\n    font-style: normal;\r\n    color: #999999;\r\n  }\r\n\r\n  /* line 39, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .resultList li a {\r\n    width: 128px;\r\n    display: inline-block;\r\n    color: #999;\r\n    line-height: 32px;\r\n    vertical-align: top;\r\n  }\r\n\r\n  /*页码区*/\r\n  /* line 50, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage {\r\n    box-sizing: content-box;\r\n  }\r\n\r\n  /* line 54, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList {\r\n    padding-left: 0px;\r\n    margin-top: 16px;\r\n    display: inline-block;\r\n    width: 100%;\r\n  }\r\n\r\n  /* line 61, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList .liList {\r\n    /*display:inline-block;*/\r\n    text-align: center;\r\n  }\r\n\r\n  /* line 66, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList li {\r\n    float: left;\r\n    display: inline;\r\n    width: 20px;\r\n    text-align: center;\r\n    font-family: \"Droid Sans\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\r\n    padding: 12px;\r\n    margin: 6px;\r\n    height: 12px;\r\n    line-height: 12px;\r\n    border: 1px solid #cd8802;\r\n    border-radius: 3px;\r\n    color: #7d7d7d;\r\n    box-sizing: content-box;\r\n  }\r\n\r\n  /* line 82, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList li:hover {\r\n    cursor: pointer;\r\n  }\r\n\r\n  /* line 86, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList li.more, .lar-dynamicPage .pagesList li.total, .lar-dynamicPage .pagesList li.go {\r\n    border: 0;\r\n  }\r\n\r\n  /* line 90, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList li.total {\r\n    width: auto;\r\n    padding: 12px 0px;\r\n    margin: 0px;\r\n    margin-top: 8px;\r\n  }\r\n\r\n  /* line 97, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList .pageNum:hover, .lar-dynamicPage .pagesList li.active {\r\n    background-color: #cd8802;\r\n    box-shadow: 1px 1px 1px 1px #999;\r\n    color: #fdfdfd;\r\n  }\r\n\r\n  /* line 103, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList .pageNum span:hover, .lar-dynamicPage .pagesList li.active span {\r\n    color: #fdfdfd;\r\n  }\r\n\r\n  /* line 107, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList li.go {\r\n    width: 96px;\r\n    height: 32px;\r\n    line-height: 32px;\r\n    padding: 0px;\r\n    margin: 0px;\r\n    margin-top: 10px;\r\n    /*padding-top: 2px;*/\r\n  }\r\n\r\n  /* line 117, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList li span {\r\n    padding: 0px;\r\n    display: inline;\r\n    font-size: 16px;\r\n    color: #cd8802;\r\n    font-family: \"Droid Sans\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\r\n  }\r\n\r\n  /* line 125, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList li .pageNumber {\r\n    width: 40px;\r\n    height: 32px;\r\n  }\r\n\r\n  /* line 130, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList li .pageNumber:focus {\r\n    border: 1px solid #cd8802;\r\n    background-color: #cd8802;\r\n  }\r\n\r\n  /* line 135, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList li.ensure {\r\n    border: 1px solid #cd8802;\r\n    border-radius: 2px;\r\n    width: 48px;\r\n    height: 32px;\r\n    line-height: 32px;\r\n    padding: 0px;\r\n    margin: 0px;\r\n    margin-top: 8px;\r\n    /*padding-top: 2px;*/\r\n  }\r\n\r\n  /* line 147, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList li.ensure span {\r\n    width: 64px;\r\n    height: 40px;\r\n  }\r\n\r\n  /* line 152, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList li.ensure:hover {\r\n    background-color: #cd8802;\r\n  }\r\n\r\n  /* line 156, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .pagesList li.totalNum {\r\n    border: none;\r\n    width: auto;\r\n    padding-top: 13px;\r\n  }\r\n\r\n  /* line 162, sass/partials/_dynamicPage.scss */\r\n  .lar-dynamicPage .nextPageContainer {\r\n    display: none;\r\n  }\r\n\r\n  @media (min-width: 768px) {\r\n    /* line 166, sass/partials/_dynamicPage.scss */\r\n    .lar-dynamicPage .nextPageContainer {\r\n      display: none;\r\n    }\r\n\r\n    /* line 168, sass/partials/_dynamicPage.scss */\r\n    .lar-dynamicPage .nextPageContainer span {\r\n      display: none;\r\n    }\r\n  }\r\n  @media (max-width: 768px) {\r\n    /* line 177, sass/partials/_dynamicPage.scss */\r\n    .lar-dynamicPage .pagesList {\r\n      display: none;\r\n    }\r\n\r\n    /* line 180, sass/partials/_dynamicPage.scss */\r\n    .lar-dynamicPage .nextPageContainer {\r\n      display: block;\r\n      text-align: center;\r\n      position: relative;\r\n    }\r\n\r\n    /* line 185, sass/partials/_dynamicPage.scss */\r\n    .lar-dynamicPage .nextPageContainer span.nextPageBtn {\r\n      display: inline-block;\r\n      width: 70px;\r\n      height: 40px;\r\n      margin-top: 16px;\r\n      /*background: url(./images/icon/icon.png) -404px -325px;*/\r\n    }\r\n\r\n    /* line 193, sass/partials/_dynamicPage.scss */\r\n    .lar-dynamicPage .nextPageContainer span.mobilePageInfo {\r\n      display: inline-block;\r\n      height: 40px;\r\n      position: absolute;\r\n      right: 0px;\r\n      bottom: 0px;\r\n      padding-right: 15px;\r\n      color: #999;\r\n    }\r\n  }\r\n  /* ==========================================================================\r\n     lar-galleryWall 组件\r\n     ========================================================================== */\r\n  /* line 1, sass/partials/_galleryWall.scss */\r\n  .galleryWall_arrow {\r\n    background-color: #000;\r\n    width: 100px;\r\n    height: 20px;\r\n    cursor: pointer;\r\n    margin: 0 auto;\r\n  }\r\n\r\n  .gWImgContainer {\r\n    overflow: hidden;\r\n  }\r\n\r\n  /* line 10, sass/partials/_galleryWall.scss */\r\n  .gWImgContainer .imgContainer {\r\n    width: 95%;\r\n    height: 95%;\r\n    margin: 0 auto;\r\n    overflow: hidden;\r\n  }\r\n\r\n  /* line 15, sass/partials/_galleryWall.scss */\r\n  .gWImgContainer .imgContainer img {\r\n    margin-left: 0px;\r\n    margin-right: 0px;\r\n  }\r\n\r\n  /* line 20, sass/partials/_galleryWall.scss */\r\n  .gWImgContainer .gwTitle {\r\n    margin-top: 10px;\r\n    white-space: nowrap;\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n  }\r\n\r\n  /* line 26, sass/partials/_galleryWall.scss */\r\n  .gWImgContainer .picMask {\r\n    width: 220px;\r\n    height: 220px;\r\n    background-color: #000;\r\n    position: absolute;\r\n    top: 5px;\r\n    left: 5px;\r\n    opacity: 0.8;\r\n    padding: 20px;\r\n    text-align: center;\r\n  }\r\n\r\n  /* line 37, sass/partials/_galleryWall.scss */\r\n  .gWImgContainer .picMask h4 {\r\n    margin: 40px 0 20px 0;\r\n    color: #fff;\r\n    text-align: center;\r\n  }\r\n\r\n  /* line 41, sass/partials/_galleryWall.scss */\r\n  .gWImgContainer .picMask h4 a {\r\n    color: #fff;\r\n  }\r\n\r\n  /* line 46, sass/partials/_galleryWall.scss */\r\n  .gWImgContainer .picMask p {\r\n    color: #fff;\r\n    text-align: center;\r\n  }\r\n\r\n  /* 手机端样式  */\r\n  @media screen and (max-width: 767px) {\r\n    /* line 55, sass/partials/_galleryWall.scss */\r\n    .gWImgContainer {\r\n      display: inline-block;\r\n      width: 100%;\r\n      cursor: pointer;\r\n      position: relative;\r\n      text-align: center;\r\n    }\r\n\r\n    /* line 62, sass/partials/_galleryWall.scss */\r\n    .gWImgContainer img {\r\n      width: 100%;\r\n    }\r\n  }\r\n  @media (min-width: 768px) {\r\n    /* 所有PC在这里写 */\r\n    /* line 70, sass/partials/_galleryWall.scss */\r\n    .container {\r\n      width: 1000px;\r\n      margin: 0 auto;\r\n    }\r\n\r\n    /* line 74, sass/partials/_galleryWall.scss */\r\n    .galleryWallContainer {\r\n      width: 100%;\r\n      margin: 0 auto;\r\n      /*padding-left: 40px;\r\n      padding-right: 40px;*/\r\n      text-align: center;\r\n    }\r\n\r\n    /* line 81, sass/partials/_galleryWall.scss */\r\n    .galleryWallContainer img {\r\n      width: 220px;\r\n      height: 220px;\r\n      margin: 5px;\r\n    }\r\n\r\n    /* line 88, sass/partials/_galleryWall.scss */\r\n    .gWImgContainer {\r\n      width: 230px;\r\n      height: 230px;\r\n      display: inline-block;\r\n      position: relative;\r\n      text-align: center;\r\n      margin-bottom: 20px;\r\n    }\r\n\r\n    /* line 94, sass/partials/_galleryWall.scss */\r\n    .gWImgContainer .gwMaskTitle {\r\n      display: none;\r\n    }\r\n\r\n    /* line 99, sass/partials/_galleryWall.scss */\r\n    .gWImgContainer a {\r\n      cursor: pointer;\r\n    }\r\n\r\n    /* line 102, sass/partials/_galleryWall.scss */\r\n    .gWImgContainer:hover {\r\n      -webkit-box-shadow: 0px 0px 1px #333;\r\n      box-shadow: 0px 0px 1px #333;\r\n    }\r\n\r\n    /* line 107, sass/partials/_galleryWall.scss */\r\n    .galleryWall_arrow {\r\n      background-color: #000;\r\n      width: 100px;\r\n      height: 20px;\r\n      cursor: pointer;\r\n      margin: 0 auto;\r\n    }\r\n  }\r\n  /* ==========================================================================\r\n     lar-galleryWall 组件\r\n     ========================================================================== */\r\n  @-webkit-keyframes lar-spin {\r\n    0% {\r\n      -webkit-transform: rotate(0deg);\r\n      transform: rotate(0deg);\r\n    }\r\n    100% {\r\n      -webkit-transform: rotate(359deg);\r\n      transform: rotate(359deg);\r\n    }\r\n  }\r\n  @-moz-keyframes lar-spin {\r\n    0% {\r\n      -webkit-transform: rotate(0deg);\r\n      transform: rotate(0deg);\r\n    }\r\n    100% {\r\n      -webkit-transform: rotate(359deg);\r\n      transform: rotate(359deg);\r\n    }\r\n  }\r\n  @-o-keyframes lar-spin {\r\n    0% {\r\n      -webkit-transform: rotate(0deg);\r\n      transform: rotate(0deg);\r\n    }\r\n    100% {\r\n      -webkit-transform: rotate(359deg);\r\n      transform: rotate(359deg);\r\n    }\r\n  }\r\n  @keyframes lar-spin {\r\n    0% {\r\n      -webkit-transform: rotate(0deg);\r\n      transform: rotate(0deg);\r\n    }\r\n    100% {\r\n      -webkit-transform: rotate(359deg);\r\n      transform: rotate(359deg);\r\n    }\r\n  }\r\n  /* ==========================================================================\r\n     lar-thumbGallery 组件\r\n     ========================================================================== */\r\n  /* line 1, sass/partials/_thumbGallery.scss */\r\n  .thumbGalleryContainer {\r\n    width: 100%;\r\n  }\r\n\r\n  /* line 5, sass/partials/_thumbGallery.scss */\r\n  .thumbGalleryMainArea {\r\n    background-color: rgba(0, 0, 0, 0.3);\r\n    width: 100%;\r\n    position: relative;\r\n  }\r\n\r\n  /* line 9, sass/partials/_thumbGallery.scss */\r\n  .thumbGalleryMainArea img {\r\n    width: 766px;\r\n    height: 250px;\r\n  }\r\n\r\n  /* line 13, sass/partials/_thumbGallery.scss */\r\n  .thumbGalleryMainArea .carousel-caption {\r\n    left: 0px;\r\n    bottom: 0px;\r\n    width: 766px;\r\n    margin-left: 5px;\r\n    background-color: rgba(0, 0, 0, 0.49804);\r\n    color: white;\r\n    font-size: 18px;\r\n    white-space: nowrap;\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n    padding: 5px 15px;\r\n    height: 4rem;\r\n    line-height: 3rem;\r\n  }\r\n\r\n  /* line 30, sass/partials/_thumbGallery.scss */\r\n  .thumbGallerySideBar {\r\n    background-color: rgba(0, 0, 0, 0.3);\r\n    display: none;\r\n  }\r\n\r\n  @media (max-width: 767px) {\r\n    /* line 36, sass/partials/_thumbGallery.scss */\r\n    .thumbGalleryMainArea {\r\n      background-color: transparent;\r\n      text-align: center;\r\n    }\r\n\r\n    /* line 39, sass/partials/_thumbGallery.scss */\r\n    .thumbGalleryMainArea img {\r\n      width: 320px;\r\n      height: 240px;\r\n    }\r\n\r\n    /* line 43, sass/partials/_thumbGallery.scss */\r\n    .thumbGalleryMainArea .carousel-caption {\r\n      width: 320px;\r\n      margin-left: 13px;\r\n    }\r\n  }\r\n  @media (min-width: 768px) {\r\n    /* line 51, sass/partials/_thumbGallery.scss */\r\n    .thumbGalleryContainer {\r\n      height: 575px;\r\n      width: 1000px;\r\n      margin: 0 auto;\r\n    }\r\n\r\n    /* line 57, sass/partials/_thumbGallery.scss */\r\n    .thumbGalleryMainArea, .thumbGallerySideBar {\r\n      display: inline-block;\r\n    }\r\n\r\n    /* line 61, sass/partials/_thumbGallery.scss */\r\n    .thumbGalleryMainArea {\r\n      width: 80%;\r\n      height: 100%;\r\n      float: left;\r\n      padding: 0px 5px;\r\n    }\r\n\r\n    /* line 67, sass/partials/_thumbGallery.scss */\r\n    .thumbGalleryMainArea img {\r\n      width: 766px;\r\n      height: 100%;\r\n    }\r\n\r\n    /* line 73, sass/partials/_thumbGallery.scss */\r\n    .thumbGallerySideBar {\r\n      width: 20%;\r\n      height: 100%;\r\n      position: relative;\r\n      float: left;\r\n      padding-right: 10px;\r\n    }\r\n\r\n    /* line 74, sass/partials/_thumbGallery.scss */\r\n    .thumbGallerySideBar img {\r\n      width: 180px;\r\n      /*height: 160px;*/\r\n      margin: 3px 0px;\r\n      cursor: pointer;\r\n      opacity: 0.8;\r\n    }\r\n\r\n    /* line 82, sass/partials/_thumbGallery.scss */\r\n    .thumbGallerySideBar img:hover {\r\n      border: 1px solid #000;\r\n    }\r\n\r\n    /* line 86, sass/partials/_thumbGallery.scss */\r\n    .thumbGallerySideBar img.selected {\r\n      border: 2px solid #000;\r\n    }\r\n  }\r\n  /* ==========================================================================\r\n     lar-catalogNav 组件\r\n     ========================================================================== */\r\n  /* ==========================================================================\r\n     lay-ui 时间轴2组件样式\r\n     ========================================================================== */\r\n  /* line 5, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-container {\r\n    border-left: 2px solid #DDD;\r\n    width: 150px;\r\n    position: fixed;\r\n    right: 10px;\r\n    bottom: 50px;\r\n  }\r\n\r\n  /* line 13, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-block {\r\n    position: relative;\r\n  }\r\n\r\n  /* line 17, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-roundIcon {\r\n    border-radius: 50%;\r\n    box-shadow: 0 0 0 2px #ddd, inset 0 1px 0 rgba(0, 0, 0, 0.08), 0 1px 0 1px rgba(0, 0, 0, 0.05);\r\n    width: 10px;\r\n    height: 10px;\r\n    margin-left: -6px;\r\n  }\r\n\r\n  /* line 26, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-roundIcon.lar-catelogNav-iconTop {\r\n    margin-top: -10px;\r\n  }\r\n\r\n  /* line 30, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-roundIcon.lar-catelogNav-iconBottom {\r\n    margin-bottom: -10px;\r\n  }\r\n\r\n  /* line 34, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-img {\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    border-radius: 50%;\r\n  }\r\n\r\n  /* line 41, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-figure {\r\n    float: left;\r\n    margin-right: 15px;\r\n  }\r\n\r\n  /* line 46, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-figure img {\r\n    height: 160px;\r\n    width: 120px;\r\n  }\r\n\r\n  /* line 51, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-article {\r\n    text-align: left;\r\n  }\r\n\r\n  /* line 54, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-article p {\r\n    margin-left: 17px;\r\n    margin-bottom: 0px;\r\n  }\r\n\r\n  /* line 60, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-title {\r\n    margin-top: 0px;\r\n  }\r\n\r\n  /* line 64, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-icon {\r\n    cursor: pointer;\r\n    background-color: #c2c4c4;\r\n  }\r\n\r\n  /* line 69, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-block:after {\r\n    content: \"\";\r\n    display: table;\r\n    clear: both;\r\n  }\r\n\r\n  /* line 75, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-more {\r\n    position: absolute;\r\n    right: 25px;\r\n    bottom: 15px;\r\n  }\r\n\r\n  /* line 81, sass/partials/_catalogNav.scss */\r\n  .artist_info_more_right, .artist_info_more_left {\r\n    margin-top: 10px;\r\n  }\r\n\r\n  /* line 85, sass/partials/_catalogNav.scss */\r\n  .lar-catalogNav-more-arrow {\r\n    margin-top: 30px;\r\n  }\r\n\r\n  /* 平板 + 普通PC桌面 + 大分辨率PC桌面 */\r\n  @media (min-width: 768px) {\r\n    /* line 91, sass/partials/_catalogNav.scss */\r\n    .lar-catalogNav-img {\r\n      width: 10px;\r\n      height: 10px;\r\n      margin-left: -6px;\r\n      margin-top: 15px;\r\n      -webkit-transform: translateZ(0);\r\n      -webkit-backface-visibility: hidden;\r\n    }\r\n\r\n    /* line 100, sass/partials/_catalogNav.scss */\r\n    .lar-catalogNav-content {\r\n      width: 95%;\r\n      position: relative;\r\n      padding: 0px 10px;\r\n      margin-top: 10px;\r\n      float: right;\r\n    }\r\n\r\n    /* line 108, sass/partials/_catalogNav.scss */\r\n    .lar-catalogNav-arrow {\r\n      width: 0;\r\n      height: 0;\r\n      border-top: 10px solid transparent;\r\n      border-bottom: 10px solid transparent;\r\n      border-right: 10px solid #c2c4c4;\r\n      position: absolute;\r\n      left: -10px;\r\n    }\r\n\r\n    /* line 118, sass/partials/_catalogNav.scss */\r\n    .lar-catalogNav-paragraph {\r\n      height: 112px;\r\n      overflow: hidden;\r\n    }\r\n  }\r\n  /* 手机 */\r\n  @media screen and (max-width: 767px) {\r\n    /* line 129, sass/partials/_catalogNav.scss */\r\n    .lar-catalogNav-img {\r\n      width: 10px;\r\n      height: 10px;\r\n      margin-left: -6px;\r\n      margin-top: 30px;\r\n      -webkit-transform: translateZ(0);\r\n      -webkit-backface-visibility: hidden;\r\n    }\r\n\r\n    /* line 138, sass/partials/_catalogNav.scss */\r\n    .lar-catalogNav-content {\r\n      width: 95%;\r\n      position: relative;\r\n      padding: 15px 25px;\r\n      margin-top: 10px;\r\n      border: 1px solid #c2c4c4;\r\n      float: right;\r\n    }\r\n\r\n    /* line 147, sass/partials/_catalogNav.scss */\r\n    .lar-catalogNav-arrow {\r\n      width: 0;\r\n      height: 0;\r\n      border-top: 10px solid transparent;\r\n      border-bottom: 10px solid transparent;\r\n      border-right: 10px solid #c2c4c4;\r\n      position: absolute;\r\n      left: -10px;\r\n    }\r\n\r\n    /* line 157, sass/partials/_catalogNav.scss */\r\n    .lar-catalogNav-paragraph {\r\n      height: 84px;\r\n      overflow: hidden;\r\n    }\r\n\r\n    /* line 162, sass/partials/_catalogNav.scss */\r\n    .lar-catalogNav-more {\r\n      margin-bottom: -12px;\r\n    }\r\n  }\r\n  /* ==========================================================================\r\n     lar-opusCatalogNav 组件\r\n     ========================================================================== */\r\n  /* ==========================================================================\r\n     lay-ui 时间轴2组件样式\r\n     ========================================================================== */\r\n  /* line 5, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-container {\r\n    border-left: 2px solid #DDD;\r\n    width: 270px;\r\n    padding-top: 1px;\r\n    padding-bottom: 1px;\r\n  }\r\n\r\n  /* line 11, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-block {\r\n    position: relative;\r\n  }\r\n\r\n  /* line 15, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-roundIcon {\r\n    border-radius: 50%;\r\n    box-shadow: 0 0 0 2px #ddd, inset 0 1px 0 rgba(0, 0, 0, 0.08), 0 1px 0 1px rgba(0, 0, 0, 0.05);\r\n    width: 10px;\r\n    height: 10px;\r\n    margin-left: -6px;\r\n  }\r\n\r\n  /* line 24, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-roundIcon.lar-catelogNav-iconTop {\r\n    margin-top: -10px;\r\n  }\r\n\r\n  /* line 28, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-roundIcon.lar-catelogNav-iconBottom {\r\n    margin-bottom: -10px;\r\n  }\r\n\r\n  /* line 32, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-img {\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    border-radius: 50%;\r\n  }\r\n\r\n  /* line 39, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-figure {\r\n    float: left;\r\n    margin-right: 15px;\r\n  }\r\n\r\n  /* line 44, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-figure img {\r\n    height: 160px;\r\n    width: 120px;\r\n  }\r\n\r\n  /* line 49, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-article {\r\n    text-align: left;\r\n  }\r\n\r\n  /* line 52, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-article p {\r\n    margin-left: 17px;\r\n    margin-bottom: 0px;\r\n    display: none;\r\n  }\r\n\r\n  /* line 57, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-article p:hover {\r\n    cursor: pointer;\r\n  }\r\n\r\n  /* line 62, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-title {\r\n    margin-top: 0px;\r\n  }\r\n\r\n  /* line 66, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-title:hover {\r\n    cursor: pointer;\r\n  }\r\n\r\n  /* line 70, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-icon {\r\n    cursor: pointer;\r\n    background-color: #c2c4c4;\r\n  }\r\n\r\n  /* line 75, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-block:after {\r\n    content: \"\";\r\n    display: table;\r\n    clear: both;\r\n  }\r\n\r\n  /* line 81, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-more {\r\n    position: absolute;\r\n    right: 25px;\r\n    bottom: 15px;\r\n  }\r\n\r\n  /* line 87, sass/partials/_opusCatalogNav.scss */\r\n  .artist_info_more_right, .artist_info_more_left {\r\n    margin-top: 10px;\r\n  }\r\n\r\n  /* line 91, sass/partials/_opusCatalogNav.scss */\r\n  .lar-opusCatalogNav-more-arrow {\r\n    margin-top: 30px;\r\n  }\r\n\r\n  /* 平板 + 普通PC桌面 + 大分辨率PC桌面 */\r\n  @media (min-width: 768px) {\r\n    /* line 97, sass/partials/_opusCatalogNav.scss */\r\n    .lar-opusCatalogNav-img {\r\n      width: 10px;\r\n      height: 10px;\r\n      margin-left: -6px;\r\n      margin-top: 15px;\r\n      -webkit-transform: translateZ(0);\r\n      -webkit-backface-visibility: hidden;\r\n    }\r\n\r\n    /* line 106, sass/partials/_opusCatalogNav.scss */\r\n    .lar-opusCatalogNav-content {\r\n      width: 95%;\r\n      position: relative;\r\n      padding: 0px 10px;\r\n      margin-top: 10px;\r\n      float: right;\r\n    }\r\n\r\n    /* line 114, sass/partials/_opusCatalogNav.scss */\r\n    .lar-opusCatalogNav-arrow {\r\n      width: 0;\r\n      height: 0;\r\n      border-top: 10px solid transparent;\r\n      border-bottom: 10px solid transparent;\r\n      border-right: 10px solid #c2c4c4;\r\n      position: absolute;\r\n      left: -10px;\r\n    }\r\n\r\n    /* line 124, sass/partials/_opusCatalogNav.scss */\r\n    .lar-opusCatalogNav-paragraph {\r\n      height: 112px;\r\n      overflow: hidden;\r\n    }\r\n  }\r\n  /* 手机 */\r\n  @media screen and (max-width: 767px) {\r\n    /* line 134, sass/partials/_opusCatalogNav.scss */\r\n    .lar-opusCatalogNav-img {\r\n      width: 10px;\r\n      height: 10px;\r\n      margin-left: -6px;\r\n      margin-top: 30px;\r\n      -webkit-transform: translateZ(0);\r\n      -webkit-backface-visibility: hidden;\r\n    }\r\n\r\n    /* line 143, sass/partials/_opusCatalogNav.scss */\r\n    .lar-opusCatalogNav-content {\r\n      width: 95%;\r\n      position: relative;\r\n      padding: 15px 25px;\r\n      margin-top: 10px;\r\n      border: 1px solid #c2c4c4;\r\n      float: right;\r\n    }\r\n\r\n    /* line 152, sass/partials/_opusCatalogNav.scss */\r\n    .lar-opusCatalogNav-arrow {\r\n      width: 0;\r\n      height: 0;\r\n      border-top: 10px solid transparent;\r\n      border-bottom: 10px solid transparent;\r\n      border-right: 10px solid #c2c4c4;\r\n      position: absolute;\r\n      left: -10px;\r\n    }\r\n\r\n    /* line 162, sass/partials/_opusCatalogNav.scss */\r\n    .lar-opusCatalogNav-paragraph {\r\n      height: 84px;\r\n      overflow: hidden;\r\n    }\r\n\r\n    /* line 167, sass/partials/_opusCatalogNav.scss */\r\n    .lar-opusCatalogNav-more {\r\n      margin-bottom: -12px;\r\n    }\r\n  }\r\n  /* ==========================================================================\r\n     lay-ui mixPhotoWall组件\r\n     ========================================================================== */\r\n  /* ==========================================================================\r\n     lay-ui mixPhotoWall组件\r\n     ========================================================================== */\r\n  /* line 5, sass/partials/_mixPhotoWall.scss */\r\n  .mixPhotoWallContainer {\r\n    /* height: 400px; */\r\n  }\r\n\r\n  /* line 8, sass/partials/_mixPhotoWall.scss */\r\n  .mixPhoteWallWrapper {\r\n    height: 100%;\r\n    width: 100%;\r\n    padding: 5px 0;\r\n  }\r\n\r\n  /* line 14, sass/partials/_mixPhotoWall.scss */\r\n  .mixPhoteWallWrapper .smallArea, .mixPhoteWallWrapper .bigArea {\r\n    float: left;\r\n    width: 50%;\r\n    height: 100%;\r\n  }\r\n\r\n  /* line 20, sass/partials/_mixPhotoWall.scss */\r\n  .mixPhoteWallWrapper .smallArea .mixPhotoWallImageContainer {\r\n    width: 50%;\r\n    height: 50%;\r\n    padding: 5px;\r\n    float: left;\r\n    position: relative;\r\n  }\r\n\r\n  /* line 28, sass/partials/_mixPhotoWall.scss */\r\n  .mixPhoteWallWrapper .bigArea .mixPhotoWallImageContainer {\r\n    width: 100%;\r\n    height: 100%;\r\n    padding: 5px;\r\n    float: left;\r\n    position: relative;\r\n  }\r\n\r\n  /* line 36, sass/partials/_mixPhotoWall.scss */\r\n  .mixPhoteWallTextBg {\r\n    position: absolute;\r\n    width: 100%;\r\n    bottom: 0px;\r\n    left: 0px;\r\n  }\r\n\r\n  /* line 43, sass/partials/_mixPhotoWall.scss */\r\n  .mixPhoteWallText {\r\n    background-color: rgba(0, 0, 0, 0.4);\r\n    height: 35px;\r\n    margin: 10px;\r\n    color: white;\r\n    font-size: 16px;\r\n    line-height: 35px;\r\n  }\r\n\r\n  /* line 52, sass/partials/_mixPhotoWall.scss */\r\n  .smallArea .mixPhotoWallImageContainer img {\r\n    width: 100%;\r\n    height: 100%;\r\n    cursor: pointer;\r\n  }\r\n\r\n  /* line 58, sass/partials/_mixPhotoWall.scss */\r\n  .bigArea .mixPhotoWallImageContainer img {\r\n    width: 100%;\r\n    height: 100%;\r\n    cursor: pointer;\r\n  }\r\n\r\n  /* line 64, sass/partials/_mixPhotoWall.scss */\r\n  .mixPhotoWallImageContainer:hover {\r\n    box-shadow: 1px 1px 5px #333;\r\n  }\r\n\r\n  @media screen and (max-width: 767px) {\r\n    /* line 68, sass/partials/_mixPhotoWall.scss */\r\n    .mixPhoteWallWrapper .smallArea, .mixPhoteWallWrapper .bigArea {\r\n      width: 100%;\r\n    }\r\n\r\n    /* line 72, sass/partials/_mixPhotoWall.scss */\r\n    .smallArea .mixPhotoWallImageContainer img, .bigArea .mixPhotoWallImageContainer img {\r\n      width: 100%;\r\n      height: 100%;\r\n    }\r\n  }\r\n  /* ==========================================================================\r\n     lay-ui scroll-bar组件\r\n     ========================================================================== */\r\n  /* perfect-scrollbar v0.6.10 */\r\n  /* line 2, sass/partials/_scrollbar.scss */\r\n  .ps-container {\r\n    -ms-touch-action: none;\r\n    touch-action: none;\r\n    overflow: hidden !important;\r\n    -ms-overflow-style: none;\r\n  }\r\n\r\n  @supports (-ms-overflow-style: none) {\r\n    /* line 8, sass/partials/_scrollbar.scss */\r\n    .ps-container {\r\n      overflow: auto !important;\r\n    }\r\n  }\r\n  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {\r\n    /* line 11, sass/partials/_scrollbar.scss */\r\n    .ps-container {\r\n      overflow: auto !important;\r\n    }\r\n  }\r\n  /* line 13, sass/partials/_scrollbar.scss */\r\n  .ps-container.ps-active-x > .ps-scrollbar-x-rail,\r\n  .ps-container.ps-active-y > .ps-scrollbar-y-rail {\r\n    display: block;\r\n    background-color: transparent;\r\n  }\r\n\r\n  /* line 17, sass/partials/_scrollbar.scss */\r\n  .ps-container.ps-in-scrolling {\r\n    pointer-events: none;\r\n  }\r\n\r\n  /* line 19, sass/partials/_scrollbar.scss */\r\n  .ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {\r\n    background-color: #eee;\r\n    opacity: 0.9;\r\n  }\r\n\r\n  /* line 22, sass/partials/_scrollbar.scss */\r\n  .ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {\r\n    background-color: #999;\r\n  }\r\n\r\n  /* line 24, sass/partials/_scrollbar.scss */\r\n  .ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {\r\n    background-color: #eee;\r\n    opacity: 0.9;\r\n  }\r\n\r\n  /* line 27, sass/partials/_scrollbar.scss */\r\n  .ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {\r\n    background-color: #999;\r\n  }\r\n\r\n  /* line 29, sass/partials/_scrollbar.scss */\r\n  .ps-container > .ps-scrollbar-x-rail {\r\n    display: none;\r\n    position: absolute;\r\n    /* please don't change 'position' */\r\n    -webkit-border-radius: 4px;\r\n    -moz-border-radius: 4px;\r\n    border-radius: 4px;\r\n    opacity: 0;\r\n    -webkit-transition: background-color .2s linear, opacity .2s linear;\r\n    -moz-transition: background-color .2s linear, opacity .2s linear;\r\n    -o-transition: background-color .2s linear, opacity .2s linear;\r\n    transition: background-color .2s linear, opacity .2s linear;\r\n    bottom: 3px;\r\n    /* there must be 'bottom' for ps-scrollbar-x-rail */\r\n    height: 8px;\r\n  }\r\n\r\n  /* line 44, sass/partials/_scrollbar.scss */\r\n  .ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {\r\n    position: absolute;\r\n    /* please don't change 'position' */\r\n    background-color: #aaa;\r\n    -webkit-border-radius: 4px;\r\n    -moz-border-radius: 4px;\r\n    border-radius: 4px;\r\n    -webkit-transition: background-color .2s linear;\r\n    -moz-transition: background-color .2s linear;\r\n    -o-transition: background-color .2s linear;\r\n    transition: background-color .2s linear;\r\n    bottom: 0;\r\n    /* there must be 'bottom' for ps-scrollbar-x */\r\n    height: 8px;\r\n  }\r\n\r\n  /* line 58, sass/partials/_scrollbar.scss */\r\n  .ps-container > .ps-scrollbar-y-rail {\r\n    display: none;\r\n    position: absolute;\r\n    /* please don't change 'position' */\r\n    -webkit-border-radius: 4px;\r\n    -moz-border-radius: 4px;\r\n    border-radius: 4px;\r\n    opacity: 0;\r\n    -webkit-transition: background-color .2s linear, opacity .2s linear;\r\n    -moz-transition: background-color .2s linear, opacity .2s linear;\r\n    -o-transition: background-color .2s linear, opacity .2s linear;\r\n    transition: background-color .2s linear, opacity .2s linear;\r\n    right: 3px;\r\n    /* there must be 'right' for ps-scrollbar-y-rail */\r\n    width: 8px;\r\n  }\r\n\r\n  /* line 73, sass/partials/_scrollbar.scss */\r\n  .ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y {\r\n    position: absolute;\r\n    /* please don't change 'position' */\r\n    background-color: #aaa;\r\n    -webkit-border-radius: 4px;\r\n    -moz-border-radius: 4px;\r\n    border-radius: 4px;\r\n    -webkit-transition: background-color .2s linear;\r\n    -moz-transition: background-color .2s linear;\r\n    -o-transition: background-color .2s linear;\r\n    transition: background-color .2s linear;\r\n    right: 0;\r\n    /* there must be 'right' for ps-scrollbar-y */\r\n    width: 8px;\r\n  }\r\n\r\n  /* line 87, sass/partials/_scrollbar.scss */\r\n  .ps-container:hover.ps-in-scrolling {\r\n    pointer-events: none;\r\n  }\r\n\r\n  /* line 89, sass/partials/_scrollbar.scss */\r\n  .ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {\r\n    background-color: #eee;\r\n    opacity: 0.9;\r\n  }\r\n\r\n  /* line 92, sass/partials/_scrollbar.scss */\r\n  .ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {\r\n    background-color: #999;\r\n  }\r\n\r\n  /* line 94, sass/partials/_scrollbar.scss */\r\n  .ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {\r\n    background-color: #eee;\r\n    opacity: 0.9;\r\n  }\r\n\r\n  /* line 97, sass/partials/_scrollbar.scss */\r\n  .ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {\r\n    background-color: #999;\r\n  }\r\n\r\n  /* line 99, sass/partials/_scrollbar.scss */\r\n  .ps-container:hover > .ps-scrollbar-x-rail,\r\n  .ps-container:hover > .ps-scrollbar-y-rail {\r\n    opacity: 0.6;\r\n  }\r\n\r\n  /* line 102, sass/partials/_scrollbar.scss */\r\n  .ps-container:hover > .ps-scrollbar-x-rail:hover {\r\n    background-color: #eee;\r\n    opacity: 0.9;\r\n  }\r\n\r\n  /* line 105, sass/partials/_scrollbar.scss */\r\n  .ps-container:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x {\r\n    background-color: #999;\r\n  }\r\n\r\n  /* line 107, sass/partials/_scrollbar.scss */\r\n  .ps-container:hover > .ps-scrollbar-y-rail:hover {\r\n    background-color: #eee;\r\n    opacity: 0.9;\r\n  }\r\n\r\n  /* line 110, sass/partials/_scrollbar.scss */\r\n  .ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {\r\n    background-color: #999;\r\n  }\r\n}\r\n\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n/* ==========================================================================\r\n   lay-ui galley组件\r\n   ========================================================================== */\n/*gallery组件--公共样式区*/\n.lar-galleryWrapper {\n  position: relative;\n  height: 100%;\n  width: 100%; }\n\n.lar-galleryWrapper .inner, .lar-galleryWrapper .inner .galleryPic, .lar-galleryWrapper .inner .galleryPic .img, .lar-galleryWrapper .inner .galleryPic .img, .lar-galleryWrapper .inner .galleryPic .img img {\n  height: 100%; }\n\n/*所有的标题单行显示*/\n.lar-galleryWrapper .title {\n  white-space: nowrap;\n  overflow: hidden; }\n\n/*适合所有，但不适合12大门类*/\n.lar-galleryWrapper .inner .galleryPic .img img {\n  width: 100%; }\n\n.lar-galleryWrapper .artType .galleryPic .img img {\n  width: 100%;\n  height: 100%; }\n\n.lar-galleryWrapper .artType .galleryPic .img {\n  height: auto; }\n\n.lar-galleryWrapper a:hover {\n  text-decoration: none; }\n\n.lar-galleryWrapper .galleryPic .img {\n  width: 100%;\n  height: 100%; }\n\n.lar-galleryWrapper .onlyMobileSlide {\n  display: none; }\n\n.lar-galleryWrapper .pageSizeOne {\n  width: 100%; }\n\n.lar-galleryWrapper .pageSizeTwo {\n  width: 50%; }\n\n.lar-galleryWrapper .pageSizeThree {\n  width: 33.3%; }\n\n.lar-galleryWrapper .pageSizeFour {\n  width: 25%; }\n\n.lar-galleryWrapper .pageSizeFive {\n  width: 20%; }\n\n.lar-galleryWrapper .pageSizeNine {\n  width: 11.1%; }\n\n.lar-galleryWrapper .pageSizeTwelve {\n  width: 8.3%; }\n\n.lar-galleryWrapper .inner {\n  white-space: nowrap; }\n\n.lar-galleryWrapper .inner .galleryPic {\n  display: inline-block; }\n\n/*左右箭头按钮区域*/\n.lar-galleryWrapper .arrow {\n  position: absolute;\n  top: 40%;\n  background-size: contain;\n  background-repeat: no-repeat; }\n\n.lar-galleryWrapper .arrow-left {\n  left: 0px;\n  margin-left: 0px; }\n\n.lar-galleryWrapper .arrow-right {\n  right: 0px;\n  margin-right: 0px; }\n\n.lar-galleryWrapper .arrow .img {\n  margin-top: -50%; }\n\n.lar-galleryWrapper .arrow .img:hover {\n  cursor: pointer;\n  background-color: rgba(255, 255, 255, 0.1); }\n\n/* 3张图片的遮罩效果区样式 */\n.lar-galleryWrapper .maskEffect {\n  position: relative;\n  margin: 0 42px;\n  white-space: nowrap;\n  overflow: hidden; }\n\n/*本身只为有遮罩的设置*/\n.lar-galleryWrapper .galleryPic {\n  text-align: center;\n  position: relative;\n  padding: 10px;\n  overflow: hidden; }\n\n.lar-galleryWrapper .maskEffect .galleryPic .title {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  bottom: 0px;\n  display: table-cell;\n  width: 100%;\n  opacity: 0;\n  vertical-align: middle;\n  transition: opacity .25s ease-in-out, background .25s ease-in-out;\n  -moz-transition: opacity .25s ease-in-out, background .25s ease-in-out;\n  -webkit-transition: opacity .25s ease-in-out, background .25s ease-in-out; }\n\n.lar-galleryWrapper .maskEffect .galleryPic .title:hover {\n  opacity: 0.9;\n  background: rgba(255, 192, 0, 0.9);\n  padding-left: 10px;\n  padding-right: 10px;\n  /* background: rgba(0,0,0,0.8); */ }\n\n.lar-galleryWrapper .maskEffect .galleryPic .title p {\n  margin-top: 30%;\n  color: white;\n  font-size: 1.2em;\n  text-align: center; }\n\n/* 3张图片的图文上下排版样式 */\n.lar-galleryWrapper .squareTitleBelow {\n  position: relative;\n  margin: 0 42px;\n  white-space: nowrap;\n  overflow: hidden; }\n\n.lar-galleryWrapper .squareTitleBelow .galleryPic {\n  text-align: center;\n  position: relative;\n  padding: 0 10px; }\n\n.lar-galleryWrapper .squareTitleBelow .galleryPic .title {\n  text-align: center;\n  display: inline-block;\n  height: 4em;\n  overflow: hidden; }\n\n.lar-galleryWrapper .squareTitleBelow .imgFrame {\n  border: 4px solid #ffffff; }\n\n/* 12大艺术门类的gallery组件 */\n.lar-galleryWrapper .artType {\n  position: relative;\n  overflow: hidden; }\n\n.lar-galleryWrapper .artType .galleryPic {\n  text-align: center;\n  position: relative; }\n\n.lar-galleryWrapper .artType .pageSizeTwelve, .lar-galleryWrapper .pageSizeTwelve p {\n  text-align: center; }\n\n.lar-galleryWrapper .artType .pageSizeTwelve .title {\n  height: 1.5em;\n  overflow: hidden; }\n\n/* 4张图片的上下排版样式 */\n/*.lar-galleryWrapper .wordRegionBelowFour{\r\n\tposition: relative;\r\n\tmargin:0 42px;\r\n\toverflow:hidden;\r\n\tborder-radius:8px;\r\n}\r\n\r\n.lar-galleryWrapper .wordRegionBelowFour .galleryPic{\r\n\ttext-align:center;\r\n\tposition:relative;\r\n\tbackground:rgba(255,255,255,0.1);\r\n}\r\n\r\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour , .lar-galleryWrapper .wordRegionBelowFour .pageSizeFour p{\r\n\ttext-align:center;\r\n\tpadding:0px 10px;\r\n\tmargin-left:1%\r\n}\r\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion{\r\n\theight:10.5em;\r\n\toverflow:hidden;\r\n\twhite-space:normal;\r\n\tword-wrap: break-word;\r\n}\r\n\r\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .title{\r\n\tfont-weight:bold;\r\n}\r\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .desc{\r\n\tfont-size:0.75em;\t\r\n\ttext-align:left;\r\n\tdisplay:inline-block;\r\n}*/\n/* 4张图片的上、遮罩、下排版样式 */\n.lar-galleryWrapper .bTitleMaskDes, .lar-galleryWrapper .bTitleMaskDesSquare {\n  position: relative;\n  margin: 0 42px;\n  overflow: hidden;\n  border-radius: 8px; }\n\n/*.lar-galleryWrapper .bTitleMaskDes .galleryPic,.lar-galleryWrapper .bTitleMaskDesSquare .galleryPic{\r\n\ttext-align:center;\r\n\tposition:relative;\r\n\tbackground:rgba(255,255,255,0.1);\r\n}*/\n.lar-galleryWrapper .bTitleMaskDes .galleryPic, .lar-galleryWrapper .bTitleMaskDes .galleryPic p, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic p {\n  text-align: center;\n  padding: 0px 10px; }\n\n.lar-galleryWrapper .bTitleMaskDes .galleryPic .img img {\n  width: 100%;\n  border-radius: 50%; }\n\n.lar-galleryWrapper .bTitleMaskDesSquare .galleryPic .img img {\n  width: 100%; }\n\n.lar-galleryWrapper .bTitleMaskDes .galleryPic .wordRegion, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic .wordRegion {\n  height: 10.5em;\n  overflow: hidden;\n  white-space: normal;\n  word-wrap: break-word; }\n\n.lar-galleryWrapper .bTitleMaskDes .desc, .lar-galleryWrapper .bTitleMaskDesSquare .desc {\n  position: absolute;\n  top: 0px;\n  bottom: 32px;\n  display: table-cell;\n  left: 10px;\n  opacity: 0;\n  vertical-align: middle;\n  white-space: normal;\n  word-break: normal;\n  overflow: hidden;\n  transition: opacity .25s ease-in-out, background .25s ease-in-out;\n  -moz-transition: opacity .25s ease-in-out, background .25s ease-in-out;\n  -webkit-transition: opacity .25s ease-in-out, background .25s ease-in-out; }\n\n/*圆形遮罩*/\n.lar-galleryWrapper .bTitleMaskDes .desc {\n  border-radius: 50%;\n  padding: 15%; }\n\n/*方形遮罩*/\n.lar-galleryWrapper .bTitleMaskDesSquare .desc {\n  -webkit-border-radius: 0px;\n  -moz-border-radius: 0px;\n  border-radius: 0px; }\n\n.lar-galleryWrapper .bTitleMaskDesSquare .desc:hover {\n  opacity: 0.8; }\n\n.lar-galleryWrapper .bTitleMaskDes .title, .lar-galleryWrapper .bTitleMaskDesSquare .title {\n  height: 32px;\n  line-height: 32px;\n  font-size: 18px;\n  overflow: hidden; }\n\n/* 3张图片的上下排版,加上艺术类别样式 */\n.lar-galleryWrapper .bwordRegionArtType {\n  position: relative;\n  margin: 0 42px;\n  overflow: hidden;\n  border-radius: 8px; }\n\n.lar-galleryWrapper .bwordRegionArtType .pageSizeThree {\n  width: 31.3%;\n  margin: 0 1%;\n  padding: 0px; }\n\n.lar-galleryWrapper .bwordRegionArtType .galleryPic {\n  text-align: center;\n  position: relative;\n  background: rgba(0, 0, 0, 0.2);\n  border-radius: 4px; }\n\n.lar-galleryWrapper .bwordRegionArtType .galleryPic .img img {\n  width: 100%; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeThree p {\n  text-align: center;\n  padding: 0px 10px;\n  margin-left: 1%; }\n\n.lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion {\n  height: 8.5em;\n  overflow: hidden;\n  white-space: normal;\n  word-wrap: break-word;\n  padding: 0px 16px 10px 16px;\n  text-align: left; }\n\n.lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion .title {\n  font-weight: bold; }\n\n.lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion .desc {\n  font-size: 0.75em;\n  text-align: left;\n  display: inline-block;\n  height: 4em;\n  overflow: hidden; }\n\n.lar-galleryWrapper .bwordRegionArtType .artType {\n  position: absolute;\n  top: 10px;\n  width: 4em;\n  display: table-cell;\n  right: 0px;\n  /*background:url(\"./images/responsive/artTypeBgPic.png\");*/ }\n\n/* 每次显示2行2列的gallery */\n.lar-galleryWrapper .twoRowsGallery .arrow {\n  top: 45%; }\n\n.lar-galleryWrapper .twoRowsGallery {\n  position: relative;\n  margin: 0 42px;\n  white-space: nowrap;\n  overflow: hidden; }\n\n.lar-galleryWrapper .twoRowsGallery .galleryPic {\n  width: 50%;\n  padding: 0px; }\n\n.lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea {\n  width: 100%;\n  height: 50%;\n  display: block;\n  text-align: center;\n  overflow: hidden;\n  position: relative;\n  padding: 6px 0; }\n\n.lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea img {\n  width: 100%;\n  height: 100%; }\n\n.lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea .title {\n  position: absolute;\n  bottom: 1rem;\n  left: 0px;\n  display: block;\n  width: 100%;\n  text-align: center;\n  color: #ffffff;\n  font-size: 16px;\n  font-weight: bold; }\n\n/* 4张图片的上下排版样式-有简介 */\n.lar-galleryWrapper .wordRegionBelowFour {\n  position: relative;\n  margin: 0 42px;\n  overflow: hidden;\n  border-radius: 8px; }\n\n.lar-galleryWrapper .wordRegionBelowFour .galleryPic {\n  padding: 0px 6px; }\n\n.lar-galleryWrapper .wordRegionBelowFour .galleryPic > div {\n  text-align: center;\n  position: relative;\n  background: rgba(255, 255, 255, 0.1);\n  padding: 12px;\n  height: 100%; }\n\n.lar-galleryWrapper .wordRegionBelowFour .galleryPic .img img {\n  border-radius: 50%; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour p {\n  text-align: center;\n  padding: 0px 10px; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion {\n  overflow: hidden;\n  white-space: normal;\n  word-wrap: break-word;\n  color: #ffffff; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .title {\n  font-weight: bold; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .desc {\n  font-size: 0.75em;\n  text-align: left;\n  display: inline-block; }\n\n/*每屏显示1条记录，左右排版*/\n.lar-galleryWrapper .wordRegionRight {\n  position: relative;\n  margin: 0 42px;\n  overflow: hidden;\n  border-radius: 8px; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic {\n  text-align: left;\n  position: relative;\n  background: rgba(255, 255, 255, 0.1);\n  position: relative; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .img {\n  display: inline-block;\n  width: 45%;\n  overflow: hidden;\n  text-align: center; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion {\n  display: inline-block;\n  overflow: hidden;\n  white-space: normal;\n  word-wrap: break-word;\n  width: 53%;\n  margin-left: 2%;\n  vertical-align: top;\n  color: black;\n  font-family: \"\\5FAE\\8F6F\\96C5\\9ED1\"; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion p {\n  color: black; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .title {\n  font-size: 22px;\n  line-height: 4rem;\n  height: 4rem; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .bottomBorder {\n  display: block;\n  width: 3rem;\n  border-bottom: 2px solid #fc9510; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .desc {\n  display: inline-block;\n  font-size: 15px;\n  overflow: hidden; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail {\n  display: inline-block;\n  background: #fc9510;\n  padding: 1px 20px;\n  border-radius: 16px;\n  position: absolute;\n  bottom: 1rem; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail span {\n  color: #ffffff; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail span.tip {\n  display: inline-block;\n  vertical-align: top;\n  margin-top: 10px;\n  font-size: 16px;\n  margin-right: 10px; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail .gotoIcon {\n  display: inline-block;\n  width: 37px;\n  height: 37px;\n  /*background:url(./images/icon/icon.png) -1342px -28px;*/ }\n\n/* 基于bootstrap的二次封装,一张图片的轮训 */\n.oneSlide .carousel-inner .item a {\n  display: inline-block; }\n\n.oneSlide, .oneSlide .carousel-inner, .oneSlide .carousel-inner .item, .oneSlide .carousel-inner .item a {\n  height: 100%;\n  width: 100%; }\n\n.oneSlide .item img {\n  margin: 0 auto;\n  width: 100%; }\n\n.oneSlide .carousel-caption {\n  display: inline-block;\n  background-color: rgba(0, 0, 0, 0.5);\n  left: 0px;\n  bottom: 0px;\n  width: 100%;\n  right: auto;\n  padding: 5px 15px;\n  overflow: hidden;\n  height: 4rem;\n  line-height: 3rem; }\n\n.oneSlide .carousel-indicators {\n  bottom: 0px; }\n\n.oneSlide .carousel-control {\n  top: 40%;\n  background-image: none;\n  width: auto; }\n\n.oneSlide .carousel-control img {\n  margin-top: -50%; }\n\n@media (max-width: 768px) {\n  .lar-galleryWrapper .onlyMobileSlide {\n    display: block; }\n  .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea .title {\n    position: absolute;\n    bottom: 0rem;\n    left: 2px; }\n  .lar-galleryWrapper .pageSizeOne, .lar-galleryWrapper .pageSizeTwo, .lar-galleryWrapper .pageSizeThree, .lar-galleryWrapper .pageSizeFour, .lar-galleryWrapper .pageSizeFive {\n    width: 99%; }\n  .lar-galleryWrapper .pageSizeTwelve, .lar-galleryWrapper .pageSizeNine {\n    width: 24%; }\n  .lar-galleryWrapper .bwordRegionArtType .pageSizeThree {\n    width: 99%; }\n  .oneSlide .carousel-caption {\n    bottom: 6px;\n    height: 4rem;\n    line-height: 3rem; }\n  .carousel-control img {\n    height: 60%; }\n  /*两行两列的样式*/\n  .lar-galleryWrapper .twoRowsGallery .galleryPic {\n    display: block;\n    width: 100%;\n    height: 50%; }\n  .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea {\n    width: 100%;\n    display: block;\n    padding-bottom: 3px; }\n  /*每屏显示1条记录，左右排版*/\n  .lar-galleryWrapper .wordRegionRight .galleryPic .img {\n    display: block;\n    width: 100%; }\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion {\n    display: block;\n    width: 100%; }\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail {\n    bottom: 0px;\n    padding: 0px 32px;\n    min-width: 175px;\n    min-height: 42px; }\n  /*资源展示首页9个图标*/\n  .lar-galleryWrapper .artType .pageSizeNine {\n    padding: 5px; } }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports) {
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function() {
-	var list = [];
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component_lar_gallery_gallery__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component_sass_css_larui_css__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component_sass_css_larui_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__component_sass_css_larui_css__);
+/**
+ * Created by liangshuyi on 2017/8/21.
+ */
 
-	// return the list of modules as css string
-	list.toString = function toString() {
-		var result = [];
-		for(var i = 0; i < this.length; i++) {
-			var item = this[i];
-			if(item[2]) {
-				result.push("@media " + item[2] + "{" + item[1] + "}");
-			} else {
-				result.push(item[1]);
-			}
-		}
-		return result.join("");
-	};
 
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
+//import './component/lar-backTop/lar-backTop';
+
+
+window.$=__WEBPACK_IMPORTED_MODULE_0_jquery___default.a;
+//window.placeholderImg=placeholderImg;
+
 
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports) {
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-var stylesInDom = {},
-	memoize = function(fn) {
-		var memo;
-		return function () {
-			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-			return memo;
-		};
-	},
-	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
-	}),
-	getHeadElement = memoize(function () {
-		return document.head || document.getElementsByTagName("head")[0];
-	}),
-	singletonElement = null,
-	singletonCounter = 0,
-	styleElementsInsertedAtTop = [];
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
-module.exports = function(list, options) {
-	if(typeof DEBUG !== "undefined" && DEBUG) {
-		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+// load the styles
+var content = __webpack_require__(9);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(2)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!./larui.css", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!./larui.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
 	}
-
-	options = options || {};
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the bottom of <head>.
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-	var styles = listToStyles(list);
-	addStylesToDom(styles, options);
-
-	return function update(newList) {
-		var mayRemove = [];
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-		if(newList) {
-			var newStyles = listToStyles(newList);
-			addStylesToDom(newStyles, options);
-		}
-		for(var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-			if(domStyle.refs === 0) {
-				for(var j = 0; j < domStyle.parts.length; j++)
-					domStyle.parts[j]();
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
 }
 
-function addStylesToDom(styles, options) {
-	for(var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-		if(domStyle) {
-			domStyle.refs++;
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
 
-function listToStyles(list) {
-	var styles = [];
-	var newStyles = {};
-	for(var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-		if(!newStyles[id])
-			styles.push(newStyles[id] = {id: id, parts: [part]});
-		else
-			newStyles[id].parts.push(part);
-	}
-	return styles;
-}
+exports = module.exports = __webpack_require__(1)();
+// imports
 
-function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
-	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-	if (options.insertAt === "top") {
-		if(!lastStyleElementInsertedAtTop) {
-			head.insertBefore(styleElement, head.firstChild);
-		} else if(lastStyleElementInsertedAtTop.nextSibling) {
-			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			head.appendChild(styleElement);
-		}
-		styleElementsInsertedAtTop.push(styleElement);
-	} else if (options.insertAt === "bottom") {
-		head.appendChild(styleElement);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
 
-function removeStyleElement(styleElement) {
-	styleElement.parentNode.removeChild(styleElement);
-	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-	if(idx >= 0) {
-		styleElementsInsertedAtTop.splice(idx, 1);
-	}
-}
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* ==========================================================================\r\n   lar-ui Public\r\n   ========================================================================== */\nbody {\n  margin: 0;\n  padding: 0;\n  font-family: \"\\5FAE\\8F6F\\96C5\\9ED1\"; }\n\n/*.icon{ background:url(./images/icon/icon.png);}*/\nbutton {\n  border: none; }\n\nul li {\n  list-style: none; }\n\n.center {\n  margin: 0 auto; }\n\n.hidden {\n  overflow: hidden;\n  white-space: nowrap;\n  -o-text-overflow: ellipsis;\n  text-overflow: ellipsis; }\n\n/* ==========================================================================\r\n   lay-ui Font\r\n   ========================================================================== */\n/* artistHall艺术家馆 红*/\n/* activity活动库 黄 */\n/* periodicals典籍期刊 天蓝 */\n/* 组织团体 橙*/\n/* 作品 暂无*/\n/* award奖节 酒红*/\n/* news新闻资讯 海蓝*/\n/* encyclopedia百科 浅紫 */\n/* encyclopedia百科 深紫 */\n/* ==========================================================================\r\n   lar-gallery 组件\r\n   ========================================================================== */\n/* ==========================================================================\r\n   lay-ui galley组件\r\n   ========================================================================== */\n/*gallery组件--公共样式区*/\n.lar-galleryWrapper {\n  position: relative;\n  height: 100%;\n  width: 100%; }\n\n.lar-galleryWrapper .inner, .lar-galleryWrapper .inner .galleryPic, .lar-galleryWrapper .inner .galleryPic .img, .lar-galleryWrapper .inner .galleryPic .img, .lar-galleryWrapper .inner .galleryPic .img img {\n  height: 100%; }\n\n/*所有的标题单行显示*/\n.lar-galleryWrapper .title {\n  white-space: nowrap;\n  overflow: hidden; }\n\n/*适合所有，但不适合12大门类*/\n.lar-galleryWrapper .inner .galleryPic .img img {\n  width: 100%; }\n\n.lar-galleryWrapper .artType .galleryPic .img img {\n  width: 100%;\n  height: 100%; }\n\n.lar-galleryWrapper .artType .galleryPic .img {\n  height: auto; }\n\n.lar-galleryWrapper a:hover {\n  text-decoration: none; }\n\n.lar-galleryWrapper .galleryPic .img {\n  width: 100%;\n  height: 100%; }\n\n.lar-galleryWrapper .onlyMobileSlide {\n  display: none; }\n\n.lar-galleryWrapper .pageSizeOne {\n  width: 100%; }\n\n.lar-galleryWrapper .pageSizeTwo {\n  width: 50%; }\n\n.lar-galleryWrapper .pageSizeThree {\n  width: 33.3%; }\n\n.lar-galleryWrapper .pageSizeFour {\n  width: 25%; }\n\n.lar-galleryWrapper .pageSizeFive {\n  width: 20%; }\n\n.lar-galleryWrapper .pageSizeNine {\n  width: 11.1%; }\n\n.lar-galleryWrapper .pageSizeTwelve {\n  width: 8.3%; }\n\n.lar-galleryWrapper .inner {\n  white-space: nowrap; }\n\n.lar-galleryWrapper .inner .galleryPic {\n  display: inline-block; }\n\n/*左右箭头按钮区域*/\n.lar-galleryWrapper .arrow {\n  position: absolute;\n  top: 40%;\n  background-size: contain;\n  background-repeat: no-repeat; }\n\n.lar-galleryWrapper .arrow-left {\n  left: 0px;\n  margin-left: 0px; }\n\n.lar-galleryWrapper .arrow-right {\n  right: 0px;\n  margin-right: 0px; }\n\n.lar-galleryWrapper .arrow .img {\n  margin-top: -50%; }\n\n.lar-galleryWrapper .arrow .img:hover {\n  cursor: pointer;\n  background-color: rgba(255, 255, 255, 0.1); }\n\n/* 3张图片的遮罩效果区样式 */\n.lar-galleryWrapper .maskEffect {\n  position: relative;\n  margin: 0 42px;\n  white-space: nowrap;\n  overflow: hidden; }\n\n/*本身只为有遮罩的设置*/\n.lar-galleryWrapper .galleryPic {\n  text-align: center;\n  position: relative;\n  padding: 10px;\n  overflow: hidden; }\n\n.lar-galleryWrapper .maskEffect .galleryPic .title {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  bottom: 0px;\n  display: table-cell;\n  width: 100%;\n  opacity: 0;\n  vertical-align: middle;\n  transition: opacity .25s ease-in-out, background .25s ease-in-out;\n  -moz-transition: opacity .25s ease-in-out, background .25s ease-in-out;\n  -webkit-transition: opacity .25s ease-in-out, background .25s ease-in-out; }\n\n.lar-galleryWrapper .maskEffect .galleryPic .title:hover {\n  opacity: 0.9;\n  background: rgba(255, 192, 0, 0.9);\n  padding-left: 10px;\n  padding-right: 10px;\n  /* background: rgba(0,0,0,0.8); */ }\n\n.lar-galleryWrapper .maskEffect .galleryPic .title p {\n  margin-top: 30%;\n  color: white;\n  font-size: 1.2em;\n  text-align: center; }\n\n/* 3张图片的图文上下排版样式 */\n.lar-galleryWrapper .squareTitleBelow {\n  position: relative;\n  margin: 0 42px;\n  white-space: nowrap;\n  overflow: hidden; }\n\n.lar-galleryWrapper .squareTitleBelow .galleryPic {\n  text-align: center;\n  position: relative;\n  padding: 0 10px; }\n\n.lar-galleryWrapper .squareTitleBelow .galleryPic .title {\n  text-align: center;\n  display: inline-block;\n  height: 4em;\n  overflow: hidden; }\n\n.lar-galleryWrapper .squareTitleBelow .imgFrame {\n  border: 4px solid #ffffff; }\n\n/* 12大艺术门类的gallery组件 */\n.lar-galleryWrapper .artType {\n  position: relative;\n  overflow: hidden; }\n\n.lar-galleryWrapper .artType .galleryPic {\n  text-align: center;\n  position: relative; }\n\n.lar-galleryWrapper .artType .pageSizeTwelve, .lar-galleryWrapper .pageSizeTwelve p {\n  text-align: center; }\n\n.lar-galleryWrapper .artType .pageSizeTwelve .title {\n  height: 1.5em;\n  overflow: hidden; }\n\n/* 4张图片的上下排版样式 */\n/*.lar-galleryWrapper .wordRegionBelowFour{\r\n\tposition: relative;\r\n\tmargin:0 42px;\r\n\toverflow:hidden;\r\n\tborder-radius:8px;\r\n}\r\n\r\n.lar-galleryWrapper .wordRegionBelowFour .galleryPic{\r\n\ttext-align:center;\r\n\tposition:relative;\r\n\tbackground:rgba(255,255,255,0.1);\r\n}\r\n\r\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour , .lar-galleryWrapper .wordRegionBelowFour .pageSizeFour p{\r\n\ttext-align:center;\r\n\tpadding:0px 10px;\r\n\tmargin-left:1%\r\n}\r\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion{\r\n\theight:10.5em;\r\n\toverflow:hidden;\r\n\twhite-space:normal;\r\n\tword-wrap: break-word;\r\n}\r\n\r\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .title{\r\n\tfont-weight:bold;\r\n}\r\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .desc{\r\n\tfont-size:0.75em;\t\r\n\ttext-align:left;\r\n\tdisplay:inline-block;\r\n}*/\n/* 4张图片的上、遮罩、下排版样式 */\n.lar-galleryWrapper .bTitleMaskDes, .lar-galleryWrapper .bTitleMaskDesSquare {\n  position: relative;\n  margin: 0 42px;\n  overflow: hidden;\n  border-radius: 8px; }\n\n/*.lar-galleryWrapper .bTitleMaskDes .galleryPic,.lar-galleryWrapper .bTitleMaskDesSquare .galleryPic{\r\n\ttext-align:center;\r\n\tposition:relative;\r\n\tbackground:rgba(255,255,255,0.1);\r\n}*/\n.lar-galleryWrapper .bTitleMaskDes .galleryPic, .lar-galleryWrapper .bTitleMaskDes .galleryPic p, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic p {\n  text-align: center;\n  padding: 0px 10px; }\n\n.lar-galleryWrapper .bTitleMaskDes .galleryPic .img img {\n  width: 100%;\n  border-radius: 50%; }\n\n.lar-galleryWrapper .bTitleMaskDesSquare .galleryPic .img img {\n  width: 100%; }\n\n.lar-galleryWrapper .bTitleMaskDes .galleryPic .wordRegion, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic .wordRegion {\n  height: 10.5em;\n  overflow: hidden;\n  white-space: normal;\n  word-wrap: break-word; }\n\n.lar-galleryWrapper .bTitleMaskDes .desc, .lar-galleryWrapper .bTitleMaskDesSquare .desc {\n  position: absolute;\n  top: 0px;\n  bottom: 32px;\n  display: table-cell;\n  left: 10px;\n  opacity: 0;\n  vertical-align: middle;\n  white-space: normal;\n  word-break: normal;\n  overflow: hidden;\n  transition: opacity .25s ease-in-out, background .25s ease-in-out;\n  -moz-transition: opacity .25s ease-in-out, background .25s ease-in-out;\n  -webkit-transition: opacity .25s ease-in-out, background .25s ease-in-out; }\n\n/*圆形遮罩*/\n.lar-galleryWrapper .bTitleMaskDes .desc {\n  border-radius: 50%;\n  padding: 15%; }\n\n/*方形遮罩*/\n.lar-galleryWrapper .bTitleMaskDesSquare .desc {\n  -webkit-border-radius: 0px;\n  -moz-border-radius: 0px;\n  border-radius: 0px; }\n\n.lar-galleryWrapper .bTitleMaskDesSquare .desc:hover {\n  opacity: 0.8; }\n\n.lar-galleryWrapper .bTitleMaskDes .title, .lar-galleryWrapper .bTitleMaskDesSquare .title {\n  height: 32px;\n  line-height: 32px;\n  font-size: 18px;\n  overflow: hidden; }\n\n/* 3张图片的上下排版,加上艺术类别样式 */\n.lar-galleryWrapper .bwordRegionArtType {\n  position: relative;\n  margin: 0 42px;\n  overflow: hidden;\n  border-radius: 8px; }\n\n.lar-galleryWrapper .bwordRegionArtType .pageSizeThree {\n  width: 31.3%;\n  margin: 0 1%;\n  padding: 0px; }\n\n.lar-galleryWrapper .bwordRegionArtType .galleryPic {\n  text-align: center;\n  position: relative;\n  background: rgba(0, 0, 0, 0.2);\n  border-radius: 4px; }\n\n.lar-galleryWrapper .bwordRegionArtType .galleryPic .img img {\n  width: 100%; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeThree p {\n  text-align: center;\n  padding: 0px 10px;\n  margin-left: 1%; }\n\n.lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion {\n  height: 8.5em;\n  overflow: hidden;\n  white-space: normal;\n  word-wrap: break-word;\n  padding: 0px 16px 10px 16px;\n  text-align: left; }\n\n.lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion .title {\n  font-weight: bold; }\n\n.lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion .desc {\n  font-size: 0.75em;\n  text-align: left;\n  display: inline-block;\n  height: 4em;\n  overflow: hidden; }\n\n.lar-galleryWrapper .bwordRegionArtType .artType {\n  position: absolute;\n  top: 10px;\n  width: 4em;\n  display: table-cell;\n  right: 0px;\n  /*background:url(\"./images/responsive/artTypeBgPic.png\");*/ }\n\n/* 每次显示2行2列的gallery */\n.lar-galleryWrapper .twoRowsGallery .arrow {\n  top: 45%; }\n\n.lar-galleryWrapper .twoRowsGallery {\n  position: relative;\n  margin: 0 42px;\n  white-space: nowrap;\n  overflow: hidden; }\n\n.lar-galleryWrapper .twoRowsGallery .galleryPic {\n  width: 50%;\n  padding: 0px; }\n\n.lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea {\n  width: 100%;\n  height: 50%;\n  display: block;\n  text-align: center;\n  overflow: hidden;\n  position: relative;\n  padding: 6px 0; }\n\n.lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea img {\n  width: 100%;\n  height: 100%; }\n\n.lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea .title {\n  position: absolute;\n  bottom: 1rem;\n  left: 0px;\n  display: block;\n  width: 100%;\n  text-align: center;\n  color: #ffffff;\n  font-size: 16px;\n  font-weight: bold; }\n\n/* 4张图片的上下排版样式-有简介 */\n.lar-galleryWrapper .wordRegionBelowFour {\n  position: relative;\n  margin: 0 42px;\n  overflow: hidden;\n  border-radius: 8px; }\n\n.lar-galleryWrapper .wordRegionBelowFour .galleryPic {\n  padding: 0px 6px; }\n\n.lar-galleryWrapper .wordRegionBelowFour .galleryPic > div {\n  text-align: center;\n  position: relative;\n  background: rgba(255, 255, 255, 0.1);\n  padding: 12px;\n  height: 100%; }\n\n.lar-galleryWrapper .wordRegionBelowFour .galleryPic .img img {\n  border-radius: 50%; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour p {\n  text-align: center;\n  padding: 0px 10px; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion {\n  overflow: hidden;\n  white-space: normal;\n  word-wrap: break-word;\n  color: #ffffff; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .title {\n  font-weight: bold; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .desc {\n  font-size: 0.75em;\n  text-align: left;\n  display: inline-block; }\n\n/*每屏显示1条记录，左右排版*/\n.lar-galleryWrapper .wordRegionRight {\n  position: relative;\n  margin: 0 42px;\n  overflow: hidden;\n  border-radius: 8px; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic {\n  text-align: left;\n  position: relative;\n  background: rgba(255, 255, 255, 0.1);\n  position: relative; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .img {\n  display: inline-block;\n  width: 45%;\n  overflow: hidden;\n  text-align: center; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion {\n  display: inline-block;\n  overflow: hidden;\n  white-space: normal;\n  word-wrap: break-word;\n  width: 53%;\n  margin-left: 2%;\n  vertical-align: top;\n  color: black;\n  font-family: \"\\5FAE\\8F6F\\96C5\\9ED1\"; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion p {\n  color: black; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .title {\n  font-size: 22px;\n  line-height: 4rem;\n  height: 4rem; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .bottomBorder {\n  display: block;\n  width: 3rem;\n  border-bottom: 2px solid #fc9510; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .desc {\n  display: inline-block;\n  font-size: 15px;\n  overflow: hidden; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail {\n  display: inline-block;\n  background: #fc9510;\n  padding: 1px 20px;\n  border-radius: 16px;\n  position: absolute;\n  bottom: 1rem; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail span {\n  color: #ffffff; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail span.tip {\n  display: inline-block;\n  vertical-align: top;\n  margin-top: 10px;\n  font-size: 16px;\n  margin-right: 10px; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail .gotoIcon {\n  display: inline-block;\n  width: 37px;\n  height: 37px;\n  /*background:url(./images/icon/icon.png) -1342px -28px;*/ }\n\n/* 基于bootstrap的二次封装,一张图片的轮训 */\n.oneSlide .carousel-inner .item a {\n  display: inline-block; }\n\n.oneSlide, .oneSlide .carousel-inner, .oneSlide .carousel-inner .item, .oneSlide .carousel-inner .item a {\n  height: 100%;\n  width: 100%; }\n\n.oneSlide .item img {\n  margin: 0 auto;\n  width: 100%; }\n\n.oneSlide .carousel-caption {\n  display: inline-block;\n  background-color: rgba(0, 0, 0, 0.5);\n  left: 0px;\n  bottom: 0px;\n  width: 100%;\n  right: auto;\n  padding: 5px 15px;\n  overflow: hidden;\n  height: 4rem;\n  line-height: 3rem; }\n\n.oneSlide .carousel-indicators {\n  bottom: 0px; }\n\n.oneSlide .carousel-control {\n  top: 40%;\n  background-image: none;\n  width: auto; }\n\n.oneSlide .carousel-control img {\n  margin-top: -50%; }\n\n@media (max-width: 768px) {\n  .lar-galleryWrapper .onlyMobileSlide {\n    display: block; }\n  .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea .title {\n    position: absolute;\n    bottom: 0rem;\n    left: 2px; }\n  .lar-galleryWrapper .pageSizeOne, .lar-galleryWrapper .pageSizeTwo, .lar-galleryWrapper .pageSizeThree, .lar-galleryWrapper .pageSizeFour, .lar-galleryWrapper .pageSizeFive {\n    width: 99%; }\n  .lar-galleryWrapper .pageSizeTwelve, .lar-galleryWrapper .pageSizeNine {\n    width: 24%; }\n  .lar-galleryWrapper .bwordRegionArtType .pageSizeThree {\n    width: 99%; }\n  .oneSlide .carousel-caption {\n    bottom: 6px;\n    height: 4rem;\n    line-height: 3rem; }\n  .carousel-control img {\n    height: 60%; }\n  /*两行两列的样式*/\n  .lar-galleryWrapper .twoRowsGallery .galleryPic {\n    display: block;\n    width: 100%;\n    height: 50%; }\n  .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea {\n    width: 100%;\n    display: block;\n    padding-bottom: 3px; }\n  /*每屏显示1条记录，左右排版*/\n  .lar-galleryWrapper .wordRegionRight .galleryPic .img {\n    display: block;\n    width: 100%; }\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion {\n    display: block;\n    width: 100%; }\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail {\n    bottom: 0px;\n    padding: 0px 32px;\n    min-width: 175px;\n    min-height: 42px; }\n  /*资源展示首页9个图标*/\n  .lar-galleryWrapper .artType .pageSizeNine {\n    padding: 5px; } }\n\n/* ==========================================================================\r\n   lay-ui 补充\r\n   ========================================================================== */\n/* tablets 做，就当作平板以上的样式是统一的 */\n/*  desktop 暂时不做 */\n/* large desktop 暂时不做 */\n/*校验提示信息*/\n.error {\n  color: red;\n  font-size: 14px;\n  font-family: \"\\5B8B\\4F53\"; }\n\n.line-limit {\n  display: -webkit-box;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical; }\n\n.specialColumn {\n  /*display:none;*/\n  text-align: center;\n  padding-top: 20px;\n  padding-bottom: 20px;\n  background-color: #184e98; }\n  .specialColumn .specialColumnTitle {\n    width: 56px;\n    height: 232px;\n    position: absolute;\n    background: url(http://www.cflac.org.cn/sywdh/sywdh.png);\n    float: left;\n    margin: -34px 0px 0px -52px; }\n  .specialColumn .specialContent {\n    width: 950px;\n    height: 330px; }\n\n.specialFloatRight {\n  width: 102px;\n  background: white;\n  top: 100px;\n  position: fixed;\n  right: 1px;\n  z-index: 10;\n  height: auto; }\n  .specialFloatRight .text {\n    background: #e6e6e6;\n    font-size: 12px;\n    padding: 7px 11px 7px 11px;\n    margin-top: 1px;\n    text-align: center; }\n  .specialFloatRight a {\n    color: #333; }\n\n@media (max-width: 1000px) {\n  .specialColumn {\n    display: none; }\n  .specialFloatRight {\n    display: none; } }\n\n@media (max-width: 767px) {\n  .searchHeader {\n    display: none; } }\n", ""]);
 
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
-	styleElement.type = "text/css";
-	insertStyleElement(options, styleElement);
-	return styleElement;
-}
-
-function createLinkElement(options) {
-	var linkElement = document.createElement("link");
-	linkElement.rel = "stylesheet";
-	insertStyleElement(options, linkElement);
-	return linkElement;
-}
-
-function addStyle(obj, options) {
-	var styleElement, update, remove;
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
-		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-	} else if(obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function") {
-		styleElement = createLinkElement(options);
-		update = updateLink.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-			if(styleElement.href)
-				URL.revokeObjectURL(styleElement.href);
-		};
-	} else {
-		styleElement = createStyleElement(options);
-		update = applyToTag.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle(newObj) {
-		if(newObj) {
-			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-				return;
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag(styleElement, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-		if (childNodes.length) {
-			styleElement.insertBefore(cssNode, childNodes[index]);
-		} else {
-			styleElement.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag(styleElement, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		styleElement.setAttribute("media", media)
-	}
-
-	if(styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = css;
-	} else {
-		while(styleElement.firstChild) {
-			styleElement.removeChild(styleElement.firstChild);
-		}
-		styleElement.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink(linkElement, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	if(sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = linkElement.href;
-
-	linkElement.href = URL.createObjectURL(blob);
-
-	if(oldSrc)
-		URL.revokeObjectURL(oldSrc);
-}
+// exports
 
 
 /***/ })

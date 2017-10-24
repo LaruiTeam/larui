@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -10327,103 +10327,308 @@ return jQuery;
 /* 1 */
 /***/ (function(module, exports) {
 
-//维护公共报错变量
-//CONST_ERROR = "系统报错！请联系管理员。";
-//var DEFAULT_IMAGE = baseUrl + '/lar-ui/images/noImageAlert/errorImage.jpg';
-var baseUrl=getServerPath()+"/src/";
-module.exports = {
-	baseUrl:baseUrl,
-	placeholderImg:placeholderImg
-}
-//获取工程访问地址 返回结果形如:   http://localhost:8080/lar-region-search-web
-function getServerPath(){
-	var curWwwPath = window.document.location.href;
-	//获取主机地址之后的目录，如： cis/website/meun.htm
-	var pathName = window.document.location.pathname;
-	var pos = curWwwPath.indexOf(pathName); //获取主机地址，如： http://localhost:8080
-	var localhostPaht = curWwwPath.substring(0, pos); //获取带"/"的项目名，如：/cis
-	var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-	var rootPath = localhostPaht + projectName;
-	//baseUrl=rootPath;
-	//var rootPath = localhostPaht;
-	return rootPath;
-}
 /*
-* 占位图
-* */
-function placeholderImg(name,element){
-	if(!name){
-		name = 'errorImage';
-	}
-	//var img=event.srcElement || event.target;
-	var img = element;
-	//baseUrl="http://localhost:63342/larui/";
-	img.src= '/images/noImageAlert/errorImage.jpg';
-	img.onerror=null;
-}
-
-//import $ from 'jquery';
-//alert("LARUI.JS");
-/*
-$.fn.serializeJson=function(){
-    var serializeObj={};  
-    var array=this.serializeArray();
-    var str=this.serialize();  
-    $(array).each(function(){  
-        if(serializeObj[this.name]){  
-            if($.isArray(serializeObj[this.name])){  
-                serializeObj[this.name].push(this.value);  
-            }else{  
-                serializeObj[this.name]=[serializeObj[this.name],this.value];  
-            }  
-        }else{  
-            serializeObj[this.name]=this.value;   
-        }  
-    });  
-    return serializeObj;  
-};  
-
-
-//全文检索按钮跳转
-function fullTextSearch(keyword){
-	if(keyword===""){
-		return;
-	}
-	var url = baseUrl + '/page/fullTextSearch/fulltextSearch.html?keyword=' + encodeURIComponent(keyword);
-	window.open(url) ; //打开窗口
-}
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
 */
+// css base code, injected by the css-loader
+module.exports = function() {
+	var list = [];
 
+	// return the list of modules as css string
+	list.toString = function toString() {
+		var result = [];
+		for(var i = 0; i < this.length; i++) {
+			var item = this[i];
+			if(item[2]) {
+				result.push("@media " + item[2] + "{" + item[1] + "}");
+			} else {
+				result.push(item[1]);
+			}
+		}
+		return result.join("");
+	};
 
-
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
 
 
 /***/ }),
 /* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component_larui_lar_ui__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component_larui_lar_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__component_larui_lar_ui__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component_lar_gallery_gallery__ = __webpack_require__(3);
-/**
- * Created by EasyLiang on 2017/8/21.
- */
-/*import {Router,Route,hashHistory} from 'react-router';
-import {Button} from 'antd';
-import '../node_modules/antd/dist/antd.css';*/
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+var stylesInDom = {},
+	memoize = function(fn) {
+		var memo;
+		return function () {
+			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+			return memo;
+		};
+	},
+	isOldIE = memoize(function() {
+		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
+	}),
+	getHeadElement = memoize(function () {
+		return document.head || document.getElementsByTagName("head")[0];
+	}),
+	singletonElement = null,
+	singletonCounter = 0,
+	styleElementsInsertedAtTop = [];
 
-//import cssLoad from  'css-loader';
+module.exports = function(list, options) {
+	if(typeof DEBUG !== "undefined" && DEBUG) {
+		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
 
+	options = options || {};
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
 
-//import './component/lar-backTop/lar-backTop';
-__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./../src/larui/lar-ui.css\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	// By default, add <style> tags to the bottom of <head>.
+	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
 
-window.$=__WEBPACK_IMPORTED_MODULE_0_jquery___default.a;
+	var styles = listToStyles(list);
+	addStylesToDom(styles, options);
 
+	return function update(newList) {
+		var mayRemove = [];
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+		if(newList) {
+			var newStyles = listToStyles(newList);
+			addStylesToDom(newStyles, options);
+		}
+		for(var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+			if(domStyle.refs === 0) {
+				for(var j = 0; j < domStyle.parts.length; j++)
+					domStyle.parts[j]();
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+}
+
+function addStylesToDom(styles, options) {
+	for(var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+		if(domStyle) {
+			domStyle.refs++;
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles(list) {
+	var styles = [];
+	var newStyles = {};
+	for(var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+		if(!newStyles[id])
+			styles.push(newStyles[id] = {id: id, parts: [part]});
+		else
+			newStyles[id].parts.push(part);
+	}
+	return styles;
+}
+
+function insertStyleElement(options, styleElement) {
+	var head = getHeadElement();
+	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+	if (options.insertAt === "top") {
+		if(!lastStyleElementInsertedAtTop) {
+			head.insertBefore(styleElement, head.firstChild);
+		} else if(lastStyleElementInsertedAtTop.nextSibling) {
+			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			head.appendChild(styleElement);
+		}
+		styleElementsInsertedAtTop.push(styleElement);
+	} else if (options.insertAt === "bottom") {
+		head.appendChild(styleElement);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement(styleElement) {
+	styleElement.parentNode.removeChild(styleElement);
+	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+	if(idx >= 0) {
+		styleElementsInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement(options) {
+	var styleElement = document.createElement("style");
+	styleElement.type = "text/css";
+	insertStyleElement(options, styleElement);
+	return styleElement;
+}
+
+function createLinkElement(options) {
+	var linkElement = document.createElement("link");
+	linkElement.rel = "stylesheet";
+	insertStyleElement(options, linkElement);
+	return linkElement;
+}
+
+function addStyle(obj, options) {
+	var styleElement, update, remove;
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+		styleElement = singletonElement || (singletonElement = createStyleElement(options));
+		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+	} else if(obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function") {
+		styleElement = createLinkElement(options);
+		update = updateLink.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+			if(styleElement.href)
+				URL.revokeObjectURL(styleElement.href);
+		};
+	} else {
+		styleElement = createStyleElement(options);
+		update = applyToTag.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle(newObj) {
+		if(newObj) {
+			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+				return;
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag(styleElement, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = styleElement.childNodes;
+		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+		if (childNodes.length) {
+			styleElement.insertBefore(cssNode, childNodes[index]);
+		} else {
+			styleElement.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag(styleElement, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		styleElement.setAttribute("media", media)
+	}
+
+	if(styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = css;
+	} else {
+		while(styleElement.firstChild) {
+			styleElement.removeChild(styleElement.firstChild);
+		}
+		styleElement.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink(linkElement, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	if(sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = linkElement.href;
+
+	linkElement.href = URL.createObjectURL(blob);
+
+	if(oldSrc)
+		URL.revokeObjectURL(oldSrc);
+}
 
 
 /***/ }),
@@ -10431,10 +10636,13 @@ window.$=__WEBPACK_IMPORTED_MODULE_0_jquery___default.a;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_util_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_util_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__util_util_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sass_css_lar_gallery_css__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sass_css_lar_gallery_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__sass_css_lar_gallery_css__);
 /*!
  * Created by skye on 2015/9/29.
  * larui lar-gallery  v0.1
@@ -10524,11 +10732,15 @@ window.$=__WEBPACK_IMPORTED_MODULE_0_jquery___default.a;
  */
 
 
-//var baseUrl=larUi.baseUrl;
-var baseUrl="./";
+
+/*import '../util/larui.css';*/
+window.$=__WEBPACK_IMPORTED_MODULE_0_jquery___default.a;
+//alert("larUi.baseUrl"+larUi.baseUrl);
+var baseUrl=__WEBPACK_IMPORTED_MODULE_1__util_util_js___default.a.baseUrl;
+//var baseUrl="/";
 //window.$ = $;
 //$(".art_classfications1").html("AAAAA");
-var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.placeholderImg;
+var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__util_util_js___default.a.placeholderImg;
 	/*组件状态：v0.2*/
 	(function ($) {
 		function Gallery(element, options) {
@@ -10578,8 +10790,8 @@ var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.plac
 				containerHeight: "",
 				pageSize: "3",
 				pageSizeClass: "",
-				arrowLeftImg: "./../../images/arrows/arrowLeft.png",
-				arrowRightImg: "./../../images/arrows/arrowRight.png",
+				arrowLeftImg: baseUrl+"src/component/images/arrowLeft.png",
+				arrowRightImg:baseUrl+"src/component/images/arrowRight.png",
 				isSlide: true,
 				windowWidth: null
 			};
@@ -10723,7 +10935,7 @@ var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.plac
 					};
 					/*第i张图片路径有问题，采用默认图片路径*/
 					img.onerror = function () {
-						var defaultUrl = "../../images/noImageAlert/errorImage.jpg";
+						var defaultUrl = baseUrl+"src/component/images/errorImage.jpg";
 						var curImg = _this.$container.find(" .inner .galleryPic img").eq(i);
 						$(curImg).attr("src", defaultUrl);
 						img.src = defaultUrl;
@@ -10746,7 +10958,7 @@ var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.plac
 				var picHtml = "";
 				$.each(this.options.dataList, function (i, e) {
 					var wordRegion = e.title;
-					picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'><a target= _blank href='" + e.hyperLink + "' title='" + e.title + "'><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='title'><p>" + wordRegion + "</p></div></a></div>";
+					picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'><a target= _blank href='" + e.hyperLink + "' title='" + e.title + "'><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='title'><p>" + wordRegion + "</p></div></a></div>";
 				});
 				this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 				if (_this.options.setMaskColor != "") {
@@ -10835,7 +11047,7 @@ var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.plac
 					e.hyperLink = e.url;
 				}
 				var wordRegion = "";
-				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\'/></div><div class='title'><p>" + e.title + "</p></div></a> </div>"; //width="+(picWidth-10)+"px;'
+				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\'/></div><div class='title'><p>" + e.title + "</p></div></a> </div>"; //width="+(picWidth-10)+"px;'
 
 			});
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
@@ -10879,9 +11091,9 @@ var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.plac
 					pageSizeNum = 'pageSizeNine';
 				}
 				if (_this.options.isNoSkip) {
-					picHtml += "<div class='galleryPic " + pageSizeNum + "'><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='title'><p>" + wordRegion + "</p></div></div>"; //width="+(picWidth-10)+"px;'
+					picHtml += "<div class='galleryPic " + pageSizeNum + "'><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='title'><p>" + wordRegion + "</p></div></div>"; //width="+(picWidth-10)+"px;'
 				} else {
-					picHtml += "<div class='galleryPic " + pageSizeNum + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='title'><p>" + wordRegion + "</p></div></a> </div>"; //width="+(picWidth-10)+"px;'
+					picHtml += "<div class='galleryPic " + pageSizeNum + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='title'><p>" + wordRegion + "</p></div></a> </div>"; //width="+(picWidth-10)+"px;'
 				}
 			});
 
@@ -10910,7 +11122,7 @@ var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.plac
 				}
 				var wordRegion = e.des;
 
-				picHtml += "<div class='galleryPic pageSizeFour'><div><a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='wordRegion'><p><span class='userName title'>" + e.title + "</span><br/><span class='desc'>" + wordRegion + "<span></p></div></a></div></div>"; //width="+(picWidth-10)+"px;'
+				picHtml += "<div class='galleryPic pageSizeFour'><div><a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='wordRegion'><p><span class='userName title'>" + e.title + "</span><br/><span class='desc'>" + wordRegion + "<span></p></div></a></div></div>"; //width="+(picWidth-10)+"px;'
 			});
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 			$(this.$container).find(".title").css(_this.options.setTitleStyle);
@@ -10933,7 +11145,7 @@ var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.plac
 				if (_this.options.setPageSize == "") {
 					_this.options.pageSizeClass = "pageSizeFour";
 				}
-				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='title'>" + e.title + "</div><div class='desc'>" + wordRegion + "</div></a> </div>"; //width="+(picWidth-10)+"px;'
+				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='title'>" + e.title + "</div><div class='desc'>" + wordRegion + "</div></a> </div>"; //width="+(picWidth-10)+"px;'
 			});
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 			$(this.$container).find(".title").css(_this.options.setTitleStyle);
@@ -10986,7 +11198,7 @@ var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.plac
 				if (_this.options.setPageSize == "") {
 					_this.options.pageSizeClass = "pageSizeFour";
 				}
-				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='title'>" + e.title + "</div><div class='desc'>" + wordRegion + "</div></a> </div>"; //width="+(picWidth-10)+"px;'
+				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='title'>" + e.title + "</div><div class='desc'>" + wordRegion + "</div></a> </div>"; //width="+(picWidth-10)+"px;'
 			});
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 			$(this.$container).find(".title").css(_this.options.setTitleStyle);
@@ -11022,7 +11234,7 @@ var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.plac
 				}
 				var wordRegion = e.des;
 
-				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='wordRegion'><p><span class='title'>" + e.title + "</span><br/><span class='desc'>" + wordRegion + "<span></p></div></a><div class='artType'>" + e.artType + "</div> </div>"; //width="+(picWidth-10)+"px;'
+				picHtml += "<div class='galleryPic " + _this.options.pageSizeClass + "'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='wordRegion'><p><span class='title'>" + e.title + "</span><br/><span class='desc'>" + wordRegion + "<span></p></div></a><div class='artType'>" + e.artType + "</div> </div>"; //width="+(picWidth-10)+"px;'
 			});
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 			$(this.$container).find(".wordRegion .title").css(_this.options.setTitleStyle);
@@ -11039,12 +11251,12 @@ var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.plac
 			var picHtml = "";
 			for (var i = 0; i < dataListLength; i++) {
 				if (i % 2 == 1) {
-					picHtml += '<div class="imgArea"><a target= _blank href="' + this.options.dataList[i].hyperLink + '" title="' + this.options.dataList[i].title + '"><img src="' + this.options.dataList[i].url + '" onerror=\'placeholderImg(\"\",this);\' /><span class="title">' + this.options.dataList[i].title + '</span></a></div>';
+					picHtml += '<div class="imgArea"><a target= _blank href="' + this.options.dataList[i].hyperLink + '" title="' + this.options.dataList[i].title + '"><img src="' + this.options.dataList[i].url + '" onerror=\'placeholderImg(\"\",this,baseUrl);\' /><span class="title">' + this.options.dataList[i].title + '</span></a></div>';
 					this.$container.find(" .lar-galleryWrapper .inner").append("<div class='galleryPic' />");
 					this.$container.find(" .lar-galleryWrapper ." + _this.options.galleryMode + " .galleryPic:last").append(picHtml);
 					picHtml = "";
 				} else {
-					picHtml += '<div class="imgArea"><a target= _blank href="' + this.options.dataList[i].hyperLink + '" title="' + this.options.dataList[i].title + '"><img src="' + this.options.dataList[i].url + '" onerror=\'placeholderImg(\"\",this);\'/><span class="title">' + this.options.dataList[i].title + '</span></a></div>';
+					picHtml += '<div class="imgArea"><a target= _blank href="' + this.options.dataList[i].hyperLink + '" title="' + this.options.dataList[i].title + '"><img src="' + this.options.dataList[i].url + '" onerror=\'placeholderImg(\"\",this,baseUrl);\'/><span class="title">' + this.options.dataList[i].title + '</span></a></div>';
 				}
 			}
 			_this.options.setTitleStyle.textAlign = "center";
@@ -11071,7 +11283,7 @@ var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.plac
 					e.hyperLink = "#";
 				}
 				var wordRegion = e.des;
-				picHtml += "<div class='galleryPic pageSizeOne'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this);\' /></div><div class='wordRegion'><p><span class='title'>" + e.title + "</span><span class='bottomBorder'></span><br/><span class='desc'>" + wordRegion + "</span><div class='gotoDetail'><span class='tip'>进入详情</span><span class='gotoIcon'></span></div></p></div></a></div>"; //width="+(picWidth-10)+"px;'
+				picHtml += "<div class='galleryPic pageSizeOne'> <a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "' onerror=\'placeholderImg(\"\",this,baseUrl);\' /></div><div class='wordRegion'><p><span class='title'>" + e.title + "</span><span class='bottomBorder'></span><br/><span class='desc'>" + wordRegion + "</span><div class='gotoDetail'><span class='tip'>进入详情</span><span class='gotoIcon'></span></div></p></div></a></div>"; //width="+(picWidth-10)+"px;'
 			});
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 			if (_this.options.hideDetailButton) {
@@ -11147,8 +11359,85 @@ var placeholderImg=__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a.plac
 
 		$.fn.gallery.addBulidDom("wordRegionRight", wordRegionRight);
 
-	})(__WEBPACK_IMPORTED_MODULE_0_jquery___default.a,__WEBPACK_IMPORTED_MODULE_1__larui_lar_ui_js___default.a);
+	})(__WEBPACK_IMPORTED_MODULE_0_jquery___default.a,__WEBPACK_IMPORTED_MODULE_1__util_util_js___default.a);
 //window.$ = $;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+//维护公共报错变量
+//CONST_ERROR = "系统报错！请联系管理员。";
+//var DEFAULT_IMAGE = baseUrl + '/lar-ui/images/noImageAlert/errorImage.jpg';
+this.baseUrl=getServerPath();
+this.placeholderImg=placeholderImg;
+function getServerPath(){
+	var curWwwPath = window.document.location.href;
+	//获取主机地址之后的目录，如： cis/website/meun.htm
+	var pathName = window.document.location.pathname;
+	var pos = curWwwPath.indexOf(pathName); //获取主机地址，如： http://localhost:8080
+	var srcPath = curWwwPath.indexOf('src'); //获取src位置，如： http://localhost:8080
+	//alert("src前主机地址后的路径"+pos+","+srcPath);
+	//var localhostPaht = curWwwPath.substring(0, pos); //获取带"/"的项目名，如：/cis
+	var localhostPaht = curWwwPath.substring(0, pos); //获取带"/"的项目名，如：/cis
+	var relativePath = curWwwPath.substring(pos,srcPath); //获取带"/"的项目名，如：/cis
+	//var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+	var rootPath = localhostPaht + relativePath;
+	return rootPath;
+}
+/*
+ * 占位图
+ * */
+function placeholderImg(name,element,baseUrl){
+	if(!name){
+		name = 'errorImage';
+	}
+	//var img=event.srcElement || event.target;
+	var img = element;
+	//baseUrl="http://localhost:63342/util/";
+	img.src= baseUrl+'src/component/images/errorImage.jpg';
+	img.onerror=null;
+}
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(6);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(2)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!./lar-gallery.css", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!./lar-gallery.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n/* ==========================================================================\r\n   lay-ui galley组件\r\n   ========================================================================== */\n/*gallery组件--公共样式区*/\n.lar-galleryWrapper {\n  position: relative;\n  height: 100%;\n  width: 100%; }\n\n.lar-galleryWrapper .inner, .lar-galleryWrapper .inner .galleryPic, .lar-galleryWrapper .inner .galleryPic .img, .lar-galleryWrapper .inner .galleryPic .img, .lar-galleryWrapper .inner .galleryPic .img img {\n  height: 100%; }\n\n/*所有的标题单行显示*/\n.lar-galleryWrapper .title {\n  white-space: nowrap;\n  overflow: hidden; }\n\n/*适合所有，但不适合12大门类*/\n.lar-galleryWrapper .inner .galleryPic .img img {\n  width: 100%; }\n\n.lar-galleryWrapper .artType .galleryPic .img img {\n  width: 100%;\n  height: 100%; }\n\n.lar-galleryWrapper .artType .galleryPic .img {\n  height: auto; }\n\n.lar-galleryWrapper a:hover {\n  text-decoration: none; }\n\n.lar-galleryWrapper .galleryPic .img {\n  width: 100%;\n  height: 100%; }\n\n.lar-galleryWrapper .onlyMobileSlide {\n  display: none; }\n\n.lar-galleryWrapper .pageSizeOne {\n  width: 100%; }\n\n.lar-galleryWrapper .pageSizeTwo {\n  width: 50%; }\n\n.lar-galleryWrapper .pageSizeThree {\n  width: 33.3%; }\n\n.lar-galleryWrapper .pageSizeFour {\n  width: 25%; }\n\n.lar-galleryWrapper .pageSizeFive {\n  width: 20%; }\n\n.lar-galleryWrapper .pageSizeNine {\n  width: 11.1%; }\n\n.lar-galleryWrapper .pageSizeTwelve {\n  width: 8.3%; }\n\n.lar-galleryWrapper .inner {\n  white-space: nowrap; }\n\n.lar-galleryWrapper .inner .galleryPic {\n  display: inline-block; }\n\n/*左右箭头按钮区域*/\n.lar-galleryWrapper .arrow {\n  position: absolute;\n  top: 40%;\n  background-size: contain;\n  background-repeat: no-repeat; }\n\n.lar-galleryWrapper .arrow-left {\n  left: 0px;\n  margin-left: 0px; }\n\n.lar-galleryWrapper .arrow-right {\n  right: 0px;\n  margin-right: 0px; }\n\n.lar-galleryWrapper .arrow .img {\n  margin-top: -50%; }\n\n.lar-galleryWrapper .arrow .img:hover {\n  cursor: pointer;\n  background-color: rgba(255, 255, 255, 0.1); }\n\n/* 3张图片的遮罩效果区样式 */\n.lar-galleryWrapper .maskEffect {\n  position: relative;\n  margin: 0 42px;\n  white-space: nowrap;\n  overflow: hidden; }\n\n/*本身只为有遮罩的设置*/\n.lar-galleryWrapper .galleryPic {\n  text-align: center;\n  position: relative;\n  padding: 10px;\n  overflow: hidden; }\n\n.lar-galleryWrapper .maskEffect .galleryPic .title {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  bottom: 0px;\n  display: table-cell;\n  width: 100%;\n  opacity: 0;\n  vertical-align: middle;\n  transition: opacity .25s ease-in-out, background .25s ease-in-out;\n  -moz-transition: opacity .25s ease-in-out, background .25s ease-in-out;\n  -webkit-transition: opacity .25s ease-in-out, background .25s ease-in-out; }\n\n.lar-galleryWrapper .maskEffect .galleryPic .title:hover {\n  opacity: 0.9;\n  background: rgba(255, 192, 0, 0.9);\n  padding-left: 10px;\n  padding-right: 10px;\n  /* background: rgba(0,0,0,0.8); */ }\n\n.lar-galleryWrapper .maskEffect .galleryPic .title p {\n  margin-top: 30%;\n  color: white;\n  font-size: 1.2em;\n  text-align: center; }\n\n/* 3张图片的图文上下排版样式 */\n.lar-galleryWrapper .squareTitleBelow {\n  position: relative;\n  margin: 0 42px;\n  white-space: nowrap;\n  overflow: hidden; }\n\n.lar-galleryWrapper .squareTitleBelow .galleryPic {\n  text-align: center;\n  position: relative;\n  padding: 0 10px; }\n\n.lar-galleryWrapper .squareTitleBelow .galleryPic .title {\n  text-align: center;\n  display: inline-block;\n  height: 4em;\n  overflow: hidden; }\n\n.lar-galleryWrapper .squareTitleBelow .imgFrame {\n  border: 4px solid #ffffff; }\n\n/* 12大艺术门类的gallery组件 */\n.lar-galleryWrapper .artType {\n  position: relative;\n  overflow: hidden; }\n\n.lar-galleryWrapper .artType .galleryPic {\n  text-align: center;\n  position: relative; }\n\n.lar-galleryWrapper .artType .pageSizeTwelve, .lar-galleryWrapper .pageSizeTwelve p {\n  text-align: center; }\n\n.lar-galleryWrapper .artType .pageSizeTwelve .title {\n  height: 1.5em;\n  overflow: hidden; }\n\n/* 4张图片的上下排版样式 */\n/*.lar-galleryWrapper .wordRegionBelowFour{\r\n\tposition: relative;\r\n\tmargin:0 42px;\r\n\toverflow:hidden;\r\n\tborder-radius:8px;\r\n}\r\n\r\n.lar-galleryWrapper .wordRegionBelowFour .galleryPic{\r\n\ttext-align:center;\r\n\tposition:relative;\r\n\tbackground:rgba(255,255,255,0.1);\r\n}\r\n\r\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour , .lar-galleryWrapper .wordRegionBelowFour .pageSizeFour p{\r\n\ttext-align:center;\r\n\tpadding:0px 10px;\r\n\tmargin-left:1%\r\n}\r\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion{\r\n\theight:10.5em;\r\n\toverflow:hidden;\r\n\twhite-space:normal;\r\n\tword-wrap: break-word;\r\n}\r\n\r\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .title{\r\n\tfont-weight:bold;\r\n}\r\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .desc{\r\n\tfont-size:0.75em;\t\r\n\ttext-align:left;\r\n\tdisplay:inline-block;\r\n}*/\n/* 4张图片的上、遮罩、下排版样式 */\n.lar-galleryWrapper .bTitleMaskDes, .lar-galleryWrapper .bTitleMaskDesSquare {\n  position: relative;\n  margin: 0 42px;\n  overflow: hidden;\n  border-radius: 8px; }\n\n/*.lar-galleryWrapper .bTitleMaskDes .galleryPic,.lar-galleryWrapper .bTitleMaskDesSquare .galleryPic{\r\n\ttext-align:center;\r\n\tposition:relative;\r\n\tbackground:rgba(255,255,255,0.1);\r\n}*/\n.lar-galleryWrapper .bTitleMaskDes .galleryPic, .lar-galleryWrapper .bTitleMaskDes .galleryPic p, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic p {\n  text-align: center;\n  padding: 0px 10px; }\n\n.lar-galleryWrapper .bTitleMaskDes .galleryPic .img img {\n  width: 100%;\n  border-radius: 50%; }\n\n.lar-galleryWrapper .bTitleMaskDesSquare .galleryPic .img img {\n  width: 100%; }\n\n.lar-galleryWrapper .bTitleMaskDes .galleryPic .wordRegion, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic .wordRegion {\n  height: 10.5em;\n  overflow: hidden;\n  white-space: normal;\n  word-wrap: break-word; }\n\n.lar-galleryWrapper .bTitleMaskDes .desc, .lar-galleryWrapper .bTitleMaskDesSquare .desc {\n  position: absolute;\n  top: 0px;\n  bottom: 32px;\n  display: table-cell;\n  left: 10px;\n  opacity: 0;\n  vertical-align: middle;\n  white-space: normal;\n  word-break: normal;\n  overflow: hidden;\n  transition: opacity .25s ease-in-out, background .25s ease-in-out;\n  -moz-transition: opacity .25s ease-in-out, background .25s ease-in-out;\n  -webkit-transition: opacity .25s ease-in-out, background .25s ease-in-out; }\n\n/*圆形遮罩*/\n.lar-galleryWrapper .bTitleMaskDes .desc {\n  border-radius: 50%;\n  padding: 15%; }\n\n/*方形遮罩*/\n.lar-galleryWrapper .bTitleMaskDesSquare .desc {\n  -webkit-border-radius: 0px;\n  -moz-border-radius: 0px;\n  border-radius: 0px; }\n\n.lar-galleryWrapper .bTitleMaskDesSquare .desc:hover {\n  opacity: 0.8; }\n\n.lar-galleryWrapper .bTitleMaskDes .title, .lar-galleryWrapper .bTitleMaskDesSquare .title {\n  height: 32px;\n  line-height: 32px;\n  font-size: 18px;\n  overflow: hidden; }\n\n/* 3张图片的上下排版,加上艺术类别样式 */\n.lar-galleryWrapper .bwordRegionArtType {\n  position: relative;\n  margin: 0 42px;\n  overflow: hidden;\n  border-radius: 8px; }\n\n.lar-galleryWrapper .bwordRegionArtType .pageSizeThree {\n  width: 31.3%;\n  margin: 0 1%;\n  padding: 0px; }\n\n.lar-galleryWrapper .bwordRegionArtType .galleryPic {\n  text-align: center;\n  position: relative;\n  background: rgba(0, 0, 0, 0.2);\n  border-radius: 4px; }\n\n.lar-galleryWrapper .bwordRegionArtType .galleryPic .img img {\n  width: 100%; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeThree p {\n  text-align: center;\n  padding: 0px 10px;\n  margin-left: 1%; }\n\n.lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion {\n  height: 8.5em;\n  overflow: hidden;\n  white-space: normal;\n  word-wrap: break-word;\n  padding: 0px 16px 10px 16px;\n  text-align: left; }\n\n.lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion .title {\n  font-weight: bold; }\n\n.lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion .desc {\n  font-size: 0.75em;\n  text-align: left;\n  display: inline-block;\n  height: 4em;\n  overflow: hidden; }\n\n.lar-galleryWrapper .bwordRegionArtType .artType {\n  position: absolute;\n  top: 10px;\n  width: 4em;\n  display: table-cell;\n  right: 0px;\n  /*background:url(\"./images/responsive/artTypeBgPic.png\");*/ }\n\n/* 每次显示2行2列的gallery */\n.lar-galleryWrapper .twoRowsGallery .arrow {\n  top: 45%; }\n\n.lar-galleryWrapper .twoRowsGallery {\n  position: relative;\n  margin: 0 42px;\n  white-space: nowrap;\n  overflow: hidden; }\n\n.lar-galleryWrapper .twoRowsGallery .galleryPic {\n  width: 50%;\n  padding: 0px; }\n\n.lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea {\n  width: 100%;\n  height: 50%;\n  display: block;\n  text-align: center;\n  overflow: hidden;\n  position: relative;\n  padding: 6px 0; }\n\n.lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea img {\n  width: 100%;\n  height: 100%; }\n\n.lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea .title {\n  position: absolute;\n  bottom: 1rem;\n  left: 0px;\n  display: block;\n  width: 100%;\n  text-align: center;\n  color: #ffffff;\n  font-size: 16px;\n  font-weight: bold; }\n\n/* 4张图片的上下排版样式-有简介 */\n.lar-galleryWrapper .wordRegionBelowFour {\n  position: relative;\n  margin: 0 42px;\n  overflow: hidden;\n  border-radius: 8px; }\n\n.lar-galleryWrapper .wordRegionBelowFour .galleryPic {\n  padding: 0px 6px; }\n\n.lar-galleryWrapper .wordRegionBelowFour .galleryPic > div {\n  text-align: center;\n  position: relative;\n  background: rgba(255, 255, 255, 0.1);\n  padding: 12px;\n  height: 100%; }\n\n.lar-galleryWrapper .wordRegionBelowFour .galleryPic .img img {\n  border-radius: 50%; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour p {\n  text-align: center;\n  padding: 0px 10px; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion {\n  overflow: hidden;\n  white-space: normal;\n  word-wrap: break-word;\n  color: #ffffff; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .title {\n  font-weight: bold; }\n\n.lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .desc {\n  font-size: 0.75em;\n  text-align: left;\n  display: inline-block; }\n\n/*每屏显示1条记录，左右排版*/\n.lar-galleryWrapper .wordRegionRight {\n  position: relative;\n  margin: 0 42px;\n  overflow: hidden;\n  border-radius: 8px; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic {\n  text-align: left;\n  position: relative;\n  background: rgba(255, 255, 255, 0.1);\n  position: relative; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .img {\n  display: inline-block;\n  width: 45%;\n  overflow: hidden;\n  text-align: center; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion {\n  display: inline-block;\n  overflow: hidden;\n  white-space: normal;\n  word-wrap: break-word;\n  width: 53%;\n  margin-left: 2%;\n  vertical-align: top;\n  color: black;\n  font-family: \"\\5FAE\\8F6F\\96C5\\9ED1\"; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion p {\n  color: black; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .title {\n  font-size: 22px;\n  line-height: 4rem;\n  height: 4rem; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .bottomBorder {\n  display: block;\n  width: 3rem;\n  border-bottom: 2px solid #fc9510; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .desc {\n  display: inline-block;\n  font-size: 15px;\n  overflow: hidden; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail {\n  display: inline-block;\n  background: #fc9510;\n  padding: 1px 20px;\n  border-radius: 16px;\n  position: absolute;\n  bottom: 1rem; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail span {\n  color: #ffffff; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail span.tip {\n  display: inline-block;\n  vertical-align: top;\n  margin-top: 10px;\n  font-size: 16px;\n  margin-right: 10px; }\n\n.lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail .gotoIcon {\n  display: inline-block;\n  width: 37px;\n  height: 37px;\n  /*background:url(./images/icon/icon.png) -1342px -28px;*/ }\n\n/* 基于bootstrap的二次封装,一张图片的轮训 */\n.oneSlide .carousel-inner .item a {\n  display: inline-block; }\n\n.oneSlide, .oneSlide .carousel-inner, .oneSlide .carousel-inner .item, .oneSlide .carousel-inner .item a {\n  height: 100%;\n  width: 100%; }\n\n.oneSlide .item img {\n  margin: 0 auto;\n  width: 100%; }\n\n.oneSlide .carousel-caption {\n  display: inline-block;\n  background-color: rgba(0, 0, 0, 0.5);\n  left: 0px;\n  bottom: 0px;\n  width: 100%;\n  right: auto;\n  padding: 5px 15px;\n  overflow: hidden;\n  height: 4rem;\n  line-height: 3rem; }\n\n.oneSlide .carousel-indicators {\n  bottom: 0px; }\n\n.oneSlide .carousel-control {\n  top: 40%;\n  background-image: none;\n  width: auto; }\n\n.oneSlide .carousel-control img {\n  margin-top: -50%; }\n\n@media (max-width: 768px) {\n  .lar-galleryWrapper .onlyMobileSlide {\n    display: block; }\n  .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea .title {\n    position: absolute;\n    bottom: 0rem;\n    left: 2px; }\n  .lar-galleryWrapper .pageSizeOne, .lar-galleryWrapper .pageSizeTwo, .lar-galleryWrapper .pageSizeThree, .lar-galleryWrapper .pageSizeFour, .lar-galleryWrapper .pageSizeFive {\n    width: 99%; }\n  .lar-galleryWrapper .pageSizeTwelve, .lar-galleryWrapper .pageSizeNine {\n    width: 24%; }\n  .lar-galleryWrapper .bwordRegionArtType .pageSizeThree {\n    width: 99%; }\n  .oneSlide .carousel-caption {\n    bottom: 6px;\n    height: 4rem;\n    line-height: 3rem; }\n  .carousel-control img {\n    height: 60%; }\n  /*两行两列的样式*/\n  .lar-galleryWrapper .twoRowsGallery .galleryPic {\n    display: block;\n    width: 100%;\n    height: 50%; }\n  .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea {\n    width: 100%;\n    display: block;\n    padding-bottom: 3px; }\n  /*每屏显示1条记录，左右排版*/\n  .lar-galleryWrapper .wordRegionRight .galleryPic .img {\n    display: block;\n    width: 100%; }\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion {\n    display: block;\n    width: 100%; }\n  .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail {\n    bottom: 0px;\n    padding: 0px 32px;\n    min-width: 175px;\n    min-height: 42px; }\n  /*资源展示首页9个图标*/\n  .lar-galleryWrapper .artType .pageSizeNine {\n    padding: 5px; } }\n", ""]);
+
+// exports
 
 
 /***/ })

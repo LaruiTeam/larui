@@ -8,7 +8,7 @@ module.exports = {
     /*devtool: debug ? "inline-sourcemap" : null,*/
     //entry: "./demo/lar-gallery/gallery.js",
     //entry: "./index.js",
-    entry: {index:"./index.js",gallery:"./component/lar-gallery/gallery.js"},
+    entry: {larui:"./index.js",gallery:"./component/lar-gallery/gallery.js"},
     module: {
         loaders: [
             {
