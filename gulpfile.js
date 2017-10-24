@@ -16,7 +16,9 @@ var knownOptions = {
 var options = minimist(process.argv.slice(2), knownOptions);
 var contentPath = './';
 var pugPath = contentPath + 'src/demo/pug/',
-    sassPath = contentPath + 'src/demo/sass/',
+    sassPath = contentPath + '/demo/sass/',
+    //sassPath = contentPath + '/demo/sass/',
+    sassUnitPath=contentPath + 'src/component/sass/',
     //jsPath = contentPath + 'src/js/',
     imgPath = contentPath + 'src/demo/images/',  // 图片路径，暂时没用
     destPath = contentPath + 'src/demo/pages/',
@@ -40,11 +42,21 @@ gulp.task('sass', function() {
     gulp.src(sassPath + '*.sass').pipe(sass()).pipe(
             gulp.dest(destPath));
 });
+// sass编译--单个组件组件 -contentPath + '/src/component/sass/css/'
+gulp.task('sassUnit', function() {
+    gulp.src(sassUnitPath+'*.sass').pipe(sass()).pipe(gulp.dest(sassUnitPath+"css/"));
+});
+/*// sass编译--单个组件组件
+gulp.task('sass', function() {
+    gulp.src(contentPath + 'component/!**!/!*.sass').pipe(sass()).pipe(
+        gulp.dest(destPath));
+});*/
 
 // 监控--只在开发环境进行
 gulp.task('watch', function() {
     gulp.watch(pugPath + '**/*.pug', ['pug']);
     gulp.watch(sassPath + '**/*.scss', ['sass']);
+    gulp.watch(sassUnitPath  + '/*.sass', ['sass']);
 });
 
 // 启动服务--只在开发环境进行
@@ -56,7 +68,7 @@ gulp.task('webserver', function() {
     });
 });
 
-gulp.task('default', [ 'pug','pugUnit', 'sass'],function(){
+gulp.task('default', [ 'pug','pugUnit', 'sass','sassUnit'],function(){
     if(options.env=='localhost') {
         gulp.run('watch');
         gulp.run('webserver');

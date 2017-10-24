@@ -751,105 +751,105 @@ ul li {
      lay-ui galley组件
      ========================================================================== */
   /*gallery组件--公共样式区*/
-  /* line 6, sass/partials/_gallery.scss */
+  /* line 6, sass/partials/_gallery.sass */
   .lar-galleryWrapper {
     position: relative;
     height: 100%;
     width: 100%;
   }
 
-  /* line 12, sass/partials/_gallery.scss */
+  /* line 12, sass/partials/_gallery.sass */
   .lar-galleryWrapper .inner, .lar-galleryWrapper .inner .galleryPic, .lar-galleryWrapper .inner .galleryPic .img, .lar-galleryWrapper .inner .galleryPic .img, .lar-galleryWrapper .inner .galleryPic .img img {
     height: 100%;
   }
 
   /*所有的标题单行显示*/
-  /* line 17, sass/partials/_gallery.scss */
+  /* line 17, sass/partials/_gallery.sass */
   .lar-galleryWrapper .title {
     white-space: nowrap;
     overflow: hidden;
   }
 
   /*适合所有，但不适合12大门类*/
-  /* line 23, sass/partials/_gallery.scss */
+  /* line 23, sass/partials/_gallery.sass */
   .lar-galleryWrapper .inner .galleryPic .img img {
     width: 100%;
   }
 
-  /* line 27, sass/partials/_gallery.scss */
+  /* line 27, sass/partials/_gallery.sass */
   .lar-galleryWrapper .artType .galleryPic .img img {
     width: 100%;
     height: 100%;
   }
 
-  /* line 32, sass/partials/_gallery.scss */
+  /* line 32, sass/partials/_gallery.sass */
   .lar-galleryWrapper .artType .galleryPic .img {
     height: auto;
   }
 
-  /* line 36, sass/partials/_gallery.scss */
+  /* line 36, sass/partials/_gallery.sass */
   .lar-galleryWrapper a:hover {
     text-decoration: none;
   }
 
-  /* line 39, sass/partials/_gallery.scss */
+  /* line 39, sass/partials/_gallery.sass */
   .lar-galleryWrapper .galleryPic .img {
     width: 100%;
     height: 100%;
   }
 
-  /* line 44, sass/partials/_gallery.scss */
+  /* line 44, sass/partials/_gallery.sass */
   .lar-galleryWrapper .onlyMobileSlide {
     display: none;
   }
 
-  /* line 48, sass/partials/_gallery.scss */
+  /* line 48, sass/partials/_gallery.sass */
   .lar-galleryWrapper .pageSizeOne {
     width: 100%;
   }
 
-  /* line 52, sass/partials/_gallery.scss */
+  /* line 52, sass/partials/_gallery.sass */
   .lar-galleryWrapper .pageSizeTwo {
     width: 50%;
   }
 
-  /* line 56, sass/partials/_gallery.scss */
+  /* line 56, sass/partials/_gallery.sass */
   .lar-galleryWrapper .pageSizeThree {
     width: 33.3%;
   }
 
-  /* line 60, sass/partials/_gallery.scss */
+  /* line 60, sass/partials/_gallery.sass */
   .lar-galleryWrapper .pageSizeFour {
     width: 25%;
   }
 
-  /* line 64, sass/partials/_gallery.scss */
+  /* line 64, sass/partials/_gallery.sass */
   .lar-galleryWrapper .pageSizeFive {
     width: 20%;
   }
 
-  /* line 68, sass/partials/_gallery.scss */
+  /* line 68, sass/partials/_gallery.sass */
   .lar-galleryWrapper .pageSizeNine {
     width: 11.1%;
   }
 
-  /* line 72, sass/partials/_gallery.scss */
+  /* line 72, sass/partials/_gallery.sass */
   .lar-galleryWrapper .pageSizeTwelve {
     width: 8.3%;
   }
 
-  /* line 76, sass/partials/_gallery.scss */
+  /* line 76, sass/partials/_gallery.sass */
   .lar-galleryWrapper .inner {
     white-space: nowrap;
   }
 
-  /* line 80, sass/partials/_gallery.scss */
+  /* line 80, sass/partials/_gallery.sass */
   .lar-galleryWrapper .inner .galleryPic {
     display: inline-block;
   }
 
   /*左右箭头按钮区域*/
-  /* line 85, sass/partials/_gallery.scss */
+  /* line 85, sass/partials/_gallery.sass */
   .lar-galleryWrapper .arrow {
     position: absolute;
     top: 40%;
@@ -857,31 +857,31 @@ ul li {
     background-repeat: no-repeat;
   }
 
-  /* line 92, sass/partials/_gallery.scss */
+  /* line 92, sass/partials/_gallery.sass */
   .lar-galleryWrapper .arrow-left {
     left: 0px;
     margin-left: 0px;
   }
 
-  /* line 97, sass/partials/_gallery.scss */
+  /* line 97, sass/partials/_gallery.sass */
   .lar-galleryWrapper .arrow-right {
     right: 0px;
     margin-right: 0px;
   }
 
-  /* line 102, sass/partials/_gallery.scss */
+  /* line 102, sass/partials/_gallery.sass */
   .lar-galleryWrapper .arrow .img {
     margin-top: -50%;
   }
 
-  /* line 105, sass/partials/_gallery.scss */
+  /* line 105, sass/partials/_gallery.sass */
   .lar-galleryWrapper .arrow .img:hover {
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0.1);
   }
 
   /* 3张图片的遮罩效果区样式 */
-  /* line 111, sass/partials/_gallery.scss */
+  /* line 111, sass/partials/_gallery.sass */
   .lar-galleryWrapper .maskEffect {
     position: relative;
     margin: 0 42px;
@@ -890,7 +890,7 @@ ul li {
   }
 
   /*本身只为有遮罩的设置*/
-  /* line 119, sass/partials/_gallery.scss */
+  /* line 119, sass/partials/_gallery.sass */
   .lar-galleryWrapper .galleryPic {
     text-align: center;
     position: relative;
@@ -898,7 +898,7 @@ ul li {
     overflow: hidden;
   }
 
-  /* line 126, sass/partials/_gallery.scss */
+  /* line 126, sass/partials/_gallery.sass */
   .lar-galleryWrapper .maskEffect .galleryPic .title {
     position: absolute;
     top: 0px;
@@ -913,7 +913,7 @@ ul li {
     -webkit-transition: opacity .25s ease-in-out, background .25s ease-in-out;
   }
 
-  /* line 140, sass/partials/_gallery.scss */
+  /* line 140, sass/partials/_gallery.sass */
   .lar-galleryWrapper .maskEffect .galleryPic .title:hover {
     opacity: 0.9;
     background: rgba(255, 192, 0, 0.9);
@@ -922,7 +922,7 @@ ul li {
     /* background: rgba(0,0,0,0.8); */
   }
 
-  /* line 147, sass/partials/_gallery.scss */
+  /* line 147, sass/partials/_gallery.sass */
   .lar-galleryWrapper .maskEffect .galleryPic .title p {
     margin-top: 30%;
     color: white;
@@ -931,7 +931,7 @@ ul li {
   }
 
   /* 3张图片的图文上下排版样式 */
-  /* line 156, sass/partials/_gallery.scss */
+  /* line 156, sass/partials/_gallery.sass */
   .lar-galleryWrapper .squareTitleBelow {
     position: relative;
     margin: 0 42px;
@@ -939,14 +939,14 @@ ul li {
     overflow: hidden;
   }
 
-  /* line 163, sass/partials/_gallery.scss */
+  /* line 163, sass/partials/_gallery.sass */
   .lar-galleryWrapper .squareTitleBelow .galleryPic {
     text-align: center;
     position: relative;
     padding: 0 10px;
   }
 
-  /* line 170, sass/partials/_gallery.scss */
+  /* line 170, sass/partials/_gallery.sass */
   .lar-galleryWrapper .squareTitleBelow .galleryPic .title {
     text-align: center;
     display: inline-block;
@@ -954,37 +954,37 @@ ul li {
     overflow: hidden;
   }
 
-  /* line 177, sass/partials/_gallery.scss */
+  /* line 177, sass/partials/_gallery.sass */
   .lar-galleryWrapper .squareTitleBelow .imgFrame {
     border: 4px solid #ffffff;
   }
 
   /* 12大艺术门类的gallery组件 */
-  /* line 183, sass/partials/_gallery.scss */
+  /* line 183, sass/partials/_gallery.sass */
   .lar-galleryWrapper .artType {
     position: relative;
     overflow: hidden;
   }
 
-  /* line 188, sass/partials/_gallery.scss */
+  /* line 188, sass/partials/_gallery.sass */
   .lar-galleryWrapper .artType .galleryPic {
     text-align: center;
     position: relative;
   }
 
-  /* line 193, sass/partials/_gallery.scss */
+  /* line 193, sass/partials/_gallery.sass */
   .lar-galleryWrapper .artType .pageSizeTwelve, .lar-galleryWrapper .pageSizeTwelve p {
     text-align: center;
   }
 
-  /* line 196, sass/partials/_gallery.scss */
+  /* line 196, sass/partials/_gallery.sass */
   .lar-galleryWrapper .artType .pageSizeTwelve .title {
     height: 1.5em;
     overflow: hidden;
   }
 
   /* 4张图片的上、遮罩、下排版样式 */
-  /* line 237, sass/partials/_gallery.scss */
+  /* line 237, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bTitleMaskDes, .lar-galleryWrapper .bTitleMaskDesSquare {
     position: relative;
     margin: 0 42px;
@@ -997,24 +997,24 @@ ul li {
       position:relative;
       background:rgba(255,255,255,0.1);
   }*/
-  /* line 250, sass/partials/_gallery.scss */
+  /* line 250, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bTitleMaskDes .galleryPic, .lar-galleryWrapper .bTitleMaskDes .galleryPic p, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic p {
     text-align: center;
     padding: 0px 10px;
   }
 
-  /* line 256, sass/partials/_gallery.scss */
+  /* line 256, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bTitleMaskDes .galleryPic .img img {
     width: 100%;
     border-radius: 50%;
   }
 
-  /* line 261, sass/partials/_gallery.scss */
+  /* line 261, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic .img img {
     width: 100%;
   }
 
-  /* line 265, sass/partials/_gallery.scss */
+  /* line 265, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bTitleMaskDes .galleryPic .wordRegion, .lar-galleryWrapper .bTitleMaskDesSquare .galleryPic .wordRegion {
     height: 10.5em;
     overflow: hidden;
@@ -1022,7 +1022,7 @@ ul li {
     word-wrap: break-word;
   }
 
-  /* line 272, sass/partials/_gallery.scss */
+  /* line 272, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bTitleMaskDes .desc, .lar-galleryWrapper .bTitleMaskDesSquare .desc {
     position: absolute;
     top: 0px;
@@ -1040,26 +1040,26 @@ ul li {
   }
 
   /*圆形遮罩*/
-  /* line 289, sass/partials/_gallery.scss */
+  /* line 289, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bTitleMaskDes .desc {
     border-radius: 50%;
     padding: 15%;
   }
 
   /*方形遮罩*/
-  /* line 294, sass/partials/_gallery.scss */
+  /* line 294, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bTitleMaskDesSquare .desc {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px;
   }
 
-  /* line 300, sass/partials/_gallery.scss */
+  /* line 300, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bTitleMaskDesSquare .desc:hover {
     opacity: 0.8;
   }
 
-  /* line 304, sass/partials/_gallery.scss */
+  /* line 304, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bTitleMaskDes .title, .lar-galleryWrapper .bTitleMaskDesSquare .title {
     height: 32px;
     line-height: 32px;
@@ -1068,7 +1068,7 @@ ul li {
   }
 
   /* 3张图片的上下排版,加上艺术类别样式 */
-  /* line 313, sass/partials/_gallery.scss */
+  /* line 313, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bwordRegionArtType {
     position: relative;
     margin: 0 42px;
@@ -1076,14 +1076,14 @@ ul li {
     border-radius: 8px;
   }
 
-  /* line 320, sass/partials/_gallery.scss */
+  /* line 320, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bwordRegionArtType .pageSizeThree {
     width: 31.3%;
     margin: 0 1%;
     padding: 0px;
   }
 
-  /* line 326, sass/partials/_gallery.scss */
+  /* line 326, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bwordRegionArtType .galleryPic {
     text-align: center;
     position: relative;
@@ -1091,19 +1091,19 @@ ul li {
     border-radius: 4px;
   }
 
-  /* line 333, sass/partials/_gallery.scss */
+  /* line 333, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bwordRegionArtType .galleryPic .img img {
     width: 100%;
   }
 
-  /* line 337, sass/partials/_gallery.scss */
+  /* line 337, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionBelowFour .pageSizeThree p {
     text-align: center;
     padding: 0px 10px;
     margin-left: 1%;
   }
 
-  /* line 343, sass/partials/_gallery.scss */
+  /* line 343, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion {
     height: 8.5em;
     overflow: hidden;
@@ -1113,12 +1113,12 @@ ul li {
     text-align: left;
   }
 
-  /* line 352, sass/partials/_gallery.scss */
+  /* line 352, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion .title {
     font-weight: bold;
   }
 
-  /* line 355, sass/partials/_gallery.scss */
+  /* line 355, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bwordRegionArtType .pageSizeThree .wordRegion .desc {
     font-size: 0.75em;
     text-align: left;
@@ -1127,7 +1127,7 @@ ul li {
     overflow: hidden;
   }
 
-  /* line 363, sass/partials/_gallery.scss */
+  /* line 363, sass/partials/_gallery.sass */
   .lar-galleryWrapper .bwordRegionArtType .artType {
     position: absolute;
     top: 10px;
@@ -1138,12 +1138,12 @@ ul li {
   }
 
   /* 每次显示2行2列的gallery */
-  /* line 374, sass/partials/_gallery.scss */
+  /* line 374, sass/partials/_gallery.sass */
   .lar-galleryWrapper .twoRowsGallery .arrow {
     top: 45%;
   }
 
-  /* line 378, sass/partials/_gallery.scss */
+  /* line 378, sass/partials/_gallery.sass */
   .lar-galleryWrapper .twoRowsGallery {
     position: relative;
     margin: 0 42px;
@@ -1151,13 +1151,13 @@ ul li {
     overflow: hidden;
   }
 
-  /* line 385, sass/partials/_gallery.scss */
+  /* line 385, sass/partials/_gallery.sass */
   .lar-galleryWrapper .twoRowsGallery .galleryPic {
     width: 50%;
     padding: 0px;
   }
 
-  /* line 390, sass/partials/_gallery.scss */
+  /* line 390, sass/partials/_gallery.sass */
   .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea {
     width: 100%;
     height: 50%;
@@ -1168,13 +1168,13 @@ ul li {
     padding: 6px 0;
   }
 
-  /* line 400, sass/partials/_gallery.scss */
+  /* line 400, sass/partials/_gallery.sass */
   .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea img {
     width: 100%;
     height: 100%;
   }
 
-  /* line 405, sass/partials/_gallery.scss */
+  /* line 405, sass/partials/_gallery.sass */
   .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea .title {
     position: absolute;
     bottom: 1rem;
@@ -1188,7 +1188,7 @@ ul li {
   }
 
   /* 4张图片的上下排版样式-有简介 */
-  /* line 417, sass/partials/_gallery.scss */
+  /* line 417, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionBelowFour {
     position: relative;
     margin: 0 42px;
@@ -1196,12 +1196,12 @@ ul li {
     border-radius: 8px;
   }
 
-  /* line 424, sass/partials/_gallery.scss */
+  /* line 424, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionBelowFour .galleryPic {
     padding: 0px 6px;
   }
 
-  /* line 428, sass/partials/_gallery.scss */
+  /* line 428, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionBelowFour .galleryPic > div {
     text-align: center;
     position: relative;
@@ -1210,18 +1210,18 @@ ul li {
     height: 100%;
   }
 
-  /* line 436, sass/partials/_gallery.scss */
+  /* line 436, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionBelowFour .galleryPic .img img {
     border-radius: 50%;
   }
 
-  /* line 440, sass/partials/_gallery.scss */
+  /* line 440, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionBelowFour .pageSizeFour p {
     text-align: center;
     padding: 0px 10px;
   }
 
-  /* line 445, sass/partials/_gallery.scss */
+  /* line 445, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion {
     overflow: hidden;
     white-space: normal;
@@ -1229,12 +1229,12 @@ ul li {
     color: #ffffff;
   }
 
-  /* line 452, sass/partials/_gallery.scss */
+  /* line 452, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .title {
     font-weight: bold;
   }
 
-  /* line 455, sass/partials/_gallery.scss */
+  /* line 455, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionBelowFour .pageSizeFour .wordRegion .desc {
     font-size: 0.75em;
     text-align: left;
@@ -1242,7 +1242,7 @@ ul li {
   }
 
   /*每屏显示1条记录，左右排版*/
-  /* line 463, sass/partials/_gallery.scss */
+  /* line 463, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionRight {
     position: relative;
     margin: 0 42px;
@@ -1250,7 +1250,7 @@ ul li {
     border-radius: 8px;
   }
 
-  /* line 470, sass/partials/_gallery.scss */
+  /* line 470, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionRight .galleryPic {
     text-align: left;
     position: relative;
@@ -1258,7 +1258,7 @@ ul li {
     position: relative;
   }
 
-  /* line 477, sass/partials/_gallery.scss */
+  /* line 477, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionRight .galleryPic .img {
     display: inline-block;
     width: 45%;
@@ -1266,7 +1266,7 @@ ul li {
     text-align: center;
   }
 
-  /* line 484, sass/partials/_gallery.scss */
+  /* line 484, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion {
     display: inline-block;
     overflow: hidden;
@@ -1279,33 +1279,33 @@ ul li {
     font-family: "微软雅黑";
   }
 
-  /* line 496, sass/partials/_gallery.scss */
+  /* line 496, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion p {
     color: black;
   }
 
-  /* line 500, sass/partials/_gallery.scss */
+  /* line 500, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .title {
     font-size: 22px;
     line-height: 4rem;
     height: 4rem;
   }
 
-  /* line 506, sass/partials/_gallery.scss */
+  /* line 506, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .bottomBorder {
     display: block;
     width: 3rem;
     border-bottom: 2px solid #fc9510;
   }
 
-  /* line 512, sass/partials/_gallery.scss */
+  /* line 512, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .desc {
     display: inline-block;
     font-size: 15px;
     overflow: hidden;
   }
 
-  /* line 521, sass/partials/_gallery.scss */
+  /* line 521, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail {
     display: inline-block;
     background: #fc9510;
@@ -1315,12 +1315,12 @@ ul li {
     bottom: 1rem;
   }
 
-  /* line 530, sass/partials/_gallery.scss */
+  /* line 530, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail span {
     color: #ffffff;
   }
 
-  /* line 534, sass/partials/_gallery.scss */
+  /* line 534, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail span.tip {
     display: inline-block;
     vertical-align: top;
@@ -1329,7 +1329,7 @@ ul li {
     margin-right: 10px;
   }
 
-  /* line 542, sass/partials/_gallery.scss */
+  /* line 542, sass/partials/_gallery.sass */
   .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail .gotoIcon {
     display: inline-block;
     width: 37px;
@@ -1338,24 +1338,24 @@ ul li {
   }
 
   /* 基于bootstrap的二次封装,一张图片的轮训 */
-  /* line 550, sass/partials/_gallery.scss */
+  /* line 550, sass/partials/_gallery.sass */
   .oneSlide .carousel-inner .item a {
     display: inline-block;
   }
 
-  /* line 554, sass/partials/_gallery.scss */
+  /* line 554, sass/partials/_gallery.sass */
   .oneSlide, .oneSlide .carousel-inner, .oneSlide .carousel-inner .item, .oneSlide .carousel-inner .item a {
     height: 100%;
     width: 100%;
   }
 
-  /* line 559, sass/partials/_gallery.scss */
+  /* line 559, sass/partials/_gallery.sass */
   .oneSlide .item img {
     margin: 0 auto;
     width: 100%;
   }
 
-  /* line 564, sass/partials/_gallery.scss */
+  /* line 564, sass/partials/_gallery.sass */
   .oneSlide .carousel-caption {
     display: inline-block;
     background-color: rgba(0, 0, 0, 0.5);
@@ -1369,72 +1369,72 @@ ul li {
     line-height: 3rem;
   }
 
-  /* line 577, sass/partials/_gallery.scss */
+  /* line 577, sass/partials/_gallery.sass */
   .oneSlide .carousel-indicators {
     bottom: 0px;
   }
 
-  /* line 581, sass/partials/_gallery.scss */
+  /* line 581, sass/partials/_gallery.sass */
   .oneSlide .carousel-control {
     top: 40%;
     background-image: none;
     width: auto;
   }
 
-  /* line 587, sass/partials/_gallery.scss */
+  /* line 587, sass/partials/_gallery.sass */
   .oneSlide .carousel-control img {
     margin-top: -50%;
   }
 
   @media (max-width: 768px) {
-    /* line 592, sass/partials/_gallery.scss */
+    /* line 592, sass/partials/_gallery.sass */
     .lar-galleryWrapper .onlyMobileSlide {
       display: block;
     }
 
-    /* line 596, sass/partials/_gallery.scss */
+    /* line 596, sass/partials/_gallery.sass */
     .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea .title {
       position: absolute;
       bottom: 0rem;
       left: 2px;
     }
 
-    /* line 602, sass/partials/_gallery.scss */
+    /* line 602, sass/partials/_gallery.sass */
     .lar-galleryWrapper .pageSizeOne, .lar-galleryWrapper .pageSizeTwo, .lar-galleryWrapper .pageSizeThree, .lar-galleryWrapper .pageSizeFour, .lar-galleryWrapper .pageSizeFive {
       width: 99%;
     }
 
-    /* line 605, sass/partials/_gallery.scss */
+    /* line 605, sass/partials/_gallery.sass */
     .lar-galleryWrapper .pageSizeTwelve, .lar-galleryWrapper .pageSizeNine {
       width: 24%;
     }
 
-    /* line 609, sass/partials/_gallery.scss */
+    /* line 609, sass/partials/_gallery.sass */
     .lar-galleryWrapper .bwordRegionArtType .pageSizeThree {
       width: 99%;
     }
 
-    /* line 613, sass/partials/_gallery.scss */
+    /* line 613, sass/partials/_gallery.sass */
     .oneSlide .carousel-caption {
       bottom: 6px;
       height: 4rem;
       line-height: 3rem;
     }
 
-    /* line 619, sass/partials/_gallery.scss */
+    /* line 619, sass/partials/_gallery.sass */
     .carousel-control img {
       height: 60%;
     }
 
     /*两行两列的样式*/
-    /* line 625, sass/partials/_gallery.scss */
+    /* line 625, sass/partials/_gallery.sass */
     .lar-galleryWrapper .twoRowsGallery .galleryPic {
       display: block;
       width: 100%;
       height: 50%;
     }
 
-    /* line 631, sass/partials/_gallery.scss */
+    /* line 631, sass/partials/_gallery.sass */
     .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea {
       width: 100%;
       display: block;
@@ -1442,19 +1442,19 @@ ul li {
     }
 
     /*每屏显示1条记录，左右排版*/
-    /* line 638, sass/partials/_gallery.scss */
+    /* line 638, sass/partials/_gallery.sass */
     .lar-galleryWrapper .wordRegionRight .galleryPic .img {
       display: block;
       width: 100%;
     }
 
-    /* line 643, sass/partials/_gallery.scss */
+    /* line 643, sass/partials/_gallery.sass */
     .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion {
       display: block;
       width: 100%;
     }
 
-    /* line 648, sass/partials/_gallery.scss */
+    /* line 648, sass/partials/_gallery.sass */
     .lar-galleryWrapper .wordRegionRight .galleryPic .wordRegion .gotoDetail {
       bottom: 0px;
       padding: 0px 32px;
@@ -1463,7 +1463,7 @@ ul li {
     }
 
     /*资源展示首页9个图标*/
-    /* line 656, sass/partials/_gallery.scss */
+    /* line 656, sass/partials/_gallery.sass */
     .lar-galleryWrapper .artType .pageSizeNine {
       padding: 5px;
     }

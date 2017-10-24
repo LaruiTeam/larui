@@ -7,8 +7,8 @@ module.exports = {
     context: path.join(__dirname)+'/src',
     /*devtool: debug ? "inline-sourcemap" : null,*/
     //entry: "./demo/lar-gallery/gallery.js",
-    entry: "./index.js",
-    //entry: {index:"./index.js",galleryTemplate:"./demo/pages/unit/lar-gallery/gallery.js"},
+    //entry: "./index.js",
+    entry: {index:"./index.js",gallery:"./component/lar-gallery/gallery.js"},
     module: {
         loaders: [
             {
@@ -40,8 +40,9 @@ module.exports = {
     },
     output: {
         path:path.resolve(__dirname, 'dist'),
-        filename: "larui.js",
-        //filename: "larui.[hash:8].js",
+        filename:"[name].js",
+        //filename: "util.js",
+        //filename: "util.[hash:8].js",
         chunkFilename: "[name].bundle.js"
     },
    /* externals: {

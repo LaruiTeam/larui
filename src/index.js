@@ -6,10 +6,10 @@ import {Button} from 'antd';
 import '../node_modules/antd/dist/antd.css';*/
 import $ from 'jquery';
 //import cssLoad from  'css-loader';
-//import './component/larui/lar-ui';
+//import './component/util/lar-ui';
 import  './component/lar-gallery/gallery';
 //import './component/lar-backTop/lar-backTop';
-import './../src/component/larui/lar-ui.css';
+import './component/util/larui.css';
 
 window.$=$;
 //window.placeholderImg=placeholderImg;

@@ -29,7 +29,7 @@
  *  3. ....
  */
 import $ from 'jquery';
-import larUi from './../../lar-ui.js';
+import larUi from './../../util.js';
 (function($){
 	/**
 	 * 

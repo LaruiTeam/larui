@@ -86,8 +86,11 @@
  * 2. 扩展的方法只对dom区扩展起作用，类似galleryDom中的几种情况
  */
 import $ from 'jquery';
-import larUi from './../larui/lar-ui.js';
-alert("larUi.baseUrl"+larUi.baseUrl);
+import larUi from './../util/util.js';
+/*import  './../sass/css/lar-gallery.css';*/
+import '../util/larui.css';
+window.$=$;
+//alert("larUi.baseUrl"+larUi.baseUrl);
 var baseUrl=larUi.baseUrl;
 //var baseUrl="/";
 //window.$ = $;

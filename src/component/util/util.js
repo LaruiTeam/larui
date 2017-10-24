@@ -26,7 +26,7 @@ function placeholderImg(name,element,baseUrl){
 	}
 	//var img=event.srcElement || event.target;
 	var img = element;
-	//baseUrl="http://localhost:63342/larui/";
+	//baseUrl="http://localhost:63342/util/";
 	alert("压缩包baseUrl测试："+baseUrl);
 	img.src= baseUrl+'src/component/images/errorImage.jpg';
 	img.onerror=null;
