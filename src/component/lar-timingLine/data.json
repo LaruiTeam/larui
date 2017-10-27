@@ -1,0 +1,92 @@
+{
+  "model": {
+    "allDataCount": null,
+    "curPageData": [
+      {
+        "host" : "附件id",
+        "imgPath" : "1.jpg",
+        "id": "栏目id",
+        "title": "资源标题",
+        "address": "资源类别",
+        "remark": "资源排序序号",
+        "year": "2008",
+        "link": "page/artist/artistSearch.html"
+      },{
+        "host" : "附件id",
+        "imgPath" : "1.jpg",
+        "id": "栏目id",
+        "title": "资源标题",
+        "address": "资源类别",
+        "remark": "资源排序序号",
+        "year": "2008",
+        "link": "page/artist/artistSearch.html"
+      },{
+        "host" : "附件id",
+        "imgPath" : "1.jpg",
+        "id": "栏目id",
+        "title": "资源标题",
+        "address": "资源类别",
+        "remark": "资源排序序号",
+        "year": "2008",
+        "link": "page/artist/artistSearch.html"
+      },{
+        "host" : "附件id",
+        "imgPath" : "1.jpg",
+        "id": "栏目id",
+        "title": "资源标题",
+        "address": "资源类别",
+        "remark": "资源排序序号",
+        "year": "2008",
+        "link": "page/artist/artistSearch.html"
+      },{
+        "host" : "附件id",
+        "imgPath" : "1.jpg",
+        "id": "栏目id",
+        "title": "资源标题",
+        "address": "资源类别",
+        "remark": "资源排序序号",
+        "year": "2008",
+        "link": "page/artist/artistSearch.html"
+      },{
+        "host" : "附件id",
+        "imgPath" : "1.jpg",
+        "id": "栏目id",
+        "title": "资源标题",
+        "address": "资源类别",
+        "remark": "资源排序序号",
+        "year": "2008",
+        "link": "page/artist/artistSearch.html"
+      },{
+        "host" : "附件id",
+        "imgPath" : "1.jpg",
+        "id": "栏目id",
+        "title": "资源标题",
+        "address": "资源类别",
+        "remark": "资源排序序号",
+        "year": "2008",
+        "link": "page/artist/artistSearch.html"
+      },{
+        "host" : "附件id",
+        "imgPath" : "1.jpg",
+        "id": "栏目id",
+        "title": "资源标题",
+        "address": "资源类别",
+        "remark": "资源排序序号",
+        "year": "2007",
+        "link": "page/artist/artistSearch.html"
+      },{
+        "host" : "附件id",
+        "imgPath" : "1.jpg",
+        "id": "栏目id",
+        "title": "资源标题",
+        "address": "资源类别",
+        "remark": "资源排序序号",
+        "year": "2007",
+        "link": "page/artist/artistSearch.html"
+      }
+    ],
+    "entity" : null
+  },
+  "msg" : "",
+  "status" : "200"
+}

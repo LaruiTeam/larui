@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./../../../../lib/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="../../../../component/sass/css/larui.css">
+<script src="./../../../../lib/jquery-1.11.2.js"></script>
+<script src="lar-catalogNav.js"></script>
+</head>
+<body>
+<div id="chapterContent"></div>
+<div id="category"></div>
+</body>
+<script>
+$(document).ready(function(){
+   /* $.getJson( "data.json" , function(data){
+        $('#category').catalogNav({
+            data : data.model.curPageData
+        });
+    }, 'json');*/
+
+});
+
+$.getJSON("./data.json" , function(data){
+    $('#category').catalogNav({
+        data : data.model.curPageData
+    });
+});
+</script>
+</html>

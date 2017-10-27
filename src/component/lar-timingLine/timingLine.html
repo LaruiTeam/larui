@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="../lar-ui.css">
+<script src="../../lib/jquery-1.11.2.js"></script>
+<script src="timingLine.js"></script>
+</head>
+<body>
+<section class="container">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <section class="lar-timeline2-container">
+                
+            </section>
+        </div>
+    </div>
+</section>
+</body>
+<script>
+    $(document).ready(function(){
+        $('.lar-timeline2-container').timeline({
+            dataUrl : 'data.json',
+            renderType : 'round',
+            titleColor : '#123',
+            contentColor : '#456',
+            borderColor : '#4e3s0s',
+            yearBgColor : '#000',
+            yearFontColor : '#fff',
+            showPic : false,
+            paramMap : {
+	        	title : 'title',
+		        host : 'host',
+	        	address :  'address'     
+            }
+        });
+    });
+</script>
+</html>
