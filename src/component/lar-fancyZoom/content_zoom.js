@@ -1,4 +1,7 @@
-﻿jQuery.fn.fancyZoom = function(options){
+﻿import $ from 'jquery';
+window.$=$;
+
+$.fn.fancyZoom = function(options){
   
   var options   = options || {};
   var directory = options && options.directory ? options.directory : 'images';

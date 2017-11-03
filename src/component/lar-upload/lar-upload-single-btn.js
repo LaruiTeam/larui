@@ -3,6 +3,8 @@
  * 检索工程上传组件<br/>
  * @author gaodsh@css.com.cn
  */
+import $ from 'jquery';
+window.$=$;
 ;(function (factory) {
     if (typeof define === "function" && define.amd) {
         // AMD模式

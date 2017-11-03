@@ -68,7 +68,8 @@
  *  注意事项：
  *  1. 必须加 .galleryWallContainer
  */
-
+import $ from 'jquery';
+window.$=$;
 (function($){	
 	/**
 	 * 定义类构造类     

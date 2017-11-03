@@ -15,6 +15,9 @@
    hoverWidth： 卷页宽度；默认： 50
  * 
  */
+
+import $ from 'jquery';
+window.$=$;
 (function(factory){
     if (typeof define == 'function' && define.amd) {
         // amd

@@ -8,6 +8,8 @@
  * showTitle 是否显示title,默认不显示
  * gap 图片的间距
  */
+import $ from 'jquery';
+window.$=$;
 (function($){
     function MixPhotoWall(element,options){
     	this.options = $.extend(true,{},this.defaults,options); //必须有

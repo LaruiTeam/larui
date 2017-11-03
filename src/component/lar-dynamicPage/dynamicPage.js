@@ -39,7 +39,8 @@
  * 1. buildDom方法由调用者必须提供,是必填项
  * 2. 本组件只提供分页功能，即分页查询，渲染由buildDom方法提供。
  */
-
+import $ from 'jquery';
+window.$=$;
 (function($){
         /*构造函数*/
         function dynamicPage(element,options){

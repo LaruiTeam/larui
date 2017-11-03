@@ -9,6 +9,8 @@
  * 2. 暂不支持编辑；
  * 3. 暂不支持排序
  */
+import $ from 'jquery';
+window.$=$;
 ;(function (factory) {
     if (typeof define === "function" && define.amd) {
         // AMD模式

@@ -27,7 +27,8 @@
  *		
  *
  */
-
+import $ from 'jquery';
+window.$=$;
 (function($){	
 	/**
 	 * 定义类构造类     

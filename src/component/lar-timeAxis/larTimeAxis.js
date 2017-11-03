@@ -9,6 +9,9 @@
 
  * 
  */
+
+import $ from 'jquery';
+window.$=$;
  (function(factory){
     if (typeof define == 'function' && define.amd) {
         // amd

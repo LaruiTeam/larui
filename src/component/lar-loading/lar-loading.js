@@ -19,7 +19,8 @@
 *          根据lar-ui模板规范重构
 * 
 **/
-
+import $ from 'jquery';
+window.$=$;
 (function($){	
 
     // Create the defaults once
