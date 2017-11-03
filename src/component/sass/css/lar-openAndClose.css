@@ -1,0 +1,8 @@
+.larOpenAndClose {
+  width: 100%;
+  text-align: right;
+  padding-top: 10px;
+  padding-right: 10px; }
+  .larOpenAndClose span {
+    cursor: pointer;
+    color: #fc9512; }

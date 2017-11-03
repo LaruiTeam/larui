@@ -12,6 +12,9 @@
 * 
 **/
 
+import $ from 'jquery';
+import  './../sass/css/lar-openAndClose.css';
+window.$=$;
 (function($){	
     function OpenAndClose( element, options ) {
         this.element = element;
@@ -69,4 +72,4 @@
         });
 	};
     
-}(jQuery));
+}($));

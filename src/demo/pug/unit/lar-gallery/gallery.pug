@@ -1,11 +1,14 @@
 extends ./../unitCommon
 block unitScripts
     //+commonScript('/')
-    script(src="/src/lib/jquery-1.11.2.js")
+    //script(src="/src/lib/jquery-1.11.2.js")
+    //script(src= "/dist/openAndClose.js")
+    //script(src="/dist/gallery.js")
     script(src= "gallery.js")
+
 block paraDes
     div
-        span test描述：gallery组件是一款主要为了实现图文左右滑动的组件，目前支持9种展现方式。
+        span 描述：gallery组件是一款主要为了实现图文左右滑动的组件，目前支持9种展现方式。
     div
         span 调用方式:$("选择器").gallery({params})
     div.params
@@ -37,4 +40,37 @@ block dataJson
 block example
     div
         a(href="./galleryTemplate.html",target="_blank") 查看示例效果
+
+block pageEffect
+    div
+        div.item
+            span 单张图片轮询
+            a(href="http://ku.artnchina.com/homePage.html",target="_blank") 去查看
+        div.item
+            span 四张图片+下方标题+遮罩简介（新晋人物）
+            a(href="http://ku.artnchina.com/page/artist/artistHomepage.html",target="_blank") 去查看
+        div.item
+            span 四张图片+下方标题+下方简介（热门艺术家）
+            a(href="http://ku.artnchina.com/page/artist/artistHomepage.html",target="_blank") 去查看
+        div.item
+            span 单张图片+标题+简介+进入详情页（重点推荐）
+            a(href="http://ku.artnchina.com/page/organization/organizationHomepage.html",target="_blank") 去查看
+        div.item
+            span 单张图片轮询
+            a(href="http://ku.artnchina.com/homePage.html",target="_blank") 去查看
+        div.item
+            span 单张图片轮询
+            a(href="http://ku.artnchina.com/homePage.html",target="_blank") 去查看
+        div.item
+            span 单张图片轮询
+            a(href="http://ku.artnchina.com/homePage.html",target="_blank") 去查看
+
+block downloadPage
+    div
+        a
+            span 源码下载（不压缩）
+        a
+            span 源码下载（压缩文件）
+        a
+            span demo示例下载
 

@@ -11,7 +11,10 @@
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="/src/demo/pages/common.css"/>
     <!--script(src=baseUrl+"dist/util.js")-->
+    <!--script(src= "/dist/gallery.js")-->
+    <script src="/dist/larui.js"></script>
     <script src="/src/component/util/util.js"></script>
+    <script src="/src/demo/pages/common.js"></script>
     <!--+commonScript('/larui/larui/')-->
     <title>larUI-互联网组件仓库</title>
   </head>
@@ -19,16 +22,11 @@
     <!--用于IDS虚拟登陆-->
     <!--iframe#virtualLogin.hidden-->
     <section class="search-header">
-      <div class="icon"><span>larUI--互联网零件共享仓库</span></div>
-      <div class="others">
-        <div class="input-group">
-          <input type="text"/><span>搜索</span>
-        </div>
-      </div>
+      <div class="icon"><span class="title">larUI</span><span class="desc">精致的组件、样式、工具方法等互联网零件共享仓库</span></div>
     </section>
     <section class="bodyContent">
       <div class="leftMenu">
-        <div>
+        <div class="componentMenus">
           <ul>
             <li class="title"><span>组件列表</span></li>
             <li><a href="/src/demo/pages//unit/lar-gallery/gallery.html">lar-gallery组件</a>
@@ -36,6 +34,28 @@
             <li><a href="/src/demo/pages/unit/lar-backTop/backTop.html">lar-backtop组件</a>
             </li>
             <li><a href="/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html">lar-thumbGallery组件</a>
+            </li>
+          </ul>
+        </div>
+        <div class="styleMenus">
+          <ul>
+            <li class="title"><span>样式</span></li>
+            <li><a href="/src/demo/pages//unit/lar-gallery/gallery.html">按钮</a>
+            </li>
+            <li><a href="/src/demo/pages/unit/lar-backTop/backTop.html">侧边栏</a>
+            </li>
+            <li><a href="/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html">检索</a>
+            </li>
+          </ul>
+        </div>
+        <div class="toolFunMenus">
+          <ul>
+            <li class="title"><span>工具方法</span></li>
+            <li><a href="/src/demo/pages//unit/lar-gallery/gallery.html">地址参数</a>
+            </li>
+            <li><a href="/src/demo/pages/unit/lar-backTop/backTop.html">空数据处理</a>
+            </li>
+            <li><a href="/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html">图片自适应</a>
             </li>
           </ul>
         </div>

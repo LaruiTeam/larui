@@ -3,6 +3,7 @@
  */
 import $ from 'jquery';
 import  './component/lar-gallery/gallery';
+import  './component/lar-openAndClose/openAndClose';
 //import './component/lar-backTop/lar-backTop';
 import './component/sass/css/larui.css';
 

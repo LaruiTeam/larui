@@ -12,18 +12,41 @@ mixin commonLink(baseUrl)
 //-所有插件和公共js
 mixin commonScript(baseUrl)
 	//script(src=baseUrl+"dist/util.js")
+	//script(src= "/dist/gallery.js")
+	script(src= "/dist/larui.js")
 	script(src=baseUrl + "src/component/util/util.js")
+	script(src=baseUrl + "src/demo/pages/common.js")
 mixin anthenScript(baseUrl)
 	//script(src=baseUrl + "lib/jquery.cookie.js")
 	//script(src=baseUrl + "lib/jquery.base64.js")
 
 mixin leftMenu
-	- var menus = [{menuName:"lar-gallery组件",link:"/src/demo/pages//unit/lar-gallery/gallery.html"},{menuName:"lar-backtop组件",link:"/src/demo/pages/unit/lar-backTop/backTop.html"},{menuName:"lar-thumbGallery组件",link:"/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html"}]
-	div
+	- var componentMenus = [{menuName:"lar-gallery组件",link:"/src/demo/pages//unit/lar-gallery/gallery.html"},{menuName:"lar-backtop组件",link:"/src/demo/pages/unit/lar-backTop/backTop.html"},{menuName:"lar-thumbGallery组件",link:"/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html"}]
+	- var styleMenus = [{menuName:"按钮",link:"/src/demo/pages//unit/lar-gallery/gallery.html"},{menuName:"侧边栏",link:"/src/demo/pages/unit/lar-backTop/backTop.html"},{menuName:"检索",link:"/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html"}]
+	- var toolFunMenus = [{menuName:"地址参数",link:"/src/demo/pages//unit/lar-gallery/gallery.html"},{menuName:"空数据处理",link:"/src/demo/pages/unit/lar-backTop/backTop.html"},{menuName:"图片自适应",link:"/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html"}]
+
+
+	div.componentMenus
 		ul
 			li.title
 				span 组件列表
-			each item in menus
+			each item in componentMenus
+				li
+					- var menuName=item.menuName
+					a(href=item.link) #{menuName}
+	div.styleMenus
+		ul
+			li.title
+				span 样式
+			each item in styleMenus
+				li
+					- var menuName=item.menuName
+					a(href=item.link) #{menuName}
+	div.toolFunMenus
+		ul
+			li.title
+				span 工具方法
+			each item in toolFunMenus
 				li
 					- var menuName=item.menuName
 					a(href=item.link) #{menuName}
@@ -32,11 +55,9 @@ mixin leftMenu
 mixin header
 	section.search-header
 		div.icon
-			span larUI--互联网零件共享仓库
-		div.others
-			div.input-group
-				input(type="text")
-				span 搜索
+			span.title larUI
+			span.desc 精致的组件、样式、工具方法等互联网零件共享仓库
+
 mixin footer
 	section.search-footer
 		div.copyright

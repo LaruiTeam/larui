@@ -11,9 +11,14 @@
     <link rel="stylesheet" href="/src/demo/pages/common.css"/>
     <!--+commonLink('/larui/larui/')-->
     <!--script(src=baseUrl+"dist/util.js")-->
+    <!--script(src= "/dist/gallery.js")-->
+    <script src="/dist/larui.js"></script>
     <script src="/src/component/util/util.js"></script>
+    <script src="/src/demo/pages/common.js"></script>
     <!--+commonScript('/')-->
-    <script src="/src/lib/jquery-1.11.2.js"></script>
+    <!--script(src="/src/lib/jquery-1.11.2.js")-->
+    <!--script(src= "/dist/openAndClose.js")-->
+    <!--script(src="/dist/gallery.js")-->
     <script src="gallery.js"></script>
     <!--+commonScript('/larui/larui/')-->
     <title>larUI-互联网组件库</title>
@@ -22,16 +27,11 @@
     <!--用于IDS虚拟登陆-->
     <!--iframe#virtualLogin.hidden-->
     <section class="search-header">
-      <div class="icon"><span>larUI--互联网零件共享仓库</span></div>
-      <div class="others">
-        <div class="input-group">
-          <input type="text"/><span>搜索</span>
-        </div>
-      </div>
+      <div class="icon"><span class="title">larUI</span><span class="desc">精致的组件、样式、工具方法等互联网零件共享仓库</span></div>
     </section>
     <section class="bodyContent">
       <div class="leftMenu">
-        <div>
+        <div class="componentMenus">
           <ul>
             <li class="title"><span>组件列表</span></li>
             <li><a href="/src/demo/pages//unit/lar-gallery/gallery.html">lar-gallery组件</a>
@@ -42,15 +42,38 @@
             </li>
           </ul>
         </div>
+        <div class="styleMenus">
+          <ul>
+            <li class="title"><span>样式</span></li>
+            <li><a href="/src/demo/pages//unit/lar-gallery/gallery.html">按钮</a>
+            </li>
+            <li><a href="/src/demo/pages/unit/lar-backTop/backTop.html">侧边栏</a>
+            </li>
+            <li><a href="/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html">检索</a>
+            </li>
+          </ul>
+        </div>
+        <div class="toolFunMenus">
+          <ul>
+            <li class="title"><span>工具方法</span></li>
+            <li><a href="/src/demo/pages//unit/lar-gallery/gallery.html">地址参数</a>
+            </li>
+            <li><a href="/src/demo/pages/unit/lar-backTop/backTop.html">空数据处理</a>
+            </li>
+            <li><a href="/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html">图片自适应</a>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="rightContent">
         <div class="api">
-          <div class="title">API说明--test</div>
+          <div class="title">API说明</div>
+          <div class="apiDesc"><span>参数说明：描述组件中参数的意义</span><span>JSON数据样例：组件调用数据时数据的格式。</span><span>示例：组件的效果展示，仅供参考</span></div>
         </div>
         <div class="param">
           <div class="title"><span>参数说明</span></div>
           <div class="paramDes">
-            <div><span>test描述：gallery组件是一款主要为了实现图文左右滑动的组件，目前支持9种展现方式。</span></div>
+            <div><span>描述：gallery组件是一款主要为了实现图文左右滑动的组件，目前支持9种展现方式。</span></div>
             <div><span>调用方式:$("选择器").gallery({params})</span></div>
             <div class="params">
               <table>
@@ -108,6 +131,26 @@
           <div class="title"><span>示例</span></div>
           <div class="examDes">
             <div><a href="./galleryTemplate.html" target="_blank">查看示例效果</a></div>
+          </div>
+        </div>
+        <div class="example pageEffect">
+          <div class="title"><span>参考页面效果</span></div>
+          <div class="examDes">
+            <div>
+              <div class="item"><span>单张图片轮询</span><a href="http://ku.artnchina.com/homePage.html" target="_blank">去查看</a></div>
+              <div class="item"><span>四张图片+下方标题+遮罩简介（新晋人物）</span><a href="http://ku.artnchina.com/page/artist/artistHomepage.html" target="_blank">去查看</a></div>
+              <div class="item"><span>四张图片+下方标题+下方简介（热门艺术家）</span><a href="http://ku.artnchina.com/page/artist/artistHomepage.html" target="_blank">去查看</a></div>
+              <div class="item"><span>单张图片+标题+简介+进入详情页（重点推荐）</span><a href="http://ku.artnchina.com/page/organization/organizationHomepage.html" target="_blank">去查看</a></div>
+              <div class="item"><span>单张图片轮询</span><a href="http://ku.artnchina.com/homePage.html" target="_blank">去查看</a></div>
+              <div class="item"><span>单张图片轮询</span><a href="http://ku.artnchina.com/homePage.html" target="_blank">去查看</a></div>
+              <div class="item"><span>单张图片轮询</span><a href="http://ku.artnchina.com/homePage.html" target="_blank">去查看</a></div>
+            </div>
+          </div>
+        </div>
+        <div class="example downloadPage">
+          <div class="title"><span>下载</span></div>
+          <div class="downloadDes">
+            <div><a><span>源码下载（不压缩）</span></a><a><span>源码下载（压缩文件）</span></a><a><span>demo示例下载</span></a></div>
           </div>
         </div>
       </div>
