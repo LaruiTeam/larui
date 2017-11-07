@@ -8,7 +8,7 @@ module.exports = {
     /*devtool: debug ? "inline-sourcemap" : null,*/
     //entry: "./demo/lar-gallery/gallery.js",
     //entry: "./index.js",
-    entry: {larui:"./index.js",gallery:"./component/lar-gallery/gallery.js"},
+    entry: {componentAll:"./index.js",gallery:"./component/lar-gallery/gallery.js",openAndClose:"./component/lar-openAndClose/openAndClose.js"},
     module: {
         loaders: [
             {
@@ -40,7 +40,7 @@ module.exports = {
     },
     output: {
         path:path.resolve(__dirname, 'dist'),
-        filename:"[name].js",
+        filename:"[name].min.js",
         //filename: "util.js",
         //filename: "util.[hash:8].js",
         chunkFilename: "[name].bundle.js"
@@ -52,5 +52,10 @@ module.exports = {
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
         //new CommonsChunkPlugin({name:"common"})
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
     ],
 };
