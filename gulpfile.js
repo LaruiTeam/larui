@@ -15,13 +15,12 @@ var knownOptions = {
 }
 var options = minimist(process.argv.slice(2), knownOptions);
 var contentPath = './';
-var pugPath = contentPath + 'src/demo/pug/',
-    sassPath = contentPath + 'src/demo/sass/',
+var pugPath = contentPath + 'demo/pug/',
+    sassPath = contentPath + 'demo/sass/',
     //sassPath = contentPath + '/demo/sass/',
     sassUnitPath=contentPath + 'src/component/sass/',
-    //jsPath = contentPath + 'src/js/',
     imgPath = contentPath + 'src/demo/images/',  // 图片路径，暂时没用
-    destPath = contentPath + 'src/demo/pages/',
+    destPath = contentPath + 'demo/pages/',
     configPath = contentPath + 'env/',
     rootPath = contentPath ;
 // pug编译
@@ -32,15 +31,15 @@ gulp.task('pug', function() {
 });
 // pug编译
 gulp.task('pugUnit', function() {
-    gulp.src([pugPath + 'unit/**/*.pug']).pipe(pug({
+    gulp.src([pugPath + '/**/*.pug']).pipe(pug({
         pretty : true
-    })).pipe(gulp.dest(destPath+'unit/'));
+    })).pipe(gulp.dest(destPath+'/'));
 });
 
-// sass编译
+// sass编译--demo
 gulp.task('sass', function() {
-    gulp.src(sassPath + '*.sass').pipe(sass()).pipe(
-        gulp.dest(destPath));
+    gulp.src(sassPath + 'common.sass').pipe(sass()).pipe(
+        gulp.dest(destPath+'/common/'));
 });
 
 // sass编译--单个组件组件 -contentPath + '/src/component/sass/css/'
