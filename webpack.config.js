@@ -2,21 +2,19 @@ var debug = process.env.NODE_ENV !== "production";
 var webpack = require('webpack');
 var path = require('path');
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
-
+var glob=require("glob");
+var comps = glob.sync('./src/component/lar-*/*.js');
+var tool = require('./configTool');
 module.exports = {
     context: path.join(__dirname)+'/src',
+    entry: tool.deal(comps),
     /*devtool: debug ? "inline-sourcemap" : null,*/
-    //entry: "./demo/lar-gallery/gallery.js",
     //entry: "./index.js",
-    entry: {componentAll:"./index.js",gallery:"./component/lar-gallery/gallery.js",openAndClose:"./component/lar-openAndClose/openAndClose.js"},
+    //entry: {componentAll:"./index.js",gallery:"./component/lar-gallery/gallery.js",openAndClose:"./component/lar-openAndClose/openAndClose.js"},
     module: {
         loaders: [
             {
                 test: /\.js?$/,
-                /*exclude:[/node_modules/
-                    //path.resolve(__dirname, "node_modules"),
-                    path.resolve(__dirname, "src/demo"),
-                ] ,*/
                 include:[path.resolve(__dirname, "component")],
                 loader: 'babel-loader',
                /* query: {
@@ -39,10 +37,8 @@ module.exports = {
         ]
     },
     output: {
-        path:path.resolve(__dirname, 'dist'),
+        path:path.resolve(__dirname, 'dist/V0.1'),
         filename:"[name].min.js",
-        //filename: "util.js",
-        //filename: "util.[hash:8].js",
         chunkFilename: "[name].bundle.js"
     },
    /* externals: {
@@ -51,7 +47,7 @@ module.exports = {
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
-        //new CommonsChunkPlugin({name:"common"})
+        new CommonsChunkPlugin({names:['vendor','components']}),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
