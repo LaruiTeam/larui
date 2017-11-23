@@ -11,7 +11,6 @@
 * 2016.11.11 Beta 1.0
 * 
 **/
-
 import $ from 'jquery';
 import  './../sass/css/lar-openAndClose.css';
 window.$=$;
