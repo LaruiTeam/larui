@@ -8,13 +8,9 @@ function getServerPath(){
 	//获取主机地址之后的目录，如： cis/website/meun.htm
 	var pathName = window.document.location.pathname;
 	var pos = curWwwPath.indexOf(pathName); //获取主机地址，如： http://localhost:8080
-	var srcPath = curWwwPath.indexOf('src'); //获取src位置，如： http://localhost:8080
-	//alert("src前主机地址后的路径"+pos+","+srcPath);
-	//var localhostPaht = curWwwPath.substring(0, pos); //获取带"/"的项目名，如：/cis
 	var localhostPaht = curWwwPath.substring(0, pos); //获取带"/"的项目名，如：/cis
-	var relativePath = curWwwPath.substring(pos,srcPath); //获取带"/"的项目名，如：/cis
-	//var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-	var rootPath = localhostPaht + relativePath;
+	var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+	var rootPath = localhostPaht + projectName;
 	return rootPath;
 }
 /*

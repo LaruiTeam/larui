@@ -34,7 +34,7 @@ window.$=$;
         },
         buildDom : function() {	// 创建Dom对象
         	this.object && this.object.remove();
-        	this.object = $('<div class="larOpenAndClose"><span data-status="close">[展开]</span></div>');
+        	this.object = $('<div class="larOpenAndClose"><span data-status="close">︾</span></div>');
 			this.$Container.after(this.object);
         },
 		setHide : function() {	// 计算是否需要隐藏展开
@@ -52,10 +52,10 @@ window.$=$;
 			this.$Container.css({height:height,lineHeight:lineHeight,overflow: 'hidden'});
 			this.object.on('click', 'span', function(){
 				if($(this).attr('data-status') == 'close') {	// 要展开
-					$(this).attr('data-status','open').text('[收缩]');
+					$(this).attr('data-status','open').text('︽');
 					_this.$Container.css('height','auto');
 				} else {	// 要收缩
-					$(this).attr('data-status','close').text('[展开]');
+					$(this).attr('data-status','close').text('︾');
 					_this.$Container.css('height',height);
 					var scrollTarget = Math.floor(_this.$Container.offset().top);
 					$('html, body').animate({
