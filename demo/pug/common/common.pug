@@ -12,18 +12,14 @@ mixin commonLink(baseUrl)
 //-所有插件和公共js
 mixin commonScript(baseUrl)
 	//script(src= "/dist/gallery.js")
-	script(src= "/dist/componentAll.min.js")
+	script(src= baseUrl+"dist/V0.1/componentAll.min.js")
 	script(src=baseUrl + "src/component/util/util.js")
 	script(src=baseUrl + "demo/pages/common/common.js")
-mixin anthenScript(baseUrl)
-	//script(src=baseUrl + "lib/jquery.cookie.js")
-	//script(src=baseUrl + "lib/jquery.base64.js")
-
+//mixin anthenScript(baseUrl)
 mixin leftMenu
-	- var componentMenus = [{menuName:"lar-gallery组件",link:"/src/demo/pages//unit/lar-gallery/gallery.html"},{menuName:"lar-backtop组件",link:"/src/demo/pages/unit/lar-backTop/backTop.html"},{menuName:"lar-thumbGallery组件",link:"/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html"}]
-	- var styleMenus = [{menuName:"按钮",link:"/src/demo/pages//unit/lar-gallery/gallery.html"},{menuName:"侧边栏",link:"/src/demo/pages/unit/lar-backTop/backTop.html"},{menuName:"检索",link:"/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html"}]
-	- var toolFunMenus = [{menuName:"地址参数",link:"/src/demo/pages//unit/lar-gallery/gallery.html"},{menuName:"空数据处理",link:"/src/demo/pages/unit/lar-backTop/backTop.html"},{menuName:"图片自适应",link:"/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html"}]
-
+	- var componentMenus = [{menuName:"lar-gallery组件",link:"/demo/pages/lar-gallery/gallery.html"},{menuName:"lar-backtop组件",link:"/demo/pages/lar-backTop/backTop.html"},{menuName:"lar-thumbGallery组件",link:"/demo/pages/lar-thumbGallery/thumbGallery.html"}]
+	- var styleMenus = [{menuName:"按钮",link:"/demo/pages/lar-gallery/gallery.html"},{menuName:"侧边栏",link:"/demo/pages/lar-backTop/backTop.html"},{menuName:"检索",link:"/demo/pages/lar-thumbGallery/thumbGallery.html"}]
+	- var toolFunMenus = [{menuName:"地址参数",link:"/demo/pages/lar-gallery/gallery.html"},{menuName:"空数据处理",link:"/demo/pages/lar-backTop/backTop.html"},{menuName:"图片自适应",link:"/src/demo/pages/unit/lar-thumbGallery/thumbGallery.html"}]
 
 	div.componentMenus
 		ul
@@ -50,7 +46,6 @@ mixin leftMenu
 					- var menuName=item.menuName
 					a(href=item.link) #{menuName}
 
-
 mixin header
 	section.search-header
 		div.icon
@@ -69,15 +64,12 @@ mixin footer
 			//script(type='text/javascript')
 			//	var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?52744559f831bd9a8417325f30470803";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();
 
-
 //页面基本元素
 doctype html
 html
 	head
 		block head
 	body
-		//用于IDS虚拟登陆
-		//iframe#virtualLogin.hidden
 		+header
 		section.bodyContent
 			block bodyContent
