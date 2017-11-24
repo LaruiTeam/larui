@@ -90,8 +90,7 @@ import larUi from './../util/util.js';
 import  './../sass/css/lar-gallery.css';
 /*import '../util/larui.css';*/
 window.$=$;
-//var baseUrl=larUi.baseUrl;
-var baseUrl="./../../../";
+var baseUrl=larUi.baseUrl;
 var placeholderImg=larUi.placeholderImg;
 	/*组件状态：v0.2*/
 	(function ($) {

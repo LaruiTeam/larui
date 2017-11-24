@@ -43,11 +43,11 @@ module.exports = {
     },
    /* externals: {
         jquery: 'window.$'},*/
-    plugins: debug ? [] : [
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
-        new CommonsChunkPlugin({names:['vendor','components']}),
+    plugins: [
+        //new webpack.optimize.DedupePlugin(),
+        //new webpack.optimize.OccurenceOrderPlugin(),
+        //new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
+        //new CommonsChunkPlugin({names:['vendor','vendor.js']}),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
