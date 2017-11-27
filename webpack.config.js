@@ -4,10 +4,12 @@ var path = require('path');
 var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 var glob=require("glob");
 var comps = glob.sync('./src/component/lar-*/*.js');
+var lib = glob.sync('./src/lib/*.js');
+var libFiles = glob.sync('./src/lib/**/**');
 var tool = require('./configTool');
 module.exports = {
     context: path.join(__dirname)+'/src',
-    entry: tool.deal(comps),
+    entry: tool.deal(comps,lib,libFiles),
     /*devtool: debug ? "inline-sourcemap" : null,*/
     //entry: "./index.js",
     //entry: {componentAll:"./index.js",gallery:"./component/lar-gallery/gallery.js",openAndClose:"./component/lar-openAndClose/openAndClose.js"},
@@ -41,8 +43,9 @@ module.exports = {
         filename:"[name].min.js",
         chunkFilename: "[name].bundle.js"
     },
-   /* externals: {
-        jquery: 'window.$'},*/
+   externals: {
+        jquery: 'window.$'
+   },
     plugins: [
         //new webpack.optimize.DedupePlugin(),
         //new webpack.optimize.OccurenceOrderPlugin(),
