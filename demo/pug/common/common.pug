@@ -12,7 +12,11 @@ mixin commonLink(baseUrl)
 	link(rel="stylesheet", href=baseUrl + "src/component/sass/css/larui.css")
 //-所有插件和公共js
 mixin commonScript(baseUrl)
-	//script(src= "/dist/gallery.js")
+	//--这是多组件单独引入方式，需要引入jquery即可
+	//script(src= baseUrl+"dist/V0.1/openAndClose.min.js")
+	//script(src= baseUrl+"dist/gallery.min.js")
+	//--直接引入所有研发（费第三方）的组件的方式
+	script(src= baseUrl+"src/lib/jquery-1.11.2.js")
 	script(src= baseUrl+"dist/V0.1/componentAll.min.js")
 	script(src=baseUrl + "src/component/util/util.js")
 	script(src=baseUrl + "demo/pages/common/common.js")
