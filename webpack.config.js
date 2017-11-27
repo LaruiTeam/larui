@@ -36,6 +36,10 @@ module.exports = {
                     pretty: true
                 }
             },*/
+            /*{
+                test:require.resolve('./../jquery'),
+                loader:'expose-loader?$!expose-loader?jQuery'
+            },*/
         ]
     },
     output: {
@@ -51,6 +55,12 @@ module.exports = {
         //new webpack.optimize.OccurenceOrderPlugin(),
         //new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
         //new CommonsChunkPlugin({names:['vendor','vendor.js']}),
+       /* new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            'window.$':'jquery',
+            'window.jQuery':'jquery'
+        }),*/
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false

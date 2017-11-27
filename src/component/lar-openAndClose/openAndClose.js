@@ -13,8 +13,7 @@
 **/
 import $ from 'jquery';
 import  './../sass/css/lar-openAndClose.css';
-window.$=$;
-(function($){	
+(function($){
     function OpenAndClose( element, options ) {
         this.element = element;
         this.$Container = $(element);
