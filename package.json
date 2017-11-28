@@ -21,6 +21,7 @@
     "webpack-dev-server": "^2.7.1"
   },
   "devDependencies": {
+    "archiver": "^2.1.0",
     "gulp": "^3.9.1",
     "gulp-connect": "^5.0.0",
     "gulp-pug": "^3.3.0",
@@ -28,11 +29,3 @@
     "minimist": "^1.2.0"
   }
 }
-
-
-
-
-
-
-
-
