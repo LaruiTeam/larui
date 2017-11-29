@@ -2,14 +2,10 @@
  * Created by EasyLiang on 2017/11/23.
  */
 /*整理所有入口文件，格式为{key：path,key:path.....}*/
+//var debug = process.env.NODE_ENV !== "production";
 var glob=require("glob");
 var path = require('path');
 var fs = require("fs");
-/*压缩文件夹*/
-/*var fstream=require('fstream');
-var tar=require('tar');
-var zlib=require('zlib');*/
-var archiver = require('archiver');
 var zipper = require("zip-local");
 
 this.deal=function(files,lib,libFiles){
@@ -92,11 +88,11 @@ function find(str,cha,num){
     return x;
 }
 
-/*压缩指定路径下的一级文件夹为压缩文件，目前供下载使用,具体位置 结合环境（开发还是线上）待定*/
+//把指定路径下的一级文件夹压缩为压缩文件，目前供下载使用,部署（提交github）前用node运行本脚本即可，folderPath:./dist/V0.1/lib/**/
 this.zipFile=function(folderPath){
     var zipSrcFiles = glob.sync(folderPath);
     var folders="";
-    console.log("共有文件："+zipSrcFiles.length);
+    //console.log("共有文件："+zipSrcFiles.length);
     for(var i=0;i<=zipSrcFiles.length;i++){
         if(i<zipSrcFiles.length){
             /*获取所有文件夹*/
@@ -112,16 +108,22 @@ this.zipFile=function(folderPath){
         }else{
             /*对文件夹进行压缩*/
             var folderArr = folders.split(",");
+            var hasZipFolder = glob.sync("./dist/V0.1/zip/");
+            if(hasZipFolder=="" || hasZipFolder==" "){
+                //console.log("开始创建zip目录了");
+                fs.mkdirSync("./dist/V0.1/zip");
+            }
             for(var n=1;n<folderArr.length-1;n++){
+                console.log("folderArr:"+folderArr[n]);
                 var folderName=folderArr[n];
-                console.log("folder:"+"./dist/V0.1/lib/"+folderName+"/**");
+                //console.log("folder:"+"./dist/V0.1/lib/"+folderName);
                 zipper.sync.zip("./dist/V0.1/lib/"+folderName).compress().save("./dist/V0.1/zip/"+folderName+".zip");
             }
         }
     }
 }
 
-function makeDir(path){
+function makeDir(path){  //规范：path最后必须不是以\结尾
     var faDir=path.substring(0,path.lastIndexOf('\\'));
     var hasFaDir=fs.existsSync(faDir);
     if(!hasFaDir){
@@ -131,3 +133,4 @@ function makeDir(path){
         fs.mkdirSync(path);
     }
 }
+this.zipFile("./dist/V0.1/lib/**/");
