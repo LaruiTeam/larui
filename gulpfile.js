@@ -15,8 +15,8 @@ var knownOptions = {
 }
 var options = minimist(process.argv.slice(2), knownOptions);
 var contentPath = './';
-var pugPath = contentPath + 'demo/pug/',
-    sassPath = contentPath + 'demo/sass/',
+var pugPath = contentPath + 'demo/src/pug/',
+    sassPath = contentPath + 'demo/src/sass/',
     //sassPath = contentPath + '/demo/sass/',
     sassUnitPath=contentPath + 'src/component/sass/',
     imgPath = contentPath + 'src/demo/images/',  // 图片路径，暂时没用
@@ -33,7 +33,7 @@ gulp.task('pug', function() {
 gulp.task('pugUnit', function() {
     gulp.src([pugPath + '/**/*.pug']).pipe(pug({
         pretty : true
-    })).pipe(gulp.dest(destPath+'/'));
+    })).pipe(gulp.dest(destPath));
 });
 
 // sass编译--demo

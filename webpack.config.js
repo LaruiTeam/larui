@@ -41,7 +41,7 @@ module.exports = {
         ]
     },
     output: {
-        path:path.resolve(__dirname, 'dist/V0.1'),
+        path:path.resolve(__dirname, 'demo/pages/dist/V0.1'),
         filename:"[name].min.js",
         chunkFilename: "[name].bundle.js"
     },
