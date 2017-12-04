@@ -1,0 +1,51 @@
+extends common
+block head
+    block metas
+        +commonMeta
+    block links
+        +commonLink('./../')
+        //+commonLink('/larui/larui/')
+    block scripts
+        +commonScript('./../')
+        block unitScripts
+        //+commonScript('/larui/larui/')
+    block title
+        title larUI-互联网组件库
+
+block bodyContent
+    div.leftMenu
+        +leftMenu("./../")
+    div.rightContent
+        block rightContent
+            div.api
+                div.title API说明
+                div.apiDesc
+                    span 参数说明：描述组件中参数的意义
+                    span JSON数据样例：组件调用数据时数据的格式。
+                    span 示例：组件的效果展示，仅供参考
+            div.dataDes.relyFile
+                div.title
+                    span 文件说明
+                div.paramDes
+                    block relyFile
+            div.param
+                div.title
+                    span 参数说明
+                div.paramDes
+                    block paraDes
+            div.dataDes
+                div.title
+                    span JSON数据样例
+                div.dataJson
+                    block dataJson
+            div.example
+                div.title
+                    span 示例
+                div.examDes
+                    block example
+
+            div.example.pageEffect
+                div.title
+                    span 参考页面效果
+                div.examDes
+                    block pageEffect
