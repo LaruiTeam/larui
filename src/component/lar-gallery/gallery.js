@@ -88,7 +88,7 @@
 import $ from 'jquery';
 import larUi from './../util/util.js';
 import  './../sass/css/lar-gallery.css';
-var baseUrl="./../../../";
+var baseUrl="./../dist/V0.1/";
 var placeholderImg=larUi.placeholderImg;
 	/*组件状态：v0.2*/
 	(function ($) {
@@ -139,8 +139,8 @@ var placeholderImg=larUi.placeholderImg;
 				containerHeight: "",
 				pageSize: "3",
 				pageSizeClass: "",
-				arrowLeftImg: baseUrl+"src/component/images/arrows/arrowLeft.png",
-				arrowRightImg:baseUrl+"src/component/images/arrows/arrowRight.png",
+				arrowLeftImg: baseUrl+"images/arrows/arrowLeft.png",
+				arrowRightImg:baseUrl+"images/arrows/arrowRight.png",
 				isSlide: true,
 				windowWidth: null
 			};
@@ -284,7 +284,7 @@ var placeholderImg=larUi.placeholderImg;
 					};
 					/*第i张图片路径有问题，采用默认图片路径*/
 					img.onerror = function () {
-						var defaultUrl = baseUrl+"src/component/images/errorImage.jpg";
+						var defaultUrl = baseUrl+"images/errorImage.jpg";
 						var curImg = _this.$container.find(" .inner .galleryPic img").eq(i);
 						$(curImg).attr("src", defaultUrl);
 						img.src = defaultUrl;
@@ -449,12 +449,12 @@ var placeholderImg=larUi.placeholderImg;
 			if (_this.options.setArrowLeftImg) {
 				this.$container.find(".arrow-right img").attr("src", this.options.arrowLeftImg);
 			} else {
-				this.$container.find(".arrow-left img").attr("src", baseUrl + "src/component/images/arrows/yellowArrowLeft.png");
+				this.$container.find(".arrow-left img").attr("src", baseUrl + "images/arrows/yellowArrowLeft.png");
 			}
 			if (_this.options.setArrowRightImg) {
 				this.$container.find(".arrow-right img").attr("src", this.options.arrowRightImg);
 			} else {
-				this.$container.find(".arrow-right img").attr("src", baseUrl + "src/component/images/arrows/yellowArrowRight.png");
+				this.$container.find(".arrow-right img").attr("src", baseUrl + "images/arrows/yellowArrowRight.png");
 			}
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
 			_this.options.setTitleStyle.overflow = "visible";
