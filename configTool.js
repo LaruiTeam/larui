@@ -7,7 +7,9 @@ var glob=require("glob");
 var path = require('path');
 var fs = require("fs");
 var zipper = require("zip-local");
-
+this.componentList=[];
+this.libList=[];
+this.libFilesList=[];
 this.deal=function(files,lib,libFiles){
     //var entryObject={componentAll:'./index.js',vendor:'jquery'};
     var entryObject={componentAll:'./index.js'};
@@ -16,6 +18,7 @@ this.deal=function(files,lib,libFiles){
             //larui研发组件
             var key=files[i].substring(files[i].lastIndexOf('/')+1,files[i].indexOf('.js'));
             entryObject[key]=files[i].replace('src/','');
+            //this.componentList.push({[key]:files[i].replace('src/','')});
         } else {
             for (var j = 0; j <= lib.length; j++) {
                 //第三方单独文件
@@ -25,6 +28,24 @@ this.deal=function(files,lib,libFiles){
                     if(isMin<0){
                         var key="/lib/"+lib[j].substring(lib[j].lastIndexOf('/')+1,lib[j].indexOf('.js'));
                         entryObject[key]=lib[j].replace('src/','') ;
+                        //var a={};
+                        //a[key]=lib[i].replace('src/','');
+                        //this.libList.push(a);
+                    }else if(isMin>0){
+                        console.log(lib[j]+"是压缩文件");
+                        var filePath=lib[j];
+                       fs.readFile(lib[j], 'utf-8', function(err, data) {
+                            if (err) {
+                                console.log("读取失败");
+                            } else {
+                                var key=filePath.substring(filePath.lastIndexOf('/')+1,filePath.length);
+                                console.log(filePath+":"+"读取成功"+key);
+
+                                var fileDestPath="./dist/V0.1/lib/"+key
+                                writeFile(fileDestPath,data)
+                                return data;
+                            }
+                        });
                     }
                 } else {//第三方组件文件夹
                     travel('./src/lib/', function (pathName) {
@@ -43,10 +64,10 @@ this.deal=function(files,lib,libFiles){
                                 }
                             }else{
                                 var reDir = pathName.substring(pathName.lastIndexOf('/lib/'),pathName.length);
-                                var createPath=path.resolve(__dirname, 'demo/pages/dist/V0.1'+reDir);
+                                var createPath=path.resolve(__dirname, 'dist/V0.1'+reDir);
                                 var mkdir=createPath.substring(0,createPath.lastIndexOf('\\'));
                                 var hasDir=fs.existsSync(mkdir);
-                                console.log("文件夹是否存在："+hasDir+"???"+createPath+"创建路径：:"+mkdir);
+                                //console.log("文件夹是否存在："+hasDir+"???"+createPath+"创建路径：:"+mkdir);
                                 if(!hasDir){
                                     makeDir(mkdir);
                                 }
@@ -96,8 +117,8 @@ this.zipFile=function(folderPath){
     for(var i=0;i<=zipSrcFiles.length;i++){
         if(i<zipSrcFiles.length){
             /*获取所有文件夹*/
-            var start=find(zipSrcFiles[i], '/',5)+1;
-            var end=find(zipSrcFiles[i], '/',6);
+            var start=find(zipSrcFiles[i], '/',3)+1;
+            var end=find(zipSrcFiles[i], '/',4);
             if(end>-1){
                 var folder=zipSrcFiles[i].substring(start,end);
                 var isExt=folders.indexOf(folder);
@@ -108,16 +129,17 @@ this.zipFile=function(folderPath){
         }else{
             /*对文件夹进行压缩*/
             var folderArr = folders.split(",");
-            var hasZipFolder = glob.sync("./demo/pages/dist/V0.1/zip/");
+            //console.log("共有文件："+folders);
+            var hasZipFolder = glob.sync("./dist/V0.1/zip/");
             if(hasZipFolder=="" || hasZipFolder==" "){
                 //console.log("开始创建zip目录了");
-                fs.mkdirSync("./demo/pages/dist/V0.1/zip");
+                fs.mkdirSync("./dist/V0.1/zip");
             }
             for(var n=1;n<folderArr.length-1;n++){
                 console.log("folderArr:"+folderArr[n]);
                 var folderName=folderArr[n];
                 console.log("folder:"+"./dist/V0.1/lib/:"+folderName);
-                zipper.sync.zip("./demo/pages/dist/V0.1/lib/"+folderName).compress().save("./demo/pages/dist/V0.1/zip/"+folderName+".zip");
+                zipper.sync.zip("./dist/V0.1/lib/"+folderName).compress().save("./dist/V0.1/zip/"+folderName+".zip");
             }
         }
     }
@@ -133,4 +155,36 @@ function makeDir(path){  //规范：path最后必须不是以\结尾
         fs.mkdirSync(path);
     }
 }
-this.zipFile("./demo/pages/dist/V0.1/lib/**/");
+this.zipFile("./dist/V0.1/lib/**/");
+
+this.getComponents=function(){
+    var comps = glob.sync('./src/component/lar-*/*.js');
+    var lib = glob.sync('./src/lib/*.js');
+    var libFiles = glob.sync('./src/lib/**/**');
+    for(var i=0;i<=comps.length;i++){
+        //if(comps[i].substring('lar')>-1){
+        //    var key=comps[i].substring(comps[i].lastIndexOf('/')+1,comps[i].indexOf('.js'));
+        //    //componentList.push(key+"组件");
+        //    var a={};
+        //    a[key]=files[i].replace('src/','');
+        //    this.componentList.push(a);
+        //}else{
+        //    console.log("共有研发组件"+i+"个");
+        //}
+    }
+}
+
+function writeFile(fileDestPath,data){
+    console.log(fileDestPath+"路径");
+    if (!fs.existsSync(fileDestPath)) {
+        fs.open(fileDestPath, "w", function (err, fd) {
+        });
+    }
+    fs.writeFile(fileDestPath,data,'utf8',function(error){
+        if(error){
+            throw error;
+        }else{
+            console.log(fileDestPath+"文件已保存");
+        }
+    });
+}

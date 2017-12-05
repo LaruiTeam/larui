@@ -47,11 +47,24 @@ gulp.task('sassUnit', function() {
     gulp.src(sassUnitPath+'*.scss').pipe(sass()).pipe(gulp.dest(sassUnitPath+"css/"));
 });
 
+// 构建demo的src里面的js文件到pages对应文件夹下
+gulp.task('copySrc',  function() {
+    return gulp.src('./demo/src/js/**/*')
+        .pipe(gulp.dest(destPath))
+});
+
+// 构建dist下面的js文件到pages对应文件夹下
+gulp.task('copyDist',  function() {
+    return gulp.src('./dist/**')
+        .pipe(gulp.dest(destPath+'dist/'))
+});
+
 // 监控--只在开发环境进行
 gulp.task('watch', function() {
     gulp.watch(pugPath + '**/*.pug', ['pug']);
     gulp.watch(sassPath + '**/*.scss', ['sass']);
     gulp.watch(sassUnitPath  + '/*.sass', ['sass']);
+    gulp.watch( './src/js/**/*.js', ['copy']);
 });
 
 // 启动服务--只在开发环境进行
@@ -63,7 +76,7 @@ gulp.task('webserver', function() {
     });
 });
 
-gulp.task('default', [ 'pug','pugUnit', 'sass','sassUnit'],function(){
+gulp.task('default', [ 'pug','pugUnit', 'sass','sassUnit','copySrc','copyDist'],function(){
     if(options.env=='localhost') {
         gulp.run('watch');
         gulp.run('webserver');
