@@ -1,27 +1,3 @@
-//- 浏览器头文件属性设置
-mixin commonMeta
-	meta(charset="utf-8")
-	meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
-	meta(name="description", content="util,互联网类larui组件库")
-	meta(name="Keywords", content="util,互联网类larui组件库")
-	meta(name="viewport" ,content="maximum-scale=1.0 , minimum-scale=1.0 , user-scalable=0 , width=device-width , initial-scale=1.0" )
-//- 公共头部链接  baseurl 到pages
-mixin commonLink(baseUrl)
-	link(rel="icon", href=baseUrl + "images/favicon.ico", type="image/x-icon")
-	link(rel="stylesheet", href=baseUrl + "/common/common.css")
-//-所有插件和公共js
-mixin commonScript(baseUrl)
-	//--这是多组件单独引入方式，需要引入jquery即可 ---以pages为相对路径
-	//script(src= baseUrl+"dist/V0.1/openAndClose.min.js")
-	//script(src= baseUrl+"dist/gallery.min.js")
-	//--直接引入所有研发（费第三方）的组件的方式
-	//script(src= baseUrl+"../../src/lib/jquery-1.11.2.js")
-	script(src= baseUrl+"dist/V0.1/lib/jquery-1.11.2.min.js")
-	script(src= baseUrl+"dist/V0.1/componentAll.min.js")
-	//script(src=baseUrl + "../../src/component/util/util.js")
-	script(src=baseUrl + "../../configTool.js")
-	script(src=baseUrl + "common/common.js")
-//mixin anthenScript(baseUrl)
 mixin leftMenu(baseUrl)
 	- var componentMenus = [{menuName:"lar-gallery组件",link:baseUrl+"lar-gallery/gallery.html"},{menuName:"lar-backtop组件",link:baseUrl+"demo/pages/lar-backTop/backTop.html"},{menuName:"lar-thumbGallery组件",link:baseUrl+"demo/pages/lar-thumbGallery/thumbGallery.html"}]
 	- var styleMenus = [{menuName:"按钮",link:baseUrl+"lar-gallery/gallery.html"},{menuName:"侧边栏",link:baseUrl+"demo/pages/lar-backTop/backTop.html"},{menuName:"检索",link:baseUrl+"demo/pages/lar-thumbGallery/thumbGallery.html"}]
@@ -80,7 +56,6 @@ html
 		+header
 		section.bodyContent
 			block bodyContent
-
 		+footer
 		//block header
 		//block footer
