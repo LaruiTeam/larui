@@ -14,12 +14,13 @@ block head
 
 block bodyContent
     div.leftMenu
-        +leftMenu
+        //include ./common/menu.pug
+        +leftMenu("./")
     div.rightContent
         section.content
             ul
             li
-                input(type="checkbox" value="lar-gallery")
+                input(type="checkbox" value="larGallery")
                 span gallery
             li
                 input(type="checkbox" value="lar-backtop")
@@ -28,7 +29,7 @@ block bodyContent
                 input(type="checkbox" value="lar-galleryWall")
                 span galleryWall
             li
-                input(type="checkbox" value="lar-gallery")
+                input(type="checkbox" value="larGallery")
                 span gallery
 
         button(class="button1" value="commit" style="width:100px;height:40px;background:#64b5bf;border-radius:6px") 打包

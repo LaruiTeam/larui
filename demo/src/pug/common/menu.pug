@@ -1,61 +1,19 @@
 mixin leftMenu(baseUrl)
-	- var componentMenus = [{menuName:"lar-gallery组件",link:baseUrl+"lar-gallery/gallery.html"},{menuName:"lar-backtop组件",link:baseUrl+"demo/pages/lar-backTop/backTop.html"},{menuName:"lar-thumbGallery组件",link:baseUrl+"demo/pages/lar-thumbGallery/thumbGallery.html"}]
-	- var styleMenus = [{menuName:"按钮",link:baseUrl+"lar-gallery/gallery.html"},{menuName:"侧边栏",link:baseUrl+"demo/pages/lar-backTop/backTop.html"},{menuName:"检索",link:baseUrl+"demo/pages/lar-thumbGallery/thumbGallery.html"}]
-	- var toolFunMenus = [{menuName:"地址参数",link:baseUrl+"lar-gallery/gallery.html"},{menuName:"空数据处理",link:baseUrl+"demo/pages/lar-backTop/backTop.html"},{menuName:"图片自适应",link:baseUrl+"src/demo/pages/unit/lar-thumbGallery/thumbGallery.html"}]
-	- var menus=libList
-	div.componentMenus
-		ul
-			li.title
-				span 组件列表
-			each item in componentMenus
-				li
-					- var menuName=item.menuName
-					a(href=item.link) #{menuName}
-					a #{libList}
-	div.styleMenus
-		ul
-			li.title
-				span 样式
-			each item in styleMenus
-				li
-					- var menuName=item.menuName
-					a(href=item.link) #{menuName}
-	div.toolFunMenus
-		ul
-			li.title
-				span 工具方法
-			each item in toolFunMenus
-				li
-					- var menuName=item.menuName
-					a(href=item.link) #{menuName}
+      - var componentMenus = [{"menuName":"larAccordion组件","link":baseUrl + "/larAccordion/larAccordion.html"},{"menuName":"larBooklet组件","link":baseUrl + "/larBooklet/larBooklet.html"},{"menuName":"larDynamicPage组件","link":baseUrl + "/larDynamicPage/larDynamicPage.html"},{"menuName":"larFancyZoom组件","link":baseUrl + "/larFancyZoom/larFancyZoom.html"},{"menuName":"larGallery组件","link":baseUrl + "/larGallery/larGallery.html"},{"menuName":"larGalleryWall组件","link":baseUrl + "/larGalleryWall/larGalleryWall.html"},{"menuName":"larImageText组件","link":baseUrl + "/larImageText/larImageText.html"},{"menuName":"larLoading组件","link":baseUrl + "/larLoading/larLoading.html"},{"menuName":"larMixPhotoWall组件","link":baseUrl + "/larMixPhotoWall/larMixPhotoWall.html"},{"menuName":"larOpenAndClose组件","link":baseUrl + "/larOpenAndClose/larOpenAndClose.html"},{"menuName":"larPdf组件","link":baseUrl + "/larPdf/larPdf.html"},{"menuName":"larSpcFulltextSearch组件","link":baseUrl + "/larSpcFulltextSearch/larSpcFulltextSearch.html"},{"menuName":"larThumbGallery组件","link":baseUrl + "/larThumbGallery/larThumbGallery.html"},{"menuName":"larTimeAxis组件","link":baseUrl + "/larTimeAxis/larTimeAxis.html"},{"menuName":"larTimingLine组件","link":baseUrl + "/larTimingLine/larTimingLine.html"},{"menuName":"larUploadMulti组件","link":baseUrl + "/larUploadMulti/larUploadMulti.html"},{"menuName":"larUploadSingle组件","link":baseUrl + "/larUploadSingle/larUploadSingle.html"},{"menuName":"larUploadSingleBtn组件","link":baseUrl + "/larUploadSingleBtn/larUploadSingleBtn.html"}]
+      div.componentMenus 
+          ul
+              li.title 
+                  span 组件列表 
+              each item in componentMenus 
+                  li 
+                      - var menuName=item.menuName
+                      a(href=item.link target="_blank") #{menuName}
+      div.styleMenus 
+          ul 
+              li.title 
+                  span 样式 
+              each item in componentMenus 
+                  li 
+                      - var menuName=item.menuName 
+                      a(href=item.link target="_blank") #{menuName}
 
-mixin header
-	section.search-header
-		div.icon
-			span.title larUI
-			span.desc 精致的组件、样式、工具方法等互联网零件共享仓库
-
-mixin footer
-	section.search-footer
-		div.copyright
-			a(href="http://www.artnchina.com/page/witart/witart.html" target="_blank")
-				span 技术支持：中国软件与技术服务股份有限公司
-			p Copyright@2011 CFLAC Corporation ALL RIGHTS RESERVED 中国软件与技术服务股份有限公司
-			p.baidu_statistics
-				a(href="http://tongji.baidu.com/hm-web/welcome/ico?s=52744559f831bd9a8417325f30470803" target="blank")
-					img(src="../images/baidu_statistics.gif")
-			//script(type='text/javascript')
-			//	var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "https://hm.baidu.com/hm.js?52744559f831bd9a8417325f30470803";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();
-
-//页面基本元素
-doctype html
-html
-	head
-		block head
-	body
-		+header
-		section.bodyContent
-			block bodyContent
-		+footer
-		//block header
-		//block footer
