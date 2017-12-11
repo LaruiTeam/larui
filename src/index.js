@@ -3,6 +3,7 @@
  */
 import $ from 'jquery';
 import  './component/lar-gallery/larGallery';
+import  './component/lar-gallery/oneSlide';
 import  './component/lar-openAndClose/larOpenAndClose';
 import  './component/lar-accordion/larAccordion';
 import  './component/lar-booklet/larBooklet';
@@ -16,9 +17,9 @@ import './component/lar-mixPhotoWall/larMixPhotoWall';
 import './component/lar-thumbGallery/larThumbGallery';
 import './component/lar-timeAxis/larTimeAxis';
 import './component/lar-timingLine/larTimingLine';
-import './component/lar-upload/larUploadSingle';
+/*import './component/lar-upload/larUploadSingle';
 import './component/lar-upload/larUploadMulti';
-import './component/lar-upload/larUploadSingleBtn';
+import './component/lar-upload/larUploadSingleBtn';*/
 import './component/lar-timingLine/larTimingLine';
 
 import './component/sass/css/larui.css';

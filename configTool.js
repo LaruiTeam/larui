@@ -159,7 +159,7 @@ function makeDir(path){  //规范：path最后必须不是以\结尾
     }
 }
 //this.zipFile("./dist/V0.1/lib/**/");
-
+/*左侧菜单*/
 this.getComponents=function(){
     var comps = glob.sync('./src/component/lar-*/*.js');
     var lib = glob.sync('./src/lib/*.js');
@@ -177,7 +177,7 @@ this.getComponents=function(){
     });
 }
 
-this.getComponents();
+//this.getComponents();
 
 function writeFile(fileDestPath,data){
     console.log(fileDestPath+"路径");

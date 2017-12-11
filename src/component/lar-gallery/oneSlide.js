@@ -20,8 +20,10 @@
  * containerHeight  //设置oneSlide区域高度，有默认参数，默认高度是图片的高度加上img和div的边框高度（border-width）
  * pageSize //展示在页面上的图片张数，当调用插件者设置setPageSize参数时，pageSize为setPageSize的值，否则取有默认值；当屏幕浏览器分辨率小于768时，默认只显示1张，否则默认值是3张。
  * 获取渲染后的dom对象用getDataDom方法，eg：var $dataDoms=$(".allCategory").data("plugin_oneSlide").getDataDom();
- */	
-
+ */
+import $ from 'jquery';
+import  './../sass/css/lar-gallery.css';
+var baseUrl="./../dist/V0.1/";
 
 /*组件状态：重构中。。。。。。*/
 (function($){
@@ -112,4 +114,4 @@
             return $.data(this, "plugin_oneSlide" , new oneSlide(this, options));
         });
     }
-})(jQuery)
+})($)
