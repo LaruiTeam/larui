@@ -106,7 +106,7 @@ $(document).ready(function(){
 	},'json');
 
 	/*gallery--10、1张图片左右排版*/
-	$$.getJSON("./../common/json/getFigureHead.json" ,  function(data){
+	$.getJSON("./../common/json/getFigureHead.json" ,  function(data){
 		$(".art_classfications8").gallery({
 			dataList: data.model.entity,
 			galleryMode:"wordRegionRight",

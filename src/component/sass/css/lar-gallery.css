@@ -157,7 +157,8 @@
   position: relative; }
 
 .lar-galleryWrapper .artType .pageSizeTwelve, .lar-galleryWrapper .pageSizeTwelve p {
-  text-align: center; }
+  text-align: center;
+  height: auto; }
 
 .lar-galleryWrapper .artType .pageSizeTwelve .title {
   height: 1.5em;

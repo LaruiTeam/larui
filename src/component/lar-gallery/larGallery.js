@@ -192,9 +192,9 @@ var baseUrl="./../dist/V0.1/";
 			$(this.$container).find(".inner").css({width: galleryContentWidth + 'px', margin: '0 auto'});
 			$(this.$container).find(".arrow ").css({"width": _this.options.arrowWidth + "px"});
 			this.initPageSizeClass(_this.options.setPageSize, _this.options.dataList.length);
-			if (!_this.options.isPcSlide) {
+			/*if (!_this.options.isPcSlide) {
 				$(this.$container).find(".arrow ").addClass("onlyMobileSlide");
-			}
+			}*/
 			dfd.resolve();
 			return dfd.promise;
 		}
@@ -481,7 +481,7 @@ var baseUrl="./../dist/V0.1/";
 			var _this = this;
 			var picHtml = "";
 			this.innerContainerWidth = $(_this.$container).width();
-			_this.picWidth = Math.floor(this.innerContainerWidth / this.options.pageSize);
+			_this.picWidth = Math.floor(this.innerContainerWidth / this.options.pageSize)-10;
 			$.each(this.options.dataList, function (i, e) {
 				if (!e.hyperLink || e.hyperLink == "" || e.hyperLink == "undefined") {
 					e.hyperLink = e.url;
@@ -534,7 +534,7 @@ var baseUrl="./../dist/V0.1/";
 			var _this = this;
 			var picHtml = "";
 			this.innerContainerWidth = $(_this.$container).width();
-			_this.picWidth = Math.floor(this.innerContainerWidth / this.options.pageSize);
+			_this.picWidth = Math.floor(this.innerContainerWidth / this.options.pageSize)-10;
 			$.each(this.options.dataList, function (i, e) {
 				if (!e.hyperLink || e.hyperLink == "" || e.hyperLink == "undefined") {
 					e.hyperLink = e.url;
