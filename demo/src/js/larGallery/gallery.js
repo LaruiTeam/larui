@@ -78,19 +78,19 @@ $(document).ready(function(){
 	/*gallery--8、12大门类上下排版*/
 	$(".art_classfications6").gallery({
 		dataList: [
-			{"url":"img/figureHead/23.png", "title":"张三","artType":"美术","des":"111111发给刚发的郭规股份大股东换发的郭规股份大股东换发的郭规股份大股东换大股东换发的郭规股份大股东换大股东换发的郭规股份大股东换发的郭规股份大股东换个地方范的股份大股东换个地方范的股份大股东换个地方范的股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-			{"url":"img/figureHead/24.png","title":"李四","artType":"电影","des":"2222发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-			{"url":"img/figureHead/35.png","title":"王五","artType":"音乐","des":"3333发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-			{"url":"img/figureHead/26.png","title":"小六","artType":"书法","des":"4444发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-			{"url":"img/figureHead/17.png","title":"麻七","artType":"美术","des":"5555发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-			{"url":"img/figureHead/28.png","title":"第三届","artType":"音乐","des":"6666发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-			{"url":"img/figureHead/39.png","title":"第四届","artType":"电影","des":"7777发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-			{"url":"img/figureHead/20.png","title":"第五届","artType":"美术","des":"8888发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-			{"url":"img/figureHead/39.png","title":"第四届","artType":"电影","des":"7777发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-			{"url":"img/figureHead/17.png","title":"麻七","artType":"美术","des":"5555发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-			{"url":"img/figureHead/28.png","title":"第三届","artType":"音乐","des":"6666发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-			{"url":"img/figureHead/39.png","title":"第四届","artType":"电影","des":"7777发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-			{"url":"img/figureHead/20.png","title":"第五届","artType":"美术","des":"8888发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"}
+			{"url":"./../images/artType/literature.png", "title":"文学","artType":"文学","des":"111111发给刚发的郭规股份大股东换发的郭规股份大股东换发的郭规股份大股东换大股东换发的郭规股份大股东换大股东换发的郭规股份大股东换发的郭规股份大股东换个地方范的股份大股东换个地方范的股份大股东换个地方范的股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+			{"url":"./../images/artType/drama.png","title":"戏剧","artType":"戏剧","des":"2222发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+			{"url":"./../images/artType/music.png","title":"音乐","artType":"音乐","des":"3333发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+			{"url":"./../images/artType/4.png","title":"摄影","artType":"摄影","des":"4444发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+			{"url":"./../images/artType/5.png","title":"美术","artType":"美术","des":"5555发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+			{"url":"./../images/artType/6.png","title":"音乐","artType":"音乐","des":"6666发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+			{"url":"./../images/artType/7.png","title":"摄影","artType":"摄影","des":"7777发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+			{"url":"./../images/artType/8.png","title":"第五届","artType":"美术","des":"8888发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+			{"url":"./../images/artType/9.png","title":"第四届","artType":"电影","des":"7777发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+			{"url":"./../images/artType/10.png","title":"麻七","artType":"美术","des":"5555发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+			{"url":"./../images/artType/11.png","title":"第三届","artType":"音乐","des":"6666发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+			{"url":"./../images/artType/12.png","title":"第四届","artType":"电影","des":"7777发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+			{"url":"./../images/artType/13.png","title":"第五届","artType":"美术","des":"8888发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"}
 		],
 		galleryMode:"artType",
 		setPageSize:"12",

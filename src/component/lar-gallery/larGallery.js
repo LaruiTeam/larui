@@ -467,7 +467,6 @@ var baseUrl="./../dist/V0.1/";
 					e.hyperLink = e.url;
 				}
 				var wordRegion = e.des;
-
 				picHtml += "<div class='galleryPic pageSizeFour'><div><a href='" + e.hyperLink + "' target='_blank' title=" + e.title + "><div class='img'> <img src='" + e.url + "'/></div><div class='wordRegion'><p><span class='userName title'>" + e.title + "</span><br/><span class='desc'>" + wordRegion + "<span></p></div></a></div></div>"; //width="+(picWidth-10)+"px;'
 			});
 			this.$container.find(" .lar-galleryWrapper .inner").addClass(_this.options.galleryMode).append(picHtml);
