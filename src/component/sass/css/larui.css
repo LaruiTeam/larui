@@ -2,10 +2,11 @@
 /* ==========================================================================
    lar-ui Public
    ========================================================================== */
-body {
+body, * {
   margin: 0;
   padding: 0;
-  font-family: "微软雅黑"; }
+  font-family: "微软雅黑";
+  box-sizing: border-box; }
 
 /*.icon{ background:url(./images/icon/icon.png);}*/
 button {
@@ -374,7 +375,7 @@ ul li {
   text-align: center;
   overflow: hidden;
   position: relative;
-  padding: 6px 0; }
+  padding: 4px; }
 
 .lar-galleryWrapper .twoRowsGallery .galleryPic .imgArea img {
   width: 100%;

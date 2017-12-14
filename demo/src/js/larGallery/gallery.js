@@ -28,7 +28,7 @@ $(document).ready(function(){
 			dataList: data.model.entity,
 			galleryMode:"bTitleMaskDes",
 			setMaskColor:"#fff200",
-			setPageSize:"5",
+			setPageSize:"4",
 			setTitleStyle:{textAlign:'center'},
 			setWordStyle:{color:'#ffffff'},
 			desWordNum:40
@@ -38,14 +38,14 @@ $(document).ready(function(){
 
 
 	/*gallery--4、 4张图片上、遮罩、下排版*/
-	$.getJSON("./../common/json/getFigureHead.json" ,  function(data){
+	$.getJSON("./../common/json/getRectangle.json" ,  function(data){
 		$(".art_classfications2-1").gallery({
 			dataList: data.model.entity,
 			galleryMode:"bTitleMaskDesSquare",
-			setMaskColor:"#fff200",
+			setMaskColor:"#000",
 			setPageSize:"5",
-			setTitleStyle:{color:'#ffffff',fontSize:'14px',fontWeight:'normal',lineHeight:'3rem',textAlign:'left'},
-			setWordStyle:{color:'#ffffff',fontSize:'14px'}
+			setTitleStyle:{color:'#fff',fontSize:'14px',fontWeight:'normal',lineHeight:'3rem',textAlign:'left'},
+			setWordStyle:{color:'#fff',fontSize:'14px'}
 		});
 	},'json');
 
@@ -59,7 +59,7 @@ $(document).ready(function(){
 	},'json');
 
 	/*gallery--6、3张图片遮罩*/
-	$.getJSON("./../common/json/getFigureHead.json" , function(data){
+	$.getJSON("./../common/json/getRectangle.json" , function(data){
 		$(".art_classfications4").gallery({
 			dataList: data.model.entity,
 			setMaskColor:"#000000"
@@ -71,7 +71,8 @@ $(document).ready(function(){
 		$(".art_classfications5").gallery({
 			dataList: data.model.entity,
 			galleryMode:"bwordRegionArtType",
-			setTitleStyle:{textAlign:'center'}
+			setTitleStyle:{textAlign:'center'},
+			setWordStyle:{height:'80px'}
 		});
 	},'json');
 
@@ -113,5 +114,15 @@ $(document).ready(function(){
 			setWordStyle:{color:'#ffffff',padding:'0px',marginTop:'6px'}
 		});
 	},'json');
+
+	/*gallery--11、1张图片左右排版*/
+	$.getJSON("./../common/json/getRectangle.json" ,  function(data){
+		$(".art_classfications9").gallery({
+			dataList: data.model.entity,
+			galleryMode:"wordRegionRight",
+			setWordStyle:{color:'#ffffff',padding:'0px',marginTop:'6px'}
+		});
+	},'json');
+
 
 });

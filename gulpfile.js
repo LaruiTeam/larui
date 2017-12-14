@@ -56,7 +56,7 @@ gulp.task('copySrc',  function() {
 // 构建demo的src里面的images文件到pages对应文件夹下
 gulp.task('copySrc',  function() {
     return gulp.src('./demo/src/images/**/*')
-        .pipe(gulp.dest(destPath))
+        .pipe(gulp.dest(destPath+'/images/'))
 });
 
 // 构建dist下面的js文件到pages对应文件夹下

@@ -1,7 +1,7 @@
 ﻿/* ==========================================================================
    lar-ui Public
    ========================================================================== */
-body{ margin: 0; padding: 0; font-family:"微软雅黑";}
+body,*{ margin: 0; padding: 0; font-family:"微软雅黑";box-sizing:border-box;}
 /*.icon{ background:url(./images/icon/icon.png);}*/
 button{ border:none;}
 ul li{ list-style:none;}

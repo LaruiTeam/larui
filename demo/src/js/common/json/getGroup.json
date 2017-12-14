@@ -1,0 +1,15 @@
+{
+    "model" : {
+        "allDataCount" : "null",
+        "curPageData" : "null",
+        "entity": [
+            {"url":"./../images/group/a.jpg","title":"给刚发的郭规股份大股"},
+            {"url":"./../images/group/b.jpg","title":"给刚发的郭规股份大股"},
+            {"url":"./../images/group/c.jpg","title":"给刚发的郭规股份大股","artType":"音乐","des":"3333发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+            {"url":"./../images/group/d.jpg","title":"给刚发的郭规股份大股","artType":"书法","des":"4444发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+            {"url":"./../images/group/a.jpg","title":"给刚发的郭规股份大股","artType":"美术","des":"5555发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"}
+        ]
+    },
+    "msg" : "",
+    "status" : "200"
+}

@@ -1,6 +1,7 @@
 /**
  * Created by liangshuyi on 2017/8/21.
  */
+import './component/sass/css/larui.css';
 import $ from 'jquery';
 import  './component/lar-gallery/larGallery';
 import  './component/lar-gallery/oneSlide';
@@ -22,7 +23,7 @@ import './component/lar-upload/larUploadMulti';
 import './component/lar-upload/larUploadSingleBtn';*/
 import './component/lar-timingLine/larTimingLine';
 
-import './component/sass/css/larui.css';
+
 
 window.$=$;
 //window.placeholderImg=placeholderImg;

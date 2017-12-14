@@ -3,11 +3,11 @@
         "allDataCount" : "null",
         "curPageData" : "null",
         "entity": [
-            {"url":"./../images/figureHead/03.jpg","title":"张三三","artType":"美术","des":"111111发东换大股东换发的郭东换个地方范的规定发给给对方德纲个地方官的"},
-            {"url":"./../images/figureHead/hyLayout.png","title":"李四四","artType":"电影","des":"2222发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-            {"url":"./../images/figureHead/03.jpg","title":"王五888","artType":"音乐","des":"3333发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-            {"url":"./../images/figureHead/hyLayout.png","title":"小六","artType":"书法","des":"4444发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
-            {"url":"./../images/figureHead/03.jpg","title":"麻七","artType":"美术","des":"5555发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"}
+            {"url":"./../images/artists/artist1.png","title":"张三三","artType":"美术","des":"111111发东换大股东换发的郭东换个地方范的规定发给给对方德纲个地方官的"},
+            {"url":"./../images/artists/artist2.png","title":"李四四","artType":"电影","des":"2222发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+            {"url":"./../images/artists/artist3.png","title":"王五888","artType":"音乐","des":"3333发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+            {"url":"./../images/artists/artist4.png","title":"小六","artType":"书法","des":"4444发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"},
+            {"url":"./../images/artists/artist1.png","title":"麻七","artType":"美术","des":"5555发给刚发的郭规股份大股东换个地方范的规定发给给对方德纲个地方官的"}
         ]
     },
     "msg" : "",
