@@ -24,6 +24,14 @@ module.exports = {
             },
             //下面是使用 ant-design 的配置文件
             { test: /\.css$/, loader: 'style-loader!css-loader' },
+            {
+                test: /\.(jpg?g|png|gif|svg)$/i,
+                loader: "url-loader?limit=1024&name=./artTypeImgTest.[hash].[ext]"
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: ['file-loader']
+            }
             //使用pug-html-loader
            /* {
                 test:/\.pug$/,

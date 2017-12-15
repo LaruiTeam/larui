@@ -67,7 +67,7 @@ $(document).ready(function(){
 	},'json');
 
 	/*gallery--7、3张图片上、下排版，有艺术分类*/
-	$.getJSON("./../common/json/getFigureHead.json" ,  function(data){
+	$.getJSON("./../common/json/getEncyclopedias.json" ,  function(data){
 		$(".art_classfications5").gallery({
 			dataList: data.model.entity,
 			galleryMode:"bwordRegionArtType",
