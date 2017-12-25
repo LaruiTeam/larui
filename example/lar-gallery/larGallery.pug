@@ -1,0 +1,73 @@
+extends ./../common/unitCommon
+block unitScripts
+    script(src= "gallery.js")
+block relyFile
+        div
+            span gallery组件是标准的jquery组件，主要111是实现各种345图文混排的左右滑动效果，目前支持
+            a(href="#galleryEffect") 9种展现方式
+            span 。要实现本组件的效果，需要引入指定文件。
+        div.item
+            span 依赖文件：
+            a gallery.min.js
+            span 文件或者
+            a componentAll.min.js
+        div
+            span 调用方式：:$("选择器").gallery({params})
+block paraDes
+    div
+        span 本组件对外开放参数共有12个，具体每个参数的意义如下表格所示，灵活的参数可以满足您多样化的页面要求。
+    div
+        span 调用方式
+    div.params
+        table
+            thead
+                tr
+                    th
+                        span 序号y
+                    th
+                        span 参数名称
+                    th
+                        span 参数意义
+                    th
+                        span 是否必填项
+            tbody
+                - var paramList = [{name:'dataList',meaning:'图文数据,里面具体数据项参见2-5',isRequired:'是'},{name:'dataList-url',meaning:'图片地址',isRequired:'是'},{name:'dataList-title',meaning:'图片标题',isRequired:'否'},{name:'dataList-des',meaning:'图片简介',isRequired:'否'},{name:'dataList-hyperLink',meaning:'跳转链接',isRequired:'否'}]
+                each param ,idx in paramList
+                    - var paramName=param.name,paramMeaning=param.meaning,paramIsrequired=param.isRequired
+                    tr
+                        td #{idx}
+                        td #{paramName}
+                        td #{paramMeaning}
+                        td #{paramIsrequired}
+
+block dataJson
+    p
+
+block example
+    div
+        a(id="galleryEffect" href="./larGalleryTemplate.html",target="_blank") 查看示例效果
+
+block pageEffect
+    div
+        div.item
+            span 单张图片轮询
+            a(href="http://ku.artnchina.com/homePage.html",target="_blank") 去查看
+        div.item
+            span 四张图片+下方标题+遮罩简介（新晋人物）
+            a(href="http://ku.artnchina.com/page/artist/artistHomepage.html",target="_blank") 去查看
+        div.item
+            span 四张图片+下方标题+下方简介（热门艺术家）
+            a(href="http://ku.artnchina.com/page/artist/artistHomepage.html",target="_blank") 去查看
+        div.item
+            span 单张图片+标题+简介+进入详情页（重点推荐）
+            a(href="http://ku.artnchina.com/page/organization/organizationHomepage.html",target="_blank") 去查看
+        div.item
+            span 单张图片轮询
+            a(href="http://ku.artnchina.com/homePage.html",target="_blank") 去查看
+        div.item
+            span 单张图片轮询
+            a(href="http://ku.artnchina.com/homePage.html",target="_blank") 去查看
+        div.item
+            span 单张图片轮询
+            a(href="http://ku.artnchina.com/homePage.html",target="_blank") 去查看
+
