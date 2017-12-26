@@ -17,9 +17,3 @@ dist 为旧的发布代码（待处理）
 文件:larBackTop.html larBackTop.js 
 变量: this.larBackTop = element; 
 构造函数: LarBackTop（注意首字母大写）
-
-#### 工作记录 Log
-20171225
-1. 提交了高法最新源码，先都独立在example下
-2. 第三方仍放在src的lib下
-3. 高法源码需要梳理维护
