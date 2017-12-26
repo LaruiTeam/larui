@@ -24,22 +24,21 @@ var pugPath = contentPath + 'demo/src/pug/',
     configPath = contentPath + 'env/',
     rootPath = contentPath ;
 // pug编译
-gulp.task('pug', function() {
+/*gulp.task('pug', function() {
     gulp.src([ pugPath + 'index.pug', pugPath + 'pack.pug']).pipe(pug({
         pretty : true
     })).pipe(gulp.dest(destPath));
-});
-// pug编译
-gulp.task('pugUnit', function() {
-    gulp.src([pugPath + '/**/*.pug']).pipe(pug({
-        pretty : true
-    })).pipe(gulp.dest(destPath));
-});
+});*/
 
+gulp.task('pug',function(){
+    gulp.src('./example/*.pug').pipe(pug({
+        pretty : true
+    })).pipe(gulp.dest('./example'));
+});
 // sass编译--demo
 gulp.task('sass', function() {
-    gulp.src(sassPath + 'common.sass').pipe(sass()).pipe(
-        gulp.dest(destPath+'/common/'));
+    gulp.src('./example/*.scss').pipe(sass()).pipe(
+        gulp.dest('./example'));
 });
 
 // sass编译--单个组件组件 -contentPath + '/src/component/sass/css/'
@@ -67,10 +66,9 @@ gulp.task('copyDist',  function() {
 
 // 监控--只在开发环境进行
 gulp.task('watch', function() {
-    gulp.watch(pugPath + '**/*.pug', ['pug']);
-    gulp.watch(sassPath + '**/*.scss', ['sass']);
-    gulp.watch(sassUnitPath  + '/*.sass', ['sass']);
-    gulp.watch( './src/js/**/*.js', ['copy']);
+    gulp.watch('./example/*.pug', ['pug']);
+    gulp.watch('./example/*.scss', ['sass']);
+   // gulp.watch( './src/js/**/*.js', ['copy']);
 });
 
 // 启动服务--只在开发环境进行
@@ -82,7 +80,7 @@ gulp.task('webserver', function() {
     });
 });
 
-gulp.task('default', [ 'pug','pugUnit', 'sass','sassUnit','copySrc','copyDist'],function(){
+gulp.task('default', [ 'pug', 'sass','sassUnit','copySrc','copyDist'],function(){
     if(options.env=='localhost') {
         gulp.run('watch');
         gulp.run('webserver');
