@@ -31,20 +31,26 @@ var pugPath = contentPath + 'demo/src/pug/',
 });*/
 
 gulp.task('pug',function(){
-    gulp.src('./example/*.pug').pipe(pug({
+    gulp.src('./merge/*.pug').pipe(pug({
         pretty : true
-    })).pipe(gulp.dest('./example'));
+    })).pipe(gulp.dest('./merge'));
 });
 // sass编译--demo
 gulp.task('sass', function() {
-    gulp.src('./example/*.scss').pipe(sass()).pipe(
-        gulp.dest('./example'));
+    gulp.src('./merge/*.scss').pipe(sass()).pipe(
+        gulp.dest('./merge'));
+});
+
+// 监控--只在开发环境进行
+gulp.task('watch', function() {
+    gulp.watch('./merge/*.pug', ['pug']);
+    gulp.watch('./merge/*.scss', ['sass']);
 });
 
 // sass编译--单个组件组件 -contentPath + '/src/component/sass/css/'
-gulp.task('sassUnit', function() {
+/*gulp.task('sassUnit', function() {
     gulp.src(sassUnitPath+'*.scss').pipe(sass()).pipe(gulp.dest(sassUnitPath+"css/"));
-});
+});*/
 
 // 构建demo的src里面的js文件到pages对应文件夹下
 gulp.task('copySrc',  function() {
@@ -64,12 +70,6 @@ gulp.task('copyDist',  function() {
         .pipe(gulp.dest(destPath+'dist/'))
 });
 
-// 监控--只在开发环境进行
-gulp.task('watch', function() {
-    gulp.watch('./example/*.pug', ['pug']);
-    gulp.watch('./example/*.scss', ['sass']);
-   // gulp.watch( './src/js/**/*.js', ['copy']);
-});
 
 // 启动服务--只在开发环境进行
 gulp.task('webserver', function() {
@@ -80,7 +80,7 @@ gulp.task('webserver', function() {
     });
 });
 
-gulp.task('default', [ 'pug', 'sass','sassUnit','copySrc','copyDist'],function(){
+gulp.task('default', [ 'pug', 'sass', 'copySrc', 'copyDist'],function(){
     if(options.env=='localhost') {
         gulp.run('watch');
         gulp.run('webserver');

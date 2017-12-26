@@ -1,21 +1,14 @@
-mixin leftMenu(baseUrl)
-		- var componentMenus = [{"menuName":"larAccordion组件","link":baseUrl + "/larAccordion/larAccordion.html"},{"menuName":"larBooklet组件","link":baseUrl + "/larBooklet/larBooklet.html"},{"menuName":"larDynamicPage组件","link":baseUrl + "/larDynamicPage/larDynamicPage.html"},{"menuName":"larFancyZoom组件","link":baseUrl + "/larFancyZoom/larFancyZoom.html"},{"menuName":"larGallery组件","link":baseUrl + "/larGallery/larGallery.html"},{"menuName":"larGalleryWall组件","link":baseUrl + "/larGalleryWall/larGalleryWall.html"},{"menuName":"larImageText组件","link":baseUrl + "/larImageText/larImageText.html"},{"menuName":"larLoading组件","link":baseUrl + "/larLoading/larLoading.html"},{"menuName":"larMixPhotoWall组件","link":baseUrl + "/larMixPhotoWall/larMixPhotoWall.html"},{"menuName":"larOpenAndClose组件","link":baseUrl + "/larOpenAndClose/larOpenAndClose.html"},{"menuName":"larPdf组件","link":baseUrl + "/larPdf/larPdf.html"},{"menuName":"larSpcFulltextSearch组件","link":baseUrl + "/larSpcFulltextSearch/larSpcFulltextSearch.html"},{"menuName":"larThumbGallery组件","link":baseUrl + "/larThumbGallery/larThumbGallery.html"},{"menuName":"larTimeAxis组件","link":baseUrl + "/larTimeAxis/larTimeAxis.html"},{"menuName":"larTimingLine组件","link":baseUrl + "/larTimingLine/larTimingLine.html"},{"menuName":"larUploadMulti组件","link":baseUrl + "/larUploadMulti/larUploadMulti.html"},{"menuName":"larUploadSingle组件","link":baseUrl + "/larUploadSingle/larUploadSingle.html"},{"menuName":"larUploadSingleBtn组件","link":baseUrl + "/larUploadSingleBtn/larUploadSingleBtn.html"}]
-		div.componentMenus 
-			ul
-				li.title 
-					span 组件列表 
-				each item in componentMenus 
-					li 
-						- var menuName=item.menuName
-						a(href=item.link target="_blank") #{menuName}
-		div.styleMenus 
-			ul 
-				li.title 
-					span 样式 
-				each item in componentMenus 
-					li 
-						- var menuName=item.menuName 
-						a(href=item.link target="_blank") #{menuName}
+// - 左侧菜单
+mixin leftMenu()
+	-var componentMenus = [{"menuName":"larBackTop","link":"/larBackTop/larBackTop.html"},{"menuName":"larDialog","link":"/larDialog/larDialog.html"},{"menuName":"larGallery","link":"/larGallery/larGallery.html"},{"menuName":"larPagination","link":"/larPagination/larPagination.html"},{"menuName":"larTimeAxis","link":"/larTimeAxis/larTimeAxis.html"},{"menuName":"larUpload","link":"/larUpload/larUpload.html"}]
+	div.componentMenus 
+		ul
+			li.title 
+				span 组件列表 
+			each item in componentMenus 
+				li 
+					- var menuName=item.menuName
+					a(href=item.link target="_blank") #{menuName}
 
 //- 浏览器头文件属性设置
 mixin commonMeta
