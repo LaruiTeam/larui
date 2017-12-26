@@ -10,7 +10,13 @@ dist 为旧的发布代码（待处理）
 维护中...
 
 #### 技术规格 tech specification 
-维护中...
+######## 代码规范 ########
+1. 组件命名为驼峰规范
+举例：
+文件夹:larBackTop 
+文件:larBackTop.html larBackTop.js 
+变量: this.larBackTop = element; 
+构造函数: LarBackTop（注意首字母大写）
 
 #### 工作记录 Log
 20171225
