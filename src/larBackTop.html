@@ -20,12 +20,12 @@
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard"><a class="nav-link" href="navbar.html"><i class="fa fa-fw fa-dashboard"></i><span class="nav-link-text">返回顶部组件</span></a></li>
-          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts"><a class="nav-link" href="navbar.html"><i class="fa fa-fw fa-area-chart"></i><span class="nav-link-text">弹出框组件</span></a></li>
-          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables"><a class="nav-link" href="navbar.html"><i class="fa fa-fw fa-table"></i><span class="nav-link-text">画廊组件</span></a></li>
-          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components"><a class="nav-link" href="navbar.html"><i class="fa fa-fw fa-wrench"></i><span class="nav-link-text">分页组件</span></a></li>
-          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages"><a class="nav-link" href="navbar.html"><i class="fa fa-fw fa-file"></i><span class="nav-link-text">时间轴组件</span></a></li>
-          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels"><a class="nav-link" href="navbar.html"><i class="fa fa-fw fa-sitemap"></i><span class="nav-link-text">附件上传组件</span></a></li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard"><a class="nav-link" href="larBackTop.html"><i class="fa fa-fw fa-dashboard"></i><span class="nav-link-text">返回顶部组件</span></a></li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts"><a class="nav-link" href="larDialog.html"><i class="fa fa-fw fa-area-chart"></i><span class="nav-link-text">弹出框组件</span></a></li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables"><a class="nav-link" href="larGallery.html"><i class="fa fa-fw fa-table"></i><span class="nav-link-text">画廊组件</span></a></li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components"><a class="nav-link" href="larPagination.html"><i class="fa fa-fw fa-wrench"></i><span class="nav-link-text">分页组件</span></a></li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages"><a class="nav-link" href="larTimeAxis.html"><i class="fa fa-fw fa-file"></i><span class="nav-link-text">时间轴组件</span></a></li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels"><a class="nav-link" href="larUpload.html"><i class="fa fa-fw fa-sitemap"></i><span class="nav-link-text">附件上传组件</span></a></li>
         </ul>
         <ul class="navbar-nav sidenav-toggler">
           <li class="nav-item"><a class="nav-link text-center" id="sidenavToggler"><i class="fa fa-fw fa-angle-left"></i></a></li>
@@ -60,7 +60,11 @@
         </ol>
         <h1>返回顶部组件</h1>
         <hr>
-        <p>gallery组件是标准的jquery组件，主要111是实现各种345图文混排的左右滑动效果，目前支持9种展现方式。要实现本组件的效果，需要引入指定文件。依赖文件：gallery.min.js文件或者componentAll.min.js 调用方式：:$("选择器").gallery({params}) </p>
+        <p>返回顶部组件用于页面长度超过屏幕浏览器高度的情况。一旦超出浏览器高度，将自动出现。</p>
+        <p>使用方法：$(selector).larBackTop(option);</p>
+        <!-- Scroll to Top Button-->
+        <p><a class="scroll-to-top-static rounded" href="#page-top"><i class="fa fa-angle-up"></i></a></p><code>
+          <123>&lt;a class='scroll-to-top-static'&gt;&lt;i='fa fa-angle-up'&gt;&lt;/i&gt;&lt;/a&gt;</123></code>
         <!-- Blank div to give the page height to preview the fixed vs. static navbar-->
         <div style="height: 1000px;"></div>
       </div>
@@ -79,7 +83,8 @@
       <script src="vendor/jquery-easing/jquery.easing.js"></script>
       <!-- Custom scripts for all pages-->
       <script src="js/sb-admin.js"></script>
-      <!-- Custom scripts for this page-->
+      <script src="larBackTop/larBackTop.js"></script>
+      <script>$('.scroll-to-top').larBackTop();</script>
       <!-- Toggle between fixed and static navbar-->
       <script>
         $('#toggleNavPosition').click(function() {

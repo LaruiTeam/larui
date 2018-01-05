@@ -35,6 +35,21 @@ body.fixed-nav {
   .scroll-to-top i {
     font-weight: 800; }
 
+.scroll-to-top-static {
+  display: block;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  color: white;
+  background: rgba(52, 58, 64, 0.5);
+  line-height: 45px; }
+  .scroll-to-top-static:focus, .scroll-to-top-static:hover {
+    color: white; }
+  .scroll-to-top-static:hover {
+    background: #343a40; }
+  .scroll-to-top-static i {
+    font-weight: 800; }
+
 .smaller {
   font-size: 0.7rem; }
 

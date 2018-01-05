@@ -25,8 +25,15 @@ html(lang='en')
           li.breadcrumb-item.active 返回顶部组件
         h1 返回顶部组件
         hr
-        p gallery组件是标准的jquery组件，主要111是实现各种345图文混排的左右滑动效果，目前支持9种展现方式。要实现本组件的效果，需要引入指定文件。依赖文件：gallery.min.js文件或者componentAll.min.js 调用方式：:$("选择器").gallery({params}) 
-
+        p 返回顶部组件用于页面长度超过屏幕浏览器高度的情况。一旦超出浏览器高度，将自动出现。
+        p 使用方法：$(selector).larBackTop(option);
+        // Scroll to Top Button
+        p
+          a.scroll-to-top-static.rounded(href='#page-top')
+            i.fa.fa-angle-up
+        - var scrollH5MarkUp = "<a class='scroll-to-top-static'><i='fa fa-angle-up'></i></a>";
+        code
+          123 #{scrollH5MarkUp}
         // Blank div to give the page height to preview the fixed vs. static navbar
         div(style='height: 1000px')
       // /.container-fluid
@@ -40,8 +47,9 @@ html(lang='en')
 
       include includes/js/custom.pug
 
-      // Custom scripts for this page
-
+      script(src='larBackTop/larBackTop.js')
+      script.
+        $('.scroll-to-top').larBackTop();
       // Toggle between fixed and static navbar
       script.
         $('#toggleNavPosition').click(function() {
