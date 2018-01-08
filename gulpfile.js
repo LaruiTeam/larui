@@ -31,20 +31,20 @@ var pugPath = contentPath + 'demo/src/pug/',
 });*/
 
 gulp.task('pug',function(){
-    gulp.src('./merge/pug/*.pug').pipe(pug({
+    gulp.src('./src/pug/*.pug').pipe(pug({
         pretty : true
-    })).pipe(gulp.dest('./merge'));
+    })).pipe(gulp.dest('./src'));
 });
 // sass编译--demo
 gulp.task('sass', function() {
-    gulp.src('./merge/scss/sb-admin.scss').pipe(sass()).pipe(
-        gulp.dest('./merge/css'));
+    gulp.src('./src/scss/sb-admin.scss').pipe(sass()).pipe(
+        gulp.dest('./src/css'));
 });
 
 // 监控--只在开发环境进行
 gulp.task('watch', function() {
-    gulp.watch('./merge/pug/**/*.pug', ['pug']);
-    gulp.watch('./merge/scss/sb-admin.scss', ['sass']);
+    gulp.watch('./src/pug/**/*.pug', ['pug']);
+    gulp.watch('./src/scss/**/*.scss', ['sass']);
 });
 
 // sass编译--单个组件组件 -contentPath + '/src/component/sass/css/'
