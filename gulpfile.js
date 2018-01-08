@@ -39,12 +39,15 @@ gulp.task('pug',function(){
 gulp.task('sass', function() {
     gulp.src('./src/scss/sb-admin.scss').pipe(sass()).pipe(
         gulp.dest('./src/css'));
+    gulp.src('./src/lar*/lar*.scss').pipe(sass()).pipe(
+        gulp.dest('./src/css'));
 });
 
 // 监控--只在开发环境进行
 gulp.task('watch', function() {
     gulp.watch('./src/pug/**/*.pug', ['pug']);
     gulp.watch('./src/scss/**/*.scss', ['sass']);
+    gulp.watch('./src/lar*/lar*.scss', ['sass']);
 });
 
 // sass编译--单个组件组件 -contentPath + '/src/component/sass/css/'

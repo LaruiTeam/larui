@@ -2,7 +2,9 @@
 
 #### 工程结构 project structure
 * src 为公用维护源码（最重要）  
-    lar-XXXXX lARUI组件系列源码  
+    lar-XXX lARUI组件系列源码
+       lar-XXX.js 组件JS
+       lar-XXX.scss 组件样式
     vendor 第三方组件库  
     pug 工程页面源码  
     scss 工程样式源码  
@@ -21,7 +23,7 @@ dist 为旧的发布代码（待处理）
 维护中...
 
 #### 技术规格 tech specification 
-######## 代码规范 ########
+######## 组件规范 ########
 1. 组件命名为驼峰规范
 举例：
 文件夹:larBackTop 
@@ -29,6 +31,16 @@ dist 为旧的发布代码（待处理）
 变量: this.larBackTop = element; 
 构造函数: LarBackTop（注意首字母大写）
 
+2. 组件构造函数规范
+开头字母大写
+举例：
+function LarGalleryWall(element, options) {  //注意开头字母大写
+组件属性正常声明
+this.GalleryWall = element;
+jquery对象属性带$声明
+this.$GalleryWall = $(element);
+
 #### 正在维护的组件
-1. 照片墙（larGalleryWall)
-2. 返回顶部（larBackTop)
+1. 照片墙组件（larGalleryWall) renkaiguang
+2. 返回顶部组件（larBackTop) renkaiguang
+3. 动态分页组件(larDynamicPage) huqiaosi

@@ -1,0 +1,61 @@
+@charset "UTF-8";
+.galleryWall_arrow {
+  background-color: #000;
+  width: 100px;
+  height: 20px;
+  cursor: pointer;
+  margin: 0 auto; }
+
+.gWImgContainer .picMask {
+  width: 230px;
+  height: 230px;
+  background-color: #000;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  opacity: 0.8;
+  padding: 20px;
+  text-align: center; }
+
+.gWImgContainer .picMask h2 {
+  margin-bottom: 20px; }
+
+.gWImgContainer .picMask h2, .gWImgContainer .picMask p {
+  color: #fff;
+  text-align: center; }
+
+/* 手机端样式  */
+@media screen and (max-width: 767px) {
+  .gWImgContainer {
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    position: relative; }
+  .gWImgContainer img {
+    width: 100%; } }
+
+@media (min-width: 768px) {
+  /* 所有PC在这里写 */
+  .container {
+    width: 1000px; }
+  .galleryWallContainer {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center; }
+  .galleryWallContainer img {
+    width: 230px;
+    margin: 5px; }
+  .gWImgContainer {
+    display: inline-block;
+    cursor: pointer;
+    position: relative; }
+  .gWImgContainer:hover {
+    box-shadow: 1px 1px 5px #333;
+    -webkit-box-shadow: 1px 1px 5px #333;
+    -moz-box-shadow: 1px 1px 5px #333; }
+  .galleryWall_arrow {
+    background-color: #000;
+    width: 100px;
+    height: 20px;
+    cursor: pointer;
+    margin: 0 auto; } }
