@@ -2,9 +2,9 @@
 
 #### 工程结构 project structure
 * src 为公用维护源码（最重要）  
-    lar-XXX lARUI组件系列源码
-       lar-XXX.js 组件JS
-       lar-XXX.scss 组件样式
+    lar-XXX lARUI组件系列源码  
+       lar-XXX.js 组件JS  
+       lar-XXX.scss 组件样式  
     vendor 第三方组件库  
     pug 工程页面源码  
     scss 工程样式源码  
