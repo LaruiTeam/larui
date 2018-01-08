@@ -44,3 +44,4 @@ this.$GalleryWall = $(element);
 1. 照片墙组件（larGalleryWall) renkaiguang
 2. 返回顶部组件（larBackTop) renkaiguang
 3. 动态分页组件(larDynamicPage) huqiaosi
+
