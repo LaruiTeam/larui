@@ -1,0 +1,10 @@
+span.hidden {
+  display: none; }
+
+div.content {
+  border-color: #333;
+  border-width: 1px; }
+
+div.container-fluid {
+  padding-left: 40px;
+  padding-right: 40px; }
