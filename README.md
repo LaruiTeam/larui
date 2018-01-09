@@ -22,13 +22,13 @@ dist 为旧的发布代码（待处理）
 #### 组件标准 component specification
 维护中...
 
-#### 技术规格 tech specification 
+#### 技术规格 tech specification
 ######## 组件规范 ########
 1. 组件命名为驼峰规范
 举例：
-文件夹:larBackTop 
-文件:larBackTop.html larBackTop.js 
-变量: this.larBackTop = element; 
+文件夹:larBackTop
+文件:larBackTop.html larBackTop.js
+变量: this.larBackTop = element;
 构造函数: LarBackTop（注意首字母大写）
 
 2. 组件构造函数规范
@@ -42,8 +42,11 @@ this.$GalleryWall = $(element);
 
 #### 组件介绍
 1. 照片墙组件（larGalleryWall) @renkaiguang
-2. 返回顶部组件（larBackTop) @renkaiguang
-3. 动态分页组件(larDynamicPage) @huqiaosi
+   2018-01-09  80%
+2. 返回顶部组件（larBackTop) FINISHED @weixuan
+   2018-01-09  100%
+3. 动态分页组件(larDynamicPage) FINISHED @huqiaosi
+   2018-01-09  100%
 4. 图片放大组件（larFancyZoom) @huqiaosi
 5. gallery组件（larGallery) @weixuan
 6. 加载组件 （larLoading) @weixuan
@@ -55,4 +58,3 @@ this.$GalleryWall = $(element);
 12. 书卷展示组件（larBooklet) @huqiaosi
 13. 弹出框组件（larDialog) @weixuan
 14. 书架展示组件（larShelfGallery) @huqiaosi
-
