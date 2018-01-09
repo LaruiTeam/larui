@@ -13,6 +13,31 @@
     <link href="vendor/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.css" rel="stylesheet">
+    <style>
+      h1{
+        font-size: 2em;
+      }
+      h2{
+        margin-top: 40px;
+        font-size: 1.5em;
+      }
+      .exampleArea{
+        border: 1px solid #e1e1e8;
+        border-radius: 4px;
+        padding: 9px 14px;
+      }
+      .exampleTit{
+        font-size: 12px;
+        color: #959595;
+      }
+      .codeArea{
+        background-color: #f7f7f9;
+        border: 1px solid #e1e1e8;
+        border-radius: 4px;
+        padding: 9px 14px;
+      }
+      
+    </style>
   </head>
   <body class="fixed-nav sticky-footer bg-dark" id="page-top">
     <!-- Navigation-->
@@ -27,6 +52,7 @@
           <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components"><a class="nav-link" href="larPagination.html"><i class="fa fa-fw fa-wrench"></i><span class="nav-link-text">分页组件</span></a></li>
           <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages"><a class="nav-link" href="larTimeAxis.html"><i class="fa fa-fw fa-file"></i><span class="nav-link-text">时间轴组件</span></a></li>
           <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels"><a class="nav-link" href="larUpload.html"><i class="fa fa-fw fa-sitemap"></i><span class="nav-link-text">附件上传组件</span></a></li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels"><a class="nav-link" href="larPagination.html"><i class="fa fa-fw fa-sliders"></i><span class="nav-link-text">动态分页组件</span></a></li>
         </ul>
         <ul class="navbar-nav sidenav-toggler">
           <li class="nav-item"><a class="nav-link text-center" id="sidenavToggler"><i class="fa fa-fw fa-angle-left"></i></a></li>
@@ -54,18 +80,28 @@
     </nav>
     <div class="content-wrapper">
       <div class="container-fluid">
-        <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Lar-ui</a></li>
-          <li class="breadcrumb-item active">返回顶部组件</li>
+          <li class="breadcrumb-item active">返回顶部</li>
         </ol>
-        <h1>返回顶部组件</h1>
+        <h1>返回顶部</h1>
+        <!-- 01、实例-->
+        <h2>实例</h2>
         <hr>
         <p>返回顶部组件用于页面长度超过屏幕浏览器高度的情况。一旦超出浏览器高度，将自动出现。</p>
-        <p>使用方法：$(selector).larBackTop(option);</p>
-        <!-- Scroll to Top Button-->
-        <p><a class="scroll-to-top-static rounded" href="#page-top"><i class="fa fa-angle-up"></i></a></p><code>
-          <123>&lt;a class='scroll-to-top-static'&gt;&lt;i='fa fa-angle-up'&gt;&lt;/i&gt;&lt;/a&gt;</123></code>
+        <div class="exampleArea">
+          <p class="exampleTit">实例：</p><a class="scroll-to-top-static rounded" href="#page-top"><i class="fa fa-angle-up"></i></a>
+        </div>
+        <!-- 02、使用组件-->
+        <h2>使用组件</h2>
+        <hr><code>
+          <div class="codeArea"><span><</span><span>a</span><span>class='scroll-to-top-static'</span><span>></span><span><</span><span>i='fa fa-angle-up'</span><span>></span><span><</span><span>/i></span><span><</span><span>/a></span></div></code>
+        <!-- 03、方法-->
+        <h2>方法</h2>
+        <hr>
+        <!-- 04、属性-->
+        <h2>属性</h2>
+        <hr>
         <!-- Blank div to give the page height to preview the fixed vs. static navbar-->
         <div style="height: 1000px;"></div>
       </div>
