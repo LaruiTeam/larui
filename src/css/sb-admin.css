@@ -50,6 +50,14 @@ body.fixed-nav {
   .scroll-to-top-static i {
     font-weight: 800; }
 
+#sharp {
+  content: "#";
+  color: #42b983;
+  left: -0.7em;
+  bottom: -2px;
+  font-size: 1.2em;
+  font-weight: bold; }
+
 .smaller {
   font-size: 0.7rem; }
 

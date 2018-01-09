@@ -13,49 +13,53 @@ html(lang='en')
     include includes/css/core.pug
 
     include includes/css/custom.pug
+    
+    include includes/mixin.pug
 
     link(href='css/larGalleryWall/larGalleryWall.css', rel='stylesheet')
   body#page-top.fixed-nav.sticky-footer.bg-dark
     include includes/navbar.pug
     .content-wrapper
       .container-fluid
-        // Breadcrumbs
+        // 面包屑
         ol.breadcrumb
           li.breadcrumb-item
             a(href='#') Lar-ui
           li.breadcrumb-item.active 照片墙组件
+        // 撑起页面高度
         div(style='height: 1000px')
+          // #组件名称
           h3
             a.headerlink(href="#全局配置")|照片墙组件
+          // #组件概述
           p 
             code LarGalleryWall
             |照片墙组件用于页面长度超过屏幕浏览器高度的情况。一旦超出浏览器高度，将自动出现。
-             
+          // #组件使用方法
           h3 
             a.headerlink(href="#全局配置")|使用方法
           p 
             code $(selector).larGalleryWall(option)
+          // #组件展示效果
           h3
             a.headerlink(href="silent")|展示效果
           section.container
              div.galleryWallContainer
              div.lar-arrow
+          // #组件属性介绍
           h3 
             a.headerlink(href="silent")|属性介绍
-          ul 
-            li
-              p
-                Strong 类型：
-                code boolean
-            li
-              p
-                Strong 类型：
-                code boolean
-            li
-              p
-                Strong 类型：
-                code boolean
-        // Blank div to give the page height to preview the fixed vs. static navbar
+          - 
+            var objs = [{ title : 'dataUrl' , type : 'string' , default : 'data.json' , description : '照片墙请求的action' },
+                        { title : 'galleryType' , type : 'string' , default : 'tall' , description : 'tall , square' },
+                        { title : 'titleType' , type : 'string' , default : 'mask' , description : 'default , mask ' },
+                        { title : 'pageSize' , type : 'string' , default : '8' , description : '图片数量' },
+                        { title : 'pageNumber' , type : 'string' , default : 'tall' , description : 'tall , square' },
+                        { title : 'showTitle' , type : 'string' , default : 'tall' , description : 'tall , square' },
+                        { title : 'paramMap' , type : 'string' , default : 'tall' , description : 'tall , square' },
+                        { title : 'link' , type : 'string' , default : 'tall' , description : 'tall , square' }]
+          each obj in objs
+            +renderOption(obj)
       // /.container-fluid
       // /.content-wrapper
 
@@ -89,3 +93,5 @@ html(lang='en')
         $('nav').toggleClass('bg-dark bg-light');
         $('body').toggleClass('bg-dark bg-light');
         });
+
+
