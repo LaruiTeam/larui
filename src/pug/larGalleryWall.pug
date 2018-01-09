@@ -24,22 +24,38 @@ html(lang='en')
           li.breadcrumb-item
             a(href='#') Lar-ui
           li.breadcrumb-item.active 照片墙组件
-        h1 照片墙组件
-        hr
-        p 照片墙组件用于页面长度超过屏幕浏览器高度的情况。一旦超出浏览器高度，将自动出现。
-        p 使用方法：$(selector).larBackTop(option);
-        // Scroll to Top Button
-        p
-          a.scroll-to-top-static.rounded(href='#page-top')
-            i.fa.fa-angle-up
-        - var scrollH5MarkUp = "<a class='scroll-to-top-static'><i='fa fa-angle-up'></i></a>";
-        code
-          123 #{scrollH5MarkUp}
-        // Blank div to give the page height to preview the fixed vs. static navbar
         div(style='height: 1000px')
-            section.container
-               div.galleryWallContainer
-               div.lar-arrow
+          h3
+            a.headerlink(href="#全局配置")|照片墙组件
+          p 
+            code LarGalleryWall
+            |照片墙组件用于页面长度超过屏幕浏览器高度的情况。一旦超出浏览器高度，将自动出现。
+             
+          h3 
+            a.headerlink(href="#全局配置")|使用方法
+          p 
+            code $(selector).larGalleryWall(option)
+          h3
+            a.headerlink(href="silent")|展示效果
+          section.container
+             div.galleryWallContainer
+             div.lar-arrow
+          h3 
+            a.headerlink(href="silent")|属性介绍
+          ul 
+            li
+              p
+                Strong 类型：
+                code boolean
+            li
+              p
+                Strong 类型：
+                code boolean
+            li
+              p
+                Strong 类型：
+                code boolean
+        // Blank div to give the page height to preview the fixed vs. static navbar
       // /.container-fluid
       // /.content-wrapper
 
