@@ -1,10 +1,87 @@
 span.hidden {
   display: none; }
 
-div.content {
-  border-color: #333;
-  border-width: 1px; }
+nav.navbar a.navbar-brand {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }
+
+div.container-fluid ol.breadcrumb {
+  margin-top: 20px;
+  margin-bottom: 10px; }
 
 div.container-fluid {
-  padding-left: 40px;
-  padding-right: 40px; }
+  padding-left: 10px;
+  padding-right: 10px; }
+
+div.item-content {
+  height: 100px;
+  border-bottom: rgba(0, 0, 0, 0.1) 1px solid; }
+
+div.item-img, div.item-description {
+  display: inline-block;
+  padding-top: 10px; }
+
+div.item-description {
+  padding-left: 5px; }
+
+div.item-img img {
+  width: 80px;
+  height: 80px; }
+
+div.item-title {
+  font-weight: bold; }
+
+div.item-instruction {
+  font-size: 0.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
+
+div.lar-page-wrap {
+  padding-top: 10px; }
+
+div.pull-left a.lar-page-num {
+  padding: 0 2px; }
+
+span.pull-left input {
+  height: 24px; }
+
+br {
+  clear: both; }
+
+table {
+  border: 1px solid #ddd; }
+
+table td {
+  border: 1px solid #ddd; }
+
+.th1 {
+  width: 50px; }
+
+.th2 {
+  width: 50px; }
+
+.th3 {
+  width: 900px; }
+
+@media screen and (min-width: 631px) {
+  div.container-fluid ol.breadcrumb {
+    margin-top: -10px; }
+  nav.navbar a.navbar-brand {
+    overflow: visible; } }
+
+@media screen and (min-width: 992px) {
+  div.container-fluid ol.breadcrumb {
+    margin-top: -10px; }
+  nav.navbar a.navbar-brand {
+    overflow: visible; }
+  div.result {
+    padding-left: 15px; }
+  div.item-content {
+    height: 160px; }
+  div.item-img img {
+    width: 140px;
+    height: 140px; }
+  div.item-description {
+    padding-left: 10px; } }

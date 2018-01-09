@@ -1,5 +1,5 @@
 /*
- $.fn.larPagination - by weijy 
+ $.fn.larPagination - by weijy
  */
 
 /*
@@ -62,12 +62,12 @@
         vars.pageCount              = 0;                                // 总页数
         vars.pageData               = null;                             // 当前页数据
         vars.showNum				= _this.options.showNum;			//可显示页数
-        
+
         //如果有每页选择条数的选择器
-        if(options.sizeSelector === true || 
+        if(options.sizeSelector === true ||
         		options.sizeSelector instanceof Array || (
         			options.sizeSelector  && options.sizeSelector.selector !== false)){
-        	vars.sizeSelector  = _this.options.sizeSelector;		//选择每页显示条数的选择器	
+        	vars.sizeSelector  = _this.options.sizeSelector;		//选择每页显示条数的选择器
         	vars.selectorList  = ['5' ,'10' ,'15' ,'20']; //选择页面条数的列表，默认
         	if (vars.sizeSelector instanceof Array && vars.sizeSelector.length > 0){
         		vars.selectorList = vars.sizeSelector;
@@ -75,7 +75,7 @@
         	if (vars.sizeSelector.items instanceof Array && vars.sizeSelector.items.length > 0){
         		vars.selectorList = vars.sizeSelector.items;
         	}
-        	
+
         	//如果有pageSize，优先pageSize的值，否则取选择项的第二条
         	if(typeof vars.pageSize == "number"){
         		vars.selectorNum = vars.pageSize;
@@ -106,7 +106,7 @@
     };
 
     //页面条数选择器模版
-    Pagination.SIZE_SELECTOR_TEMPLATE = 
+    Pagination.SIZE_SELECTOR_TEMPLATE =
     	'<div class="pull-left lar-page-ele input-group-btn lar-page-selector-wrap mr-10">' +
 	    	'<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">' +
 	    		'<span class="lar-page-selector-num">10条</span>' +
@@ -119,7 +119,7 @@
 		       '<li><a>20条</a></li>' +
 		    '</ul>' +
 		'</div>';
-    
+
     Pagination.TEMPLATE =
         '<div class="lar-page-wrap">' +
         '<div class="lar-page">' +
@@ -157,14 +157,14 @@
         vars.$submit                = $element.find(".lar-page-submit");
         vars.$loading               = $element.find(".lar-page-loading");
         vars.loading                = false;
-        
+
       //如果需要选择条数
         if (vars.sizeSelector){
         	//在确认按钮前
         	$element.find(".lar-page-submit").before(Pagination.SIZE_SELECTOR_TEMPLATE);
         	vars.$selectorList 			   = $element.find(".lar-page-selector-list");//选择页面条数的ul
         	vars.$selectorNum 			   = $element.find(".lar-page-selector-num");//选择页面条数的值
-        	
+
         	vars.$selectorNum.html(vars.selectorNum + "条"); //取数组第一个元素显示
         	vars.$selectorList.empty();//清空下拉列表的list
         	var listHtml = '';
@@ -253,7 +253,7 @@
     			$submit.click();
     		}
         });
-        
+
         //如果页面条数选择器，则绑定事件
         if ($selectorList != undefined){
         	$selectorList.on("click", "li", function(e) {
@@ -261,7 +261,7 @@
             	var num = vars.selectorList[index];
             	vars.$selectorNum.html(num + "条");
             	vars.selectorNum = parseInt(num);
-            	
+
             	//选中后直接响应跳转到第一页
             	Pagination.goToPage.call(_this, 1);
             });
@@ -419,7 +419,7 @@
         if (pageCount == 0) pageNum = 1;
         else if (pageNum > pageNum) pageNum = pageCount;
 
-        
+
         if (pageNum == pageNum_current){
         	if (selectorNum == undefined){
         		return;
@@ -427,13 +427,13 @@
         		return ;
         	}
         }
-        
+
         vars.pageNum = pageNum;
-        
+
         if (selectorNum != undefined){
         	vars.pageSize = selectorNum; //将选择器选择的条数赋值给页面条数
         }
-        
+
         $.when(Pagination.loadData.call(_this)).done(function() {
             Pagination.renderPage.call(_this);
         }).fail(function() {

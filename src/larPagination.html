@@ -17,7 +17,7 @@
   </head>
   <body class="fixed-nav sticky-footer bg-dark" id="page-top">
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav"><a class="navbar-brand" href="index.html">LAR-UI 精致的组件、样式、工具方法等互联网零件共享仓库1434</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav"><a class="navbar-brand" href="index.html">LAR-UI 精致的组件、样式、工具方法等互联网零件共享仓库</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
@@ -61,22 +61,72 @@
           <li class="breadcrumb-item"><a href="#">Lar-ui</a></li>
           <li class="breadcrumb-item active">动态分页组件</li>
         </ol>
-        <h1>动态分页组件</h1>
-        <hr>
-        <p>动态分页组件用于分页查询的结果展示，可以动态调整每页展示结果条数。</p>
-        <p>使用方法：$([selector]).larPagination([option]]);</p>
-        <!-- Scroll to Top Button--><code>
-          <pagination>&lt;section class='specialTopicDynamicContent'&gt;&lt;/section&gt;</pagination></code>
-        <!-- Blank div to give the page height to preview the fixed vs. static navbar-->
-        <div class="content" style="height: 1000px;">
-          <p>
+        <div class="result" style="height: 1000px;">
+          <h3><a class="headerLink">|动态分页组件</a></h3>
+          <p><code>LarPagination</code>动态分页组件用于分页查询的结果展示，可以动态调整每页展示结果条数。</p>
+          <h3><a class="headerLink">|使用方法</a></h3>
+          <p><code>$([selector]).larPagination([option]);</code></p>
+          <h3><a class="headerLink">|展示效果</a></h3>
+          <div class="page-content">
             <section class="specialTopicDynamicContent"></section>
-          </p>
+          </div><br>
+          <p></p>
+          <h3><a class="headerLink">|属性说明</a></h3>
+          <table>
+            <tr>
+              <th class="th1">属性</th>
+              <th class="th2">类型</th>
+              <th class="th3">描述</th>
+            </tr>
+            <tr>
+              <td>pageSize</td>
+              <td>int</td>
+              <td>每页默认显示的条数</td>
+            </tr>
+            <tr>
+              <td>sizeSelector</td>
+              <td>Array</td>
+              <td>每页显示条数的选择项</td>
+            </tr>
+            <tr>
+              <td>key</td>
+              <td>Object</td>
+              <td>
+                <div class="table-description">返回结果的属性名定义</div>
+                <div class="table-detail">
+                  <pre>
+                    <ol class="line">
+                      <li>pageSize : 'pageSize'<span class="annotation">//每页展示条数的参数名称</span></li>
+                      <li>pageNum : 'curPage'<span class="annotation">//当前页数的参数名称</span></li>
+                      <li>dataCount : 'allDataCount'<span class="annotation">//总条数的参数名称</span></li>
+                      <li>pageData : 'curPageData'<span class="annotation">//当前页数据的参数名称</span></li>
+                    </ol></pre>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>remote</td>
+              <td>Object</td>
+              <td>
+                <div class="table-description">定义使用服务获取数据的参数，基本与$.ajax的参数一致</div>
+                <div class="table-detail">
+                  <pre>
+                    <ol class="line">
+                      <li>url : ''<span class="annotation">//服务路径</span></li>
+                      <li>data : {}<span class="annotation">//请求时需要发送的参数</span></li>
+                      <li>type : ''<span class="annotation">//请求方式，一般为POST或GET</span></li>
+                      <li>dataType : ''<span class="annotation">//返回数据的方式，一般为json</span></li>
+                      <li>succses : Function(data1, data2)<span class="annotation">//请求成功之后执行的方法，data1为当前页数据数组，data2为请求返回的原始数据</span></li>
+                    </ol></pre>
+                </div>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
       <footer class="sticky-footer">
         <div class="container">
-          <div class="text-center"><small>Copyright © Your Website 2017</small></div>
+          <div class="text-center"><small>Copyright © LAR-UI 2018</small></div>
         </div>
       </footer>
       <!-- Scroll to Top Button--><a class="scroll-to-top rounded" href="#page-top"><i class="fa fa-angle-up"></i></a>
@@ -101,7 +151,14 @@
                       var titleName = item.titleName;
                       var audioAuthor = item.audioAuthor;
                       var imgPath = item.imgPath;
-                      $('.specialTopicDynamicContent').prepend('<p>' + name + dictBizType + titleName + audioAuthor + imgPath + '</p>');
+                      var itemHtml = '<div class="item-content">' +
+                                     '<div class="item-img"><img src="' + imgPath + '"></div>' +
+                                     '<div class="item-description">' +
+                                       '<div class="item-title">' + titleName + '</div>' +
+                                       '<div class="item-instruction">' + item.audioAuthor + ',' + item.dictBizType + '<div>'
+                                     '</div>' +
+                                     '</div>';
+                      $('.specialTopicDynamicContent').prepend(itemHtml);
                   });
               }
           }

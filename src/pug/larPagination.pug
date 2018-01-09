@@ -24,18 +24,73 @@ html(lang='en')
           li.breadcrumb-item
             a(href='#') Lar-ui
           li.breadcrumb-item.active 动态分页组件
-        h1 动态分页组件
-        hr
-        p 动态分页组件用于分页查询的结果展示，可以动态调整每页展示结果条数。
-        p 使用方法：$([selector]).larPagination([option]]);
-        // Scroll to Top Button
-        - var scrollH5MarkUp = "<section class='specialTopicDynamicContent'></section>";
-        code
-          pagination #{scrollH5MarkUp}
-        // Blank div to give the page height to preview the fixed vs. static navbar
-        div.content(style='height: 1000px')
+        div.result(style='height: 1000px')
+          h3
+            a.headerLink |动态分页组件
           p
+            code LarPagination
+            |动态分页组件用于分页查询的结果展示，可以动态调整每页展示结果条数。
+          h3
+            a.headerLink |使用方法
+          p
+            code $([selector]).larPagination([option]);
+          h3
+            a.headerLink |展示效果
+          div.page-content
             section.specialTopicDynamicContent
+          br
+          p
+          h3
+            a.headerLink |属性说明
+          table
+            tr
+              th.th1 属性
+              th.th2 类型
+              th.th3 描述
+            tr
+              td pageSize
+              td int
+              td 每页默认显示的条数
+            tr
+              td sizeSelector
+              td Array
+              td 每页显示条数的选择项
+            tr
+              td key
+              td Object
+              td
+                div.table-description 返回结果的属性名定义
+                div.table-detail
+                  pre
+                    ol.line
+                      li pageSize : 'pageSize'
+                        span.annotation //每页展示条数的参数名称
+                      li pageNum : 'curPage'
+                        span.annotation //当前页数的参数名称
+                      li dataCount : 'allDataCount'
+                        span.annotation //总条数的参数名称
+                      li pageData : 'curPageData'
+                        span.annotation //当前页数据的参数名称
+            tr
+              td remote
+              td Object
+              td
+                div.table-description 定义使用服务获取数据的参数，基本与$.ajax的参数一致
+                div.table-detail
+                 pre
+                   ol.line
+                     li url : ''
+                       span.annotation //服务路径
+                     li data : {}
+                       span.annotation //请求时需要发送的参数
+                     li type : ''
+                       span.annotation //请求方式，一般为POST或GET
+                     li dataType : ''
+                       span.annotation //返回数据的方式，一般为json
+                     li succses : Function(data1, data2)
+                       span.annotation //请求成功之后执行的方法，data1为当前页数据数组，data2为请求返回的原始数据
+
+
 
       include includes/footer.pug
 
@@ -59,7 +114,14 @@ html(lang='en')
                       var titleName = item.titleName;
                       var audioAuthor = item.audioAuthor;
                       var imgPath = item.imgPath;
-                      $('.specialTopicDynamicContent').prepend('<p>' + name + dictBizType + titleName + audioAuthor + imgPath + '</p>');
+                      var itemHtml = '<div class="item-content">' +
+                                     '<div class="item-img"><img src="' + imgPath + '"></div>' +
+                                     '<div class="item-description">' +
+                                       '<div class="item-title">' + titleName + '</div>' +
+                                       '<div class="item-instruction">' + item.audioAuthor + ',' + item.dictBizType + '<div>'
+                                     '</div>' +
+                                     '</div>';
+                      $('.specialTopicDynamicContent').prepend(itemHtml);
                   });
               }
           }
