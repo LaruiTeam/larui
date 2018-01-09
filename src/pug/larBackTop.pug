@@ -11,40 +11,81 @@ html(lang='en')
     title SB Admin - Start Bootstrap Template
 
     include includes/css/core.pug
-
     include includes/css/custom.pug
+
+    style.
+      h1{
+        font-size: 2em;
+      }
+      h2{
+        margin-top: 40px;
+        font-size: 1.5em;
+      }
+      .exampleArea{
+        border: 1px solid #e1e1e8;
+        border-radius: 4px;
+        padding: 9px 14px;
+      }
+      .exampleTit{
+        font-size: 12px;
+        color: #959595;
+      }
+      .codeArea{
+        background-color: #f7f7f9;
+        border: 1px solid #e1e1e8;
+        border-radius: 4px;
+        padding: 9px 14px;
+      }
 
   body#page-top.fixed-nav.sticky-footer.bg-dark
     include includes/navbar.pug
     .content-wrapper
       .container-fluid
-        // Breadcrumbs
         ol.breadcrumb
           li.breadcrumb-item
             a(href='#') Lar-ui
-          li.breadcrumb-item.active 返回顶部组件
-        h1 返回顶部组件
+          li.breadcrumb-item.active 返回顶部
+        h1 返回顶部
+        // 01、实例
+        h2 实例
         hr
         p 返回顶部组件用于页面长度超过屏幕浏览器高度的情况。一旦超出浏览器高度，将自动出现。
-        p 使用方法：$(selector).larBackTop(option);
-        // Scroll to Top Button
-        p
+        div.exampleArea
+          p.exampleTit 实例：
           a.scroll-to-top-static.rounded(href='#page-top')
             i.fa.fa-angle-up
-        - var scrollH5MarkUp = "<a class='scroll-to-top-static'><i='fa fa-angle-up'></i></a>";
+        // 02、使用组件
+        h2 使用组件
+        hr
         code
-          123 #{scrollH5MarkUp}
+          div.codeArea
+            span <
+            span a
+            span class='scroll-to-top-static'
+            span >
+            span <
+            span i='fa fa-angle-up'
+            span >
+            span <
+            span /i>
+            span <
+            span /a>
+
+        // 03、方法
+        h2 方法
+        hr
+        // 04、属性
+        h2 属性
+        hr
+
         // Blank div to give the page height to preview the fixed vs. static navbar
         div(style='height: 1000px')
       // /.container-fluid
       // /.content-wrapper
 
       include includes/footer.pug
-
       include includes/scroll-to-top.pug
-
       include includes/js/core.pug
-
       include includes/js/custom.pug
 
       script(src='larBackTop/larBackTop.js')
