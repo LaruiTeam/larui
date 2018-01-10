@@ -105,10 +105,10 @@
 			 * 默认参数
 			 */
 			defaults : {  //必须有
-				dataUrl : "data.json",
-				galleryType : "tall",//tall , square
-				titleType : "mask", // default , mask 
-				pageSize :"8",
+				dataUrl : 'data.json',
+				galleryType : 'tall',//tall , square
+				titleType : 'mask', // default , mask 
+				pageSize :'8',
 				pageNumber : 1,
 				showTitle : true,
 				defaultPicType : '',
@@ -117,6 +117,7 @@
 					imgPath : 'imgPath',
 					title : 'title',
 					id : 'id',
+					author : 'author'
 				},
 				link : ''
 			},
@@ -139,6 +140,7 @@
 			 */
 			loadingImg :function(){
 				var _this = this;
+				//向后台传递的参数 pageSize 和 curPage 
 				var postParam = $.extend( _this.options.param , { pageSize : _this.options.pageSize , curPage : _this.pageNumber++ } );
 				_this.initImageSize();
 				$.get( this.options.dataUrl , postParam ,function( data ){
@@ -200,14 +202,15 @@
 				}
 			},
 			
+			//渲染遮罩
 			renderMaskTitle : function( $newAddImgs , picInfoA ){
 				var _this = this;
 				$newAddImgs.each(function( i , e ){
 					$(this).find("a").append( "<p class='gwTitle gwMaskTitle'>" + picInfoA[i][_this.options.paramMap.title] + "</p>" );
 					$(this).hover( function(){
-						$('<a href="' + $(this).find('a').attr('href') + ' " target="' + $(this).find('a').attr('target') + '"><div class="picMask"><h4>' + picInfoA[i][_this.options.paramMap.title] + '</h4><p>' + picInfoA[i][_this.options.paramMap.audioAuthor] + '</p></div></a>').hide().appendTo($(this)).fadeIn(500);
+						$('<a href="' + $(this).find('a').attr('href') + ' " target="' + $(this).find('a').attr('target') + '"><div class="picMask" style="width: ' + _this.picWidth + 'px; height: ' + _this.picHeight + 'px;"><h4>' + picInfoA[i][_this.options.paramMap.title] + '</h4><p>' + picInfoA[i][_this.options.paramMap.author] + '</p></div></a>').hide().appendTo($(this)).fadeIn(500);
 					} , function(){
-						$(this).find('.picMask').remove();
+						$(this).find('.picMask').parent('a').remove();
 					});
 				});
 			},

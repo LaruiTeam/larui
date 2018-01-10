@@ -75,7 +75,15 @@ html(lang='en')
       script.
          $(document).ready(function(){
             $('.galleryWallContainer').galleryWall({
-               galleryType : 'tall'
+               galleryType : 'tall',
+               pageSize :'3',
+               titleType : 'default',
+               paramMap : {
+                  imgPath : 'imgPath',
+                  title : 'titleName',
+                  id : 'audioId',
+                  author : 'audioAuthor'
+               },
             });
          });
         $('.scroll-to-top').larBackTop();
