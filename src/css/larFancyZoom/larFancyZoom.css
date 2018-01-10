@@ -65,6 +65,24 @@ table td {
 .th3 {
   width: 900px; }
 
+code.block {
+  display: block;
+  background-color: rgba(230, 215, 215, 0.28); }
+
+div.code-html, div.code-js {
+  font-size: 0.9rem; }
+
+.description-title {
+  color: #6b8e72;
+  font-weight: bold; }
+
+div.description {
+  font-size: 0.9rem;
+  padding-bottom: 10px; }
+
+div.description-default span.value {
+  color: #bd4147; }
+
 @media screen and (min-width: 631px) {
   div.container-fluid ol.breadcrumb {
     margin-top: -10px; }

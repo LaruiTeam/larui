@@ -66,7 +66,12 @@
           <h3><a class="headerLink">|图片放大组件</a></h3>
           <p><code>larFancyZoom</code>动态分页组件用于分页查询的结果展示，可以动态调整每页展示结果条数。</p>
           <h3><a class="headerLink">|使用方法</a></h3>
-          <p><code>$([selector]).larPagination([option]);</code></p>
+          <p>
+            <div class="code-html">html如下所示，需要使用图片放大组件的图片要写在id为pictureContainer的div中，且图片外层的a标签的href指向一个div，该div中的内容作为当前图片放大后的展示内容<code class="block">&lt;div id=&quot;pictureContainer&quot;&gt;</code><code class="block">&nbsp;&nbsp;&lt;div&gt;</code><code class="block">&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href=&quot;#id1&quot;&gt;</code><code class="block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&quot;larGalleryWall/1.jpg&quot;&gt;</code><code class="block">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/a&gt;</code><code class="block">&nbsp;&nbsp;&lt;/div&gt;</code><code class="block">&nbsp;&nbsp;&lt;div display=&quot;none&quot; id=&quot;id1&quot;&gt;</code><code class="block">&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&quot;larGalleryWall/1.jpg&quot;&gt;</code><code class="block">&nbsp;&nbsp;&lt;/div&gt;</code><code class="block">&lt;/div&gt;</code>
+            </div>
+            <p></p>
+            <div class="code-js">js如下所示<code class="block">$('a').larFancyZoom({</code><code class="block">&nbsp;&nbsp;scaleImg: true,</code><code class="block">&nbsp;&nbsp;closeOnClick: true,</code><code class="block">&nbsp;&nbsp;width: 500,</code><code class="block">&nbsp;&nbsp;height: 500,</code><code class="block">});</code></div>
+          </p>
           <h3><a class="headerLink">|展示效果</a></h3>
           <div class="fancyZoom" id="pictureContainer">
             <div class="photo"><a class="zoom-item" href="#img001"><img src="larGalleryWall/1.jpg"></a></div>
@@ -76,56 +81,30 @@
           </div><br>
           <p></p>
           <h3><a class="headerLink">|属性说明</a></h3>
-          <table>
-            <tr>
-              <th class="th1">属性</th>
-              <th class="th2">类型</th>
-              <th class="th3">描述</th>
-            </tr>
-            <tr>
-              <td>pageSize</td>
-              <td>int</td>
-              <td>每页默认显示的条数</td>
-            </tr>
-            <tr>
-              <td>sizeSelector</td>
-              <td>Array</td>
-              <td>每页显示条数的选择项</td>
-            </tr>
-            <tr>
-              <td>key</td>
-              <td>Object</td>
-              <td>
-                <div class="table-description">返回结果的属性名定义</div>
-                <div class="table-detail">
-                  <pre>
-                    <ol class="line">
-                      <li>pageSize : 'pageSize'<span class="annotation">//每页展示条数的参数名称</span></li>
-                      <li>pageNum : 'curPage'<span class="annotation">//当前页数的参数名称</span></li>
-                      <li>dataCount : 'allDataCount'<span class="annotation">//总条数的参数名称</span></li>
-                      <li>pageData : 'curPageData'<span class="annotation">//当前页数据的参数名称</span></li>
-                    </ol></pre>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>remote</td>
-              <td>Object</td>
-              <td>
-                <div class="table-description">定义使用服务获取数据的参数，基本与$.ajax的参数一致</div>
-                <div class="table-detail">
-                  <pre>
-                    <ol class="line">
-                      <li>url : ''<span class="annotation">//服务路径</span></li>
-                      <li>data : {}<span class="annotation">//请求时需要发送的参数</span></li>
-                      <li>type : ''<span class="annotation">//请求方式，一般为POST或GET</span></li>
-                      <li>dataType : ''<span class="annotation">//返回数据的方式，一般为json</span></li>
-                      <li>succses : Function(data1, data2)<span class="annotation">//请求成功之后执行的方法，data1为当前页数据数组，data2为请求返回的原始数据</span></li>
-                    </ol></pre>
-                </div>
-              </td>
-            </tr>
-          </table>
+          <div class="description">
+            <li class="description-title">scaleImg</li>
+            <div class="description-type"><span>类型：</span><span class="value">boolean</span></div>
+            <div class="description-default"><span>默认值：</span><span class="value">undefined</span></div>
+            <div class="description-detail"><span>描述：</span><span class="value">目前测试该属性不影响效果</span></div>
+          </div>
+          <div class="description">
+            <li class="description-title">closeOnClick</li>
+            <div class="description-type"><span>类型：</span><span class="value">boolean</span></div>
+            <div class="description-default"><span>默认值：</span><span class="value">undefined</span></div>
+            <div class="description-detail"><span>描述：</span><span class="value">该属性不影响结果</span></div>
+          </div>
+          <div class="description">
+            <li class="description-title">width</li>
+            <div class="description-type"><span>类型：</span><span class="value">int</span></div>
+            <div class="description-default"><span>默认值：</span><span class="value">undefined</span></div>
+            <div class="description-detail"><span>描述：</span><span class="value">指定放大图片后的宽度，默认是按照容器宽度来计算</span></div>
+          </div>
+          <div class="description">
+            <li class="description-title">height</li>
+            <div class="description-type"><span>类型：</span><span class="value">int</span></div>
+            <div class="description-default"><span>默认值：</span><span class="value">undefined</span></div>
+            <div class="description-detail"><span>描述：</span><span class="value">指定放大图片后的高度，默认是按照容器高度来计算</span></div>
+          </div>
         </div>
       </div>
       <footer class="sticky-footer">

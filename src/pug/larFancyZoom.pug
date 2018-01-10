@@ -33,7 +33,33 @@ html(lang='en')
           h3
             a.headerLink |使用方法
           p
-            code $([selector]).larPagination([option]);
+            div.code-html html如下所示，需要使用图片放大组件的图片要写在id为pictureContainer的div中，且图片外层的a标签的href指向一个div，该div中的内容作为当前图片放大后的展示内容
+              - var divContainerH = '<div id="pictureContainer">';
+              - var divContainerL = '</div>';
+              - var divPhotoH = '<div>';
+              - var divDisNone = '<div display="none" id="id1">';
+              - var divPhotoL = '</div>';
+              - var aH = '<a href="#id1">';
+              - var aL = '</a>';
+              - var imgDom = '<img src="larGalleryWall/1.jpg">';
+              code.block #{divContainerH}
+              code.block &nbsp;&nbsp;#{divPhotoH}
+              code.block &nbsp;&nbsp;&nbsp;&nbsp;#{aH}
+              code.block &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{imgDom}
+              code.block &nbsp;&nbsp;&nbsp;&nbsp;#{aL}
+              code.block &nbsp;&nbsp;#{divPhotoL}
+              code.block &nbsp;&nbsp;#{divDisNone}
+              code.block &nbsp;&nbsp;&nbsp;&nbsp;#{imgDom}
+              code.block &nbsp;&nbsp;#{divPhotoL}
+              code.block #{divContainerL}
+            p
+            div.code-js js如下所示
+              code.block $('a').larFancyZoom({
+              code.block &nbsp;&nbsp;scaleImg: true,
+              code.block &nbsp;&nbsp;closeOnClick: true,
+              code.block &nbsp;&nbsp;width: 500,
+              code.block &nbsp;&nbsp;height: 500,
+              code.block });
           h3
             a.headerLink |展示效果
           div.fancyZoom#pictureContainer
@@ -51,55 +77,19 @@ html(lang='en')
           p
           h3
             a.headerLink |属性说明
-          table
-            tr
-              th.th1 属性
-              th.th2 类型
-              th.th3 描述
-            tr
-              td pageSize
-              td int
-              td 每页默认显示的条数
-            tr
-              td sizeSelector
-              td Array
-              td 每页显示条数的选择项
-            tr
-              td key
-              td Object
-              td
-                div.table-description 返回结果的属性名定义
-                div.table-detail
-                  pre
-                    ol.line
-                      li pageSize : 'pageSize'
-                        span.annotation //每页展示条数的参数名称
-                      li pageNum : 'curPage'
-                        span.annotation //当前页数的参数名称
-                      li dataCount : 'allDataCount'
-                        span.annotation //总条数的参数名称
-                      li pageData : 'curPageData'
-                        span.annotation //当前页数据的参数名称
-            tr
-              td remote
-              td Object
-              td
-                div.table-description 定义使用服务获取数据的参数，基本与$.ajax的参数一致
-                div.table-detail
-                 pre
-                   ol.line
-                     li url : ''
-                       span.annotation //服务路径
-                     li data : {}
-                       span.annotation //请求时需要发送的参数
-                     li type : ''
-                       span.annotation //请求方式，一般为POST或GET
-                     li dataType : ''
-                       span.annotation //返回数据的方式，一般为json
-                     li succses : Function(data1, data2)
-                       span.annotation //请求成功之后执行的方法，data1为当前页数据数组，data2为请求返回的原始数据
-
-
+          - var properties = [{title:'scaleImg',type:'boolean',default:'undefined',description:'目前测试该属性不影响效果'},{title:'closeOnClick',type:'boolean',default:'undefined',description:'该属性不影响结果'},{title:'width',type:'int',default:'undefined',description:'指定放大图片后的宽度，默认是按照容器宽度来计算'},{title:'height',type:'int',default:'undefined',description:'指定放大图片后的高度，默认是按照容器高度来计算'}];
+          each property in properties
+            div.description
+              li.description-title #{property.title}
+              div.description-type
+                span 类型：
+                span.value #{property.type}
+              div.description-default
+                span 默认值：
+                span.value #{property.default}
+              div.description-detail
+                span 描述：
+                span.value #{property.description}
 
       include includes/footer.pug
 
