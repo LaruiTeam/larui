@@ -48,13 +48,14 @@ this.$GalleryWall = $(element);
 3. 动态分页组件(larDynamicPage) FINISHED @huqiaosi
    2018-01-09  100%
 4. 图片放大组件（larFancyZoom) @huqiaosi
-5. gallery组件（larGallery) @weixuan
-6. 加载组件 （larLoading) @weixuan
+5. gallery组件（larGallery) @huqiaosi
+6. 加载组件 （larLoading) @huqiaosi
 7. pdf组件（larPdf) @renkaiguang
 8. 全文搜索组件（larSearch) @weixuan
 9. 时间轴组件 (larTimeline) @huqiaosi
-10. 附件上传组件（larUpload) @renkaiguang
-11. 手风琴组件 （larAccordion) @weixuan
+10. 附件上传组件（larUpload) @weixuan
+11. 手风琴组件 （larAccordion) @huqiaosi
 12. 书卷展示组件（larBooklet) @huqiaosi
 13. 弹出框组件（larDialog) @weixuan
 14. 书架展示组件（larShelfGallery) @huqiaosi
+15. 组件相关PPT @weixuan
