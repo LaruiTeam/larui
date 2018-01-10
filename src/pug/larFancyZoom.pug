@@ -7,7 +7,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     meta(name='description', content='')
     meta(name='author', content='')
-    link(rel="stylesheet" href="css/larPagination/larPagination.css")
+    link(rel="stylesheet" href="css/larFancyZoom/larFancyZoom.css")
 
     title SB Admin - Start Bootstrap Template
 
@@ -15,7 +15,7 @@ html(lang='en')
 
     include includes/css/custom.pug
 
-  body#page-top.fixed-nav.sticky-footer.bg-dark
+  body#page-top.fixed-nav.sticky-footer.bg-dark.main
     include includes/navbar.pug
     .content-wrapper
       .container-fluid
@@ -23,12 +23,12 @@ html(lang='en')
         ol.breadcrumb
           li.breadcrumb-item
             a(href='#') Lar-ui
-          li.breadcrumb-item.active 动态分页组件
+          li.breadcrumb-item.active 图片放大组件
         div.result
           h3
-            a.headerLink |动态分页组件
+            a.headerLink |图片放大组件
           p
-            code larPagination
+            code larFancyZoom
             |动态分页组件用于分页查询的结果展示，可以动态调整每页展示结果条数。
           h3
             a.headerLink |使用方法
@@ -36,8 +36,17 @@ html(lang='en')
             code $([selector]).larPagination([option]);
           h3
             a.headerLink |展示效果
-          div.page-content
-            section.specialTopicDynamicContent
+          div.fancyZoom#pictureContainer
+            div.photo
+              a.zoom-item(href="#img001")
+                img(src='larGalleryWall/1.jpg')
+            div#img001(style="display:none")
+              img(src='larGalleryWall/1.jpg')
+            div.photo
+              a.zoom-item(href="#img002")
+                img(src='larGalleryWall/2.jpg')
+            div#img002(style="display:none")
+              img(src='larGalleryWall/2.jpg')
           br
           p
           h3
@@ -100,31 +109,14 @@ html(lang='en')
 
       include includes/js/custom.pug
 
-      script(src='larPagination/larPagination.js')
+      script(src='../artnchina/lib/jquery-1.11.2.min.js')
+      script(src='larFancyZoom/larFancyZoom.js')
       script.
-        $('.specialTopicDynamicContent').larPagination({
-          remote : {
-              url : 'larPagination/data.json',
-              type : 'GET',
-              dataType : 'json',
-              success : function(curPageData,data){
-                  $.each(curPageData, function(index, item){
-                      var name = item.createUserName;
-                      var dictBizType = item.dictBizType;
-                      var titleName = item.titleName;
-                      var audioAuthor = item.audioAuthor;
-                      var imgPath = item.imgPath;
-                      var itemHtml = '<div class="item-content">' +
-                                     '<div class="item-img"><img src="' + imgPath + '"></div>' +
-                                     '<div class="item-description">' +
-                                       '<div class="item-title">' + titleName + '</div>' +
-                                       '<div class="item-instruction">' + item.audioAuthor + ',' + item.dictBizType + '<div>'
-                                     '</div>' +
-                                     '</div>';
-                      $('.specialTopicDynamicContent').prepend(itemHtml);
-                  });
-              }
-          }
+        $('.zoom-item').larFancyZoom({
+          scaleImg: true,
+          closeOnClick: true,
+          width: 500,
+          height: 500
         });
       // Toggle between fixed and static navbar
       script.

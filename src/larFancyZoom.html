@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" href="css/larPagination/larPagination.css">
+    <link rel="stylesheet" href="css/larFancyZoom/larFancyZoom.css">
     <title>SB Admin - Start Bootstrap Template</title>
     <!-- Bootstrap core CSS-->
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -15,7 +15,7 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.css" rel="stylesheet">
   </head>
-  <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <body class="fixed-nav sticky-footer bg-dark main" id="page-top">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav"><a class="navbar-brand" href="index.html">LAR-UI 精致的组件、样式、工具方法等互联网零件共享仓库</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -60,16 +60,19 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Lar-ui</a></li>
-          <li class="breadcrumb-item active">动态分页组件</li>
+          <li class="breadcrumb-item active">图片放大组件</li>
         </ol>
         <div class="result">
-          <h3><a class="headerLink">|动态分页组件</a></h3>
-          <p><code>larPagination</code>动态分页组件用于分页查询的结果展示，可以动态调整每页展示结果条数。</p>
+          <h3><a class="headerLink">|图片放大组件</a></h3>
+          <p><code>larFancyZoom</code>动态分页组件用于分页查询的结果展示，可以动态调整每页展示结果条数。</p>
           <h3><a class="headerLink">|使用方法</a></h3>
           <p><code>$([selector]).larPagination([option]);</code></p>
           <h3><a class="headerLink">|展示效果</a></h3>
-          <div class="page-content">
-            <section class="specialTopicDynamicContent"></section>
+          <div class="fancyZoom" id="pictureContainer">
+            <div class="photo"><a class="zoom-item" href="#img001"><img src="larGalleryWall/1.jpg"></a></div>
+            <div id="img001" style="display:none;"><img src="larGalleryWall/1.jpg"></div>
+            <div class="photo"><a class="zoom-item" href="#img002"><img src="larGalleryWall/2.jpg"></a></div>
+            <div id="img002" style="display:none;"><img src="larGalleryWall/2.jpg"></div>
           </div><br>
           <p></p>
           <h3><a class="headerLink">|属性说明</a></h3>
@@ -139,31 +142,14 @@
       <script src="vendor/jquery-easing/jquery.easing.js"></script>
       <!-- Custom scripts for all pages-->
       <script src="js/sb-admin.js"></script>
-      <script src="larPagination/larPagination.js"></script>
+      <script src="../artnchina/lib/jquery-1.11.2.min.js"></script>
+      <script src="larFancyZoom/larFancyZoom.js"></script>
       <script>
-        $('.specialTopicDynamicContent').larPagination({
-          remote : {
-              url : 'larPagination/data.json',
-              type : 'GET',
-              dataType : 'json',
-              success : function(curPageData,data){
-                  $.each(curPageData, function(index, item){
-                      var name = item.createUserName;
-                      var dictBizType = item.dictBizType;
-                      var titleName = item.titleName;
-                      var audioAuthor = item.audioAuthor;
-                      var imgPath = item.imgPath;
-                      var itemHtml = '<div class="item-content">' +
-                                     '<div class="item-img"><img src="' + imgPath + '"></div>' +
-                                     '<div class="item-description">' +
-                                       '<div class="item-title">' + titleName + '</div>' +
-                                       '<div class="item-instruction">' + item.audioAuthor + ',' + item.dictBizType + '<div>'
-                                     '</div>' +
-                                     '</div>';
-                      $('.specialTopicDynamicContent').prepend(itemHtml);
-                  });
-              }
-          }
+        $('.zoom-item').larFancyZoom({
+          scaleImg: true,
+          closeOnClick: true,
+          width: 500,
+          height: 500
         });
       </script>
       <!-- Toggle between fixed and static navbar-->
