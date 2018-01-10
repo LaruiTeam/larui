@@ -234,7 +234,6 @@
       </footer>
       <!-- Scroll to Top Button--><a class="scroll-to-top rounded" href="#page-top"><i class="fa fa-angle-up"></i></a>
       <!-- Bootstrap core JavaScript-->
-      <script src="vendor/jquery/jqueryrkg.js"></script>
       <script src="vendor/jquery/jquery.js"></script>
       <script src="vendor/bootstrap/js/bootstrap.bundle.js"></script>
       <!-- Core plugin JavaScript-->
@@ -246,7 +245,15 @@
       <script>
          $(document).ready(function(){
             $('.galleryWallContainer').galleryWall({
-               galleryType : 'tall'
+               galleryType : 'tall',
+               pageSize :'3',
+               titleType : 'default',
+               paramMap : {
+                  imgPath : 'imgPath',
+                  title : 'titleName',
+                  id : 'audioId',
+                  author : 'audioAuthor'
+               },
             });
          });
         $('.scroll-to-top').larBackTop();
