@@ -1,16 +1,16 @@
 mixin renderOption(obj)
     h5
-      a.headerlink#sharp(href="#silent")|obj.dataUrl
+      a.headerlink#sharp(href="#silent")| #{obj.title}
     ul 
       li
         p
           Strong 类型：
-          code obj.type
+          code #{obj.type}
       li
         p
           Strong 默认值：
-          code obj.default
+          code #{obj.default}
       li
         p
           Strong 说明：
-          code obj.description
+          code #{obj.description}

@@ -112,7 +112,7 @@
 				pageNumber : 1,
 				showTitle : true,
 				defaultPicType : '',
-				selfAdaption : false,
+				//selfAdaption : false,
 				paramMap : {
 					imgPath : 'imgPath',
 					title : 'title',
@@ -132,7 +132,7 @@
 			buildDom : function(){
 				this.$GalleryWall.empty();
 				this.$GalleryWall.next('div').remove();
-				this.$GalleryWall.after('<div style="margin-bottom: 30px; margin-top: 0px;" class="btn_dropDown"><button class="icon btn_arrow"></button></div>');
+				this.$GalleryWall.after('<div style="margin-bottom: 30px; margin-top: 0px;" class="btn_dropDown"><i class="fa fa-arrow-down" aria-hidden="true" style="display:table;margin:auto;cursor:pointer"></i></div>');
 			},
 			/**
 			 * 加载初始图片
@@ -142,26 +142,28 @@
 				var postParam = $.extend( _this.options.param , { pageSize : _this.options.pageSize , curPage : _this.pageNumber++ } );
 				_this.initImageSize();
 				$.get( this.options.dataUrl , postParam ,function( data ){
+					/*//初始化页面时
 					if(_this.pageNumber == 2) {
 						_this.buildDom();
 						_this.bindArrowEvent();
 					}
+					//超出最后一页时
 					if(data.model.allDataCount/_this.options.pageSize <= postParam.curPage) {
 						_this.$GalleryWall.next('.btn_dropDown').hide();
-					}
+					}*/
 					var newAddImgsHTML = '';
 					$.each( data.model.curPageData , function( i , e ){
 						newAddImgsHTML += '<div class="gWImgContainer">' +
 							                      _this.setPicLink( _this.options.paramMap.linkType , e , _this.options.paramMap.id ) ;
 						
-						if(_this.options.selfAdaption) {
+/*						if(_this.options.selfAdaption) {
 						newAddImgsHTML += '<div style="width: 95%; height: 95%; margin:0 auto; overflow: hidden;">' + 
 										  		'<img style="margin-left:0px; margin-right:0px; width: 100%; height: 100%; " title="' + e[_this.options.paramMap.title] + '" class="' + _this.pageNumber + '^' + i + '" src="' + e[_this.options.paramMap.imgPath] + '" onerror="placeholderImg(\''+_this.options.defaultPicType+'\',this);">' +
 										  '</div>';
 						} else {
 							newAddImgsHTML += '<img style="width: ' + _this.picWidth + 'px; height: ' + _this.picHeight + 'px;" title="' + e[_this.options.paramMap.title] + '" class="' + _this.pageNumber + '^' + i + '" src="' + e[_this.options.paramMap.imgPath] + '" onerror="placeholderImg(\''+_this.options.defaultPicType+'\',this);">';
-						}
-						
+						}*/
+						newAddImgsHTML += '<img style="width: ' + _this.picWidth + 'px; height: ' + _this.picHeight + 'px;" title="' + e[_this.options.paramMap.title] + '" class="' + _this.pageNumber + '^' + i + '" src="' + e[_this.options.paramMap.imgPath] + '" onerror="placeholderImg(\''+_this.options.defaultPicType+'\',this);">';
 						newAddImgsHTML += _this.setPicLinkAfter( _this.options.paramMap.linkType , e , _this.options.paramMap.id ) + '</div>';
 					});
 					var $newAddImgs = $( newAddImgsHTML );
@@ -220,11 +222,11 @@
 			initImageSize : function(){
 				var _this = this;
 				if( _this.options.galleryType == "square"){
-					_this.picWidth = 220;
-					_this.picHeight = 220;
+					_this.picWidth = 300;
+					_this.picHeight = 300;
 				}else if( _this.options.galleryType == "tall" ){
-					_this.picWidth = 180;
-					_this.picHeight = 220;
+					_this.picWidth = 300;
+					_this.picHeight = 366;
 				}
 			},
 			
