@@ -3,3 +3,4 @@
 .idea/
 **/*.html
 **/*.css
+!src/vendor/*.css
