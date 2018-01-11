@@ -1,6 +1,6 @@
 /node_modules/
 /demo/pages/
 .idea/
-**/*.html
-**/*.css
-!src/vendor/*.css
+/src/**/*.html
+/src/**/*.css
+!/src/vendor/**/*.css

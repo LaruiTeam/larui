@@ -1,4 +1,4 @@
-告知：本项目维护文联组件，不再维护高法组件
+开发必读
 
 #### 工程结构 project structure
 * src 为公用维护源码（最重要）  
@@ -10,17 +10,16 @@
     scss 工程样式源码  
     js 工程JS源码  
     images 工程图片  
-    css 工程CSS文件（编译后）  
-    html 工程html文件（编译后）  
 
 spc 为高法组件源码（参考）  
 artnchina 为文联组件源码（参考）  
 test 为单元测试文件（保留）  
-demo 为旧的demo代码（待处理）  
-dist 为旧的发布代码（待处理）  
+demo 为旧的demo代码（弃）  
+dist 为旧的发布代码（弃）  
 
-#### 组件标准 component specification
-维护中...
+#### 组件定位component specification
+1. 移动优先，所有组件开发优先设计移动端，再拓展PC端
+2. 
 
 #### 技术规格 tech specification
 ######## 组件规范 ########

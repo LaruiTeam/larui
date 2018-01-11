@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>mixPhote测试</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- 基础样式 -->
+<link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap-theme.min.css">
+<!-- lar-ui样式 -->
+<link rel="stylesheet" href="../lar-ui.css" />
+<!-- 页面样式 名称与页面名称一致 -->
+<link rel="stylesheet" href="mixPhotoWall.css" />
+<!-- jquery -->
+<script src="../../lib/jquery-1.11.2.js"></script>
+<script src="../../lib/jquery.mobile.custom.min.js"></script>
+<script src="../lar-ui.js"></script>
+<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="larMixPhotoWall.js"></script>
+<script src="mixPhotoWallTest.js"></script>
+</head>
+<body>
+<!-- 头部 -->
+    <header class="header_primary header_theme_activity">
+      <section class="container">
+        <div class="navbar-header clearfix">
+          <div class="navbar-brand"><img src="../../lar-ui/images/common/logo-xs.png"/></div>
+          <div class="input-search search-xs">
+            <div class="input-group">
+              <input type="text" placeholder="搜索" class="form-control"/><span class="input-group-btn">
+                <button type="button" class="btn btn-default glyphicon glyphicon-search"></button></span>
+            </div>
+          </div>
+          <button type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" class="navbar-toggle collapsed"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        </div><img class="logo-lar" src="../../lar-ui/images/common/logo-lar.png" style="width: 160px;">
+        <nav id="bs-navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="activeactive"><a href="#">HOME</a></li>
+            <li><a href="#">艺术家</a></li>
+            <li><a href="#">组织</a></li>
+            <li><a href="#">作品</a></li>
+            <li><a href="#">奖节</a></li>
+            <li><a href="#">典籍期刊</a></li>
+            <li><a href="#">活动</a></li>
+            <li class="info"><a href="#">资讯</a></li>
+            <li><a href="#">百科</a></li>
+          </ul>
+          <div class="input-search search-md">
+            <div class="input-group">
+              <input type="text" placeholder="搜索" class="form-control"/><span class="input-group-btn">
+                <button class="btn btn-default glyphicon glyphicon-search"></button></span>
+            </div>
+          </div>
+        </nav>
+      </section>
+    </header>
+    <section class="banner"><img src="../../lar-ui/images/common/banner_activity_1.jpg"/>
+    </section>
+    
+    <section class="container" style="text-align:center;">
+        <div class="row">
+            <div class="col-md-12">
+                <div style="line-height: 100px;background-color: rebeccapurple;">mix-photoWall测试</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div style="line-height: 20px;background-color: cornflowerblue;">大图在左，小图在右</div>
+            </div>
+        </div>
+        <div class=row>
+            <div class="col-md-12">
+                <div class="mixPhoto1" style="height:300px;"> </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div style="line-height: 20px;background-color: cornflowerblue;">小图在左，大图在右</div>
+            </div>
+        </div>
+        <div class=row>
+            <div class="col-md-12">
+                <div class="mixPhoto2" style="height:300px;"> </div>
+            </div>
+        </div>
+        
+    </section>
+
+</body>
+</html>
