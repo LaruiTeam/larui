@@ -2,3 +2,4 @@
 /demo/pages/
 .idea/
 /src/*.html
+*.html
