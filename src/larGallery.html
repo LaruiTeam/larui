@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" href="css/larFancyZoom/larFancyZoom.css">
+    <link rel="stylesheet" href="css/larGallery/larGallery.css">
     <title>SB Admin - Start Bootstrap Template</title>
     <!-- Bootstrap core CSS-->
     <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -61,50 +61,55 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Lar-ui</a></li>
-          <li class="breadcrumb-item active">图片放大组件</li>
+          <li class="breadcrumb-item active">轮播图组件</li>
         </ol>
         <div class="result">
-          <h3><a class="headerLink">|图片放大组件</a></h3>
-          <p><code>larFancyZoom</code>动态分页组件用于分页查询的结果展示，可以动态调整每页展示结果条数。</p>
+          <h3><a class="headerLink">|轮播图组件</a></h3>
+          <p><code>larGallery</code>实现图片轮播的方法</p>
           <h3><a class="headerLink">|使用方法</a></h3>
           <p>
-            <div class="code-html">html如下所示，需要使用图片放大组件的图片要写在id为pictureContainer的div中，且图片外层的a标签的href指向一个div，该div中的内容作为当前图片放大后的展示内容<code class="block">&lt;div id=&quot;pictureContainer&quot;&gt;</code><code class="block">&nbsp;&nbsp;&lt;div&gt;</code><code class="block">&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href=&quot;#id1&quot;&gt;</code><code class="block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&quot;larGalleryWall/1.jpg&quot;&gt;</code><code class="block">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/a&gt;</code><code class="block">&nbsp;&nbsp;&lt;/div&gt;</code><code class="block">&nbsp;&nbsp;&lt;div display=&quot;none&quot; id=&quot;id1&quot;&gt;</code><code class="block">&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&quot;larGalleryWall/1.jpg&quot;&gt;</code><code class="block">&nbsp;&nbsp;&lt;/div&gt;</code><code class="block">&lt;/div&gt;</code>
+            <div class="code-html">html，只需要一个容器即可，div或section都可以。class最好是写成css-gallery<code class="block">&lt;div id=&quot;gallery&quot; class=&quot;css-gallery&quot;&gt;&lt;/div&gt;</code>
             </div>
             <p></p>
-            <div class="code-js">js如下所示<code class="block">$('a').larFancyZoom({</code><code class="block">&nbsp;&nbsp;scaleImg: true,</code><code class="block">&nbsp;&nbsp;closeOnClick: true,</code><code class="block">&nbsp;&nbsp;width: 500,</code><code class="block">&nbsp;&nbsp;height: 500,</code><code class="block">});</code></div>
+            <div class="code-js">js，items是需要轮播图片的数据<code class="block">$('#gallery1').larGallery({</code><code class="block">&nbsp;&nbsp;errorImage : 'larGalleryWall/1.jpg',</code><code class="block">&nbsp;&nbsp;showNum: 3,</code><code class="block">&nbsp;&nbsp;items: [{href:'https://www.baidu.com',src:'larGalleryWall/1.jpg'},</code><code class="block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{href:'https://www.baidu.com',src:'larGalleryWall/2.jpg'},</code><code class="block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{href:'https://www.baidu.com',src:'larGalleryWall/3.jpg'},</code><code class="block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{href:'https://www.baidu.com',src:'larGalleryWall/4.jpg'}]</code><code class="block">});</code></div>
+            <p></p>
+            <div class="code-css">css<code class="block">.css-gallery {</code><code class="block">&nbsp;&nbsp;width: 1000px;<span class="annotation">&nbsp;&nbsp;&nbsp;&nbsp;//该宽度可自由调节</span></code><code class="block">&nbsp;&nbsp;position: relative;</code><code class="block">&nbsp;&nbsp;margin: 0 auto;</code><code class="block">&nbsp;&nbsp;padding: 0;</code><code class="block">}</code><code class="block">.css-gallery-list-wrap {</code><code class="block">&nbsp;&nbsp;overflow: hidden;</code><code class="block">&nbsp;&nbsp;white-space: nowrap;</code><code class="block">&nbsp;&nbsp;position: relative;</code><code class="block">&nbsp;&nbsp;margin: 0;</code><code class="block">&nbsp;&nbsp;padding: 0;</code><code class="block">}</code><code class="block">.css-gallery-list {</code><code class="block">&nbsp;&nbsp;position: relative;</code><code class="block">&nbsp;&nbsp;padding: 0;</code><code class="block">}</code><code class="block">.css-gallery-item {</code><code class="block">&nbsp;&nbsp;display: inline-block;</code><code class="block">&nbsp;&nbsp;padding: 0 16px;<span class="annotation">&nbsp;&nbsp;&nbsp;&nbsp;//可以按需自由调整</span></code><code class="block">}</code><code class="block">.css-gallery-item img {</code><code class="block">&nbsp;&nbsp;width: 100%;</code><code class="block">&nbsp;&nbsp;height: 300px;<span class="annotation">&nbsp;&nbsp;&nbsp;&nbsp;//可以按需自由调整</span></code><code class="block">&nbsp;&nbsp;vertical-align: middle;</code><code class="block">}</code><code class="block">.css-gallery-btn.prev {</code><code class="block">&nbsp;&nbsp;background-image: url(../../larGallery/left-arrow.png);<span class="annotation">&nbsp;&nbsp;&nbsp;&nbsp;//该图标可自行更改</span></code><code class="block">&nbsp;&nbsp;margin-top: -36px;<span class="annotation">&nbsp;&nbsp;&nbsp;&nbsp;//可自由调整</span></code><code class="block">&nbsp;&nbsp;position: absolute;</code><code class="block">&nbsp;&nbsp;top: 120px;<span class="annotation">&nbsp;&nbsp;&nbsp;&nbsp;//可自由调整</span></code><code class="block">&nbsp;&nbsp;left: -40px;<span class="annotation">&nbsp;&nbsp;&nbsp;&nbsp;//可自由调整</span></code><code class="block">&nbsp;&nbsp;width: 40px;<span class="annotation">&nbsp;&nbsp;&nbsp;&nbsp;//宽高可调整，但必须给值</span></code><code class="block">&nbsp;&nbsp;height: 40px;</code><code class="block">}</code><code class="block">.css-gallery-btn.next {</code><code class="block">&nbsp;&nbsp;background-image: url(../../larGallery/right-arrow.png);<span class="annotation">&nbsp;&nbsp;&nbsp;&nbsp;//该图标可自行更改</span></code><code class="block">&nbsp;&nbsp;margin-top: -36px;<span class="annotation">&nbsp;&nbsp;&nbsp;&nbsp;//可自由调整</span></code><code class="block">&nbsp;&nbsp;position: absolute;</code><code class="block">&nbsp;&nbsp;top: 120px;<span class="annotation">&nbsp;&nbsp;&nbsp;&nbsp;//可自由调整</span></code><code class="block">&nbsp;&nbsp;right: -40px;<span class="annotation">&nbsp;&nbsp;&nbsp;&nbsp;//可自由调整</span></code><code class="block">&nbsp;&nbsp;width: 40px;<span class="annotation">&nbsp;&nbsp;&nbsp;&nbsp;//宽高可调整，但必须给值</span></code><code class="block">&nbsp;&nbsp;height: 40px;</code><code class="block">}</code></div>
           </p>
           <h3><a class="headerLink">|展示效果</a></h3>
-          <div class="fancyZoom" id="pictureContainer">
-            <div class="photo"><a class="zoom-item" href="#img001"><img src="larGalleryWall/1.jpg"></a></div>
-            <div id="img001" style="display:none;"><img src="larGalleryWall/1.jpg"></div>
-            <div class="photo"><a class="zoom-item" href="#img002"><img src="larGalleryWall/2.jpg"></a></div>
-            <div id="img002" style="display:none;"><img src="larGalleryWall/2.jpg"></div>
+          <div class="container">
+            <div id="gallery1"></div>
           </div><br>
           <p></p>
           <h3><a class="headerLink">|属性说明</a></h3>
           <div class="description">
-            <li class="description-title">scaleImg</li>
-            <div class="description-type"><span>类型：</span><span class="value">boolean</span></div>
-            <div class="description-default"><span>默认值：</span><span class="value">undefined</span></div>
-            <div class="description-detail"><span>描述：</span><span class="value">目前测试该属性不影响效果</span></div>
+            <li class="description-title">errorImage</li>
+            <div class="description-type"><span>类型：</span><span class="value">string</span></div>
+            <div class="description-default"><span>默认值：</span><span class="value">../../lar-ui/imgs/default.png</span></div>
+            <div class="description-detail"><span>描述：</span><span class="value">图片加载错误时显示的图片的路径</span></div>
           </div>
           <div class="description">
-            <li class="description-title">closeOnClick</li>
-            <div class="description-type"><span>类型：</span><span class="value">boolean</span></div>
-            <div class="description-default"><span>默认值：</span><span class="value">undefined</span></div>
-            <div class="description-detail"><span>描述：</span><span class="value">该属性不影响结果</span></div>
-          </div>
-          <div class="description">
-            <li class="description-title">width</li>
+            <li class="description-title">showNum</li>
             <div class="description-type"><span>类型：</span><span class="value">int</span></div>
-            <div class="description-default"><span>默认值：</span><span class="value">undefined</span></div>
-            <div class="description-detail"><span>描述：</span><span class="value">指定放大图片后的宽度，默认是按照容器宽度来计算</span></div>
+            <div class="description-default"><span>默认值：</span><span class="value">3</span></div>
+            <div class="description-detail"><span>描述：</span><span class="value">当前视图中显示的图片数量</span></div>
           </div>
           <div class="description">
-            <li class="description-title">height</li>
-            <div class="description-type"><span>类型：</span><span class="value">int</span></div>
+            <li class="description-title">items</li>
+            <div class="description-type"><span>类型：</span><span class="value">array</span></div>
             <div class="description-default"><span>默认值：</span><span class="value">undefined</span></div>
-            <div class="description-detail"><span>描述：</span><span class="value">指定放大图片后的高度，默认是按照容器高度来计算</span></div>
+            <div class="description-detail"><span>描述：</span><span class="value">轮播图中图片的数据。数组中每个对象的属性分别为：href：string，当前图片跳转的路径;src：string，图片路径;extras;object，其中$dom是与当前图片相关的描述的DOM节点的jquery对象，position(string)指的是描述内容相对于图片的显示位置，默认为after图片之后，如果设置为其他值则处理为prepend图片之前</span></div>
+          </div>
+          <div class="description">
+            <li class="description-title">speed</li>
+            <div class="description-type"><span>类型：</span><span class="value">int</span></div>
+            <div class="description-default"><span>默认值：</span><span class="value">3000</span></div>
+            <div class="description-detail"><span>描述：</span><span class="value">自动轮播的速度</span></div>
+          </div>
+          <div class="description">
+            <li class="description-title">direction</li>
+            <div class="description-type"><span>类型：</span><span class="value">string</span></div>
+            <div class="description-default"><span>默认值：</span><span class="value">left</span></div>
+            <div class="description-detail"><span>描述：</span><span class="value">轮播的方向，left为向左滑动，right为向右滑动，stop为停止滑动</span></div>
           </div>
         </div>
       </div>
@@ -122,13 +127,15 @@
       <!-- Custom scripts for all pages-->
       <script src="js/sb-admin.js"></script>
       <script src="../artnchina/lib/jquery-1.11.2.min.js"></script>
-      <script src="larFancyZoom/larFancyZoom.js"></script>
+      <script src="larGallery/larGallery.js"></script>
       <script>
-        $('.zoom-item').larFancyZoom({
-          scaleImg: true,
-          closeOnClick: true,
-          width: 500,
-          height: 500
+        $('#gallery1').larGallery({
+          errorImage : 'larGalleryWall/1.jpg',
+          showNum: 3,
+          items: [{href:'https://www.baidu.com',src:'larGalleryWall/1.jpg'},
+                  {href:'https://www.baidu.com',src:'larGalleryWall/2.jpg'},
+                  {href:'https://www.baidu.com',src:'larGalleryWall/3.jpg'},
+                  {href:'https://www.baidu.com',src:'larGalleryWall/4.jpg'}]
         });
       </script>
       <!-- Toggle between fixed and static navbar-->
