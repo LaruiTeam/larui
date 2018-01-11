@@ -50,13 +50,13 @@ html(lang='en')
           h3 
             a.headerlink(href="silent")|属性介绍
           - 
-            var objs = [{ title : 'dataUrl' , type : 'string' , default : 'data.json' , description : '照片墙请求的action' },
-                        { title : 'galleryType' , type : 'string' , default : 'tall' , description : 'tall , square' },
-                        { title : 'titleType' , type : 'string' , default : 'mask' , description : 'default , mask ' },
-                        { title : 'pageSize' , type : 'string' , default : '8' , description : '图片数量' },
-                        { title : 'pageNumber' , type : 'string' , default : 'tall' , description : 'tall , square' },
-                        { title : 'showTitle' , type : 'string' , default : 'tall' , description : 'tall , square' },
-                        { title : 'paramMap' , type : 'string' , default : 'tall' , description : 'tall , square' },
+            var objs = [{ title : 'dataUrl' , type : 'string' , default : 'data.json' , description : '照片墙数据请求URL,需后台返回JSON,格式参考data.json' },
+                        { title : 'galleryType' , type : 'string' , default : 'tall' , description : 'gallery有两种展示,高的tall和方的square' },
+                        { title : 'titleType' , type : 'string' , default : 'mask' , description : '设置标题的展示类型,分为两种,default和马赛克,其中default为默认展示方式,mask为遮罩展示方式' },
+                        { title : 'pageSize' , type : 'string' , default : '8' , description : 'pageSize是传给后台的参数,默认为8' },
+                        { title : 'pageNumber' , type : 'string' , default : 'tall' , description : 'pageNumber为传给后台分页的参数,默认为1' },
+                        { title : 'showTitle' , type : 'boolean' , default : 'false' , description : '是否显示标题,默认不显示' },
+                        { title : 'paramMap' , type : 'obj' , default : '' , description : '用于处理不同服务后台返回参数的不同,映射后台参数' },
                         { title : 'link' , type : 'string' , default : 'tall' , description : 'tall , square' }]
           each obj in objs
             +renderOption(obj)
@@ -75,9 +75,9 @@ html(lang='en')
       script.
          $(document).ready(function(){
             $('.galleryWallContainer').galleryWall({
-               galleryType : 'tall',
+               galleryType : 'square',
                pageSize :'3',
-               titleType : 'default',
+               titleType : 'mask',
                paramMap : {
                   imgPath : 'imgPath',
                   title : 'titleName',

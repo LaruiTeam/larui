@@ -110,7 +110,7 @@
 				titleType : 'mask', // default , mask 
 				pageSize :'8',
 				pageNumber : 1,
-				showTitle : true,
+				showTitle : false,
 				defaultPicType : '',
 				//selfAdaption : false,
 				paramMap : {
@@ -170,7 +170,9 @@
 					});
 					var $newAddImgs = $( newAddImgsHTML );
 					_this.$GalleryWall.append( $newAddImgs );
-					_this.renderTitle( $newAddImgs , data.model.curPageData );
+					if( _this.showTitle ){
+						_this.renderTitle( $newAddImgs , data.model.curPageData );
+					}
 					
 					//页面加载后执行的回调
 					if( _this.executed === false ){
