@@ -1,0 +1,124 @@
+doctype html
+html(lang='en')
+
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    link(rel="stylesheet" href="css/larLoading/larLoading.css")
+
+    title SB Admin - Start Bootstrap Template
+
+    include includes/css/core.pug
+
+    include includes/css/custom.pug
+
+  body#page-top.fixed-nav.sticky-footer.bg-dark.main
+    include includes/navbar.pug
+    .content-wrapper
+      .container-fluid
+        // Breadcrumbs
+        ol.breadcrumb
+          li.breadcrumb-item
+            a(href='#') Lar-ui
+          li.breadcrumb-item.active 等待加载组件
+        div.result
+          h3
+            a.headerLink |等待加载组件
+          p
+            code larLoading
+            |实现等待时的遮罩层，一般用于异步加载。可重复加载遮罩层，此时需要多次执行关闭遮罩层才能彻底将遮罩层关闭。
+          h3
+            a.headerLink |使用方法
+            p
+            div.code-html 该组件调用时的options不能为空或空对象
+              code $([selector]).larLoading([options]);
+            p
+            div.code-html html，任意div、section甚至表单元素都可以实现loading遮罩功能
+              - var divContainerH = '<div id="loading"></div>';
+              code.block #{divContainerH}
+            p
+            div.code-js js
+              code.block $('#loading').larLoading({position:'overlay',text:'请等待',transparency:0.5});
+                span.annotation &nbsp;&nbsp;&nbsp;&nbsp;//打开遮罩层
+              code.block $('#loading').larLoading('hide');
+                span.annotation &nbsp;&nbsp;&nbsp;&nbsp;//关闭遮罩层
+            p
+            div.code-css css
+              code.block .larLoading-overlay {
+              code.block &nbsp;&nbsp;text-align: center;
+              code.block &nbsp;&nbsp;color: #ccc;
+              code.block }
+          h3
+            a.headerLink |展示效果
+          div
+            div#loading(style="width:100%;height:300px;background-color:#bf8489;")
+            div.btn-div
+              button.btn.btn-default#loading1 loading
+              button.btn.btn-default#close1 关闭
+              button.btn.btn-default#loading2 loading for body(esc)
+          br
+          p
+          h3
+            a.headerLink |属性说明
+          -
+           var properties = [{ title:'position',type:'string',default:'right',description:'[inside,right,overlay]，建议使用overlay。该属性改变的是遮罩层外层div的样式和位置，可自行定义以下类的样式：larLoading-overlay、larLoading-inside、larLoading-right。'},
+                             {title:'text',type:'string',default:'空字符串',description:'遮罩层上的文字内容'},
+                             {title:'class',type:'string',default:'glyphicon glyphicon-refresh',description:'遮罩层上文字后的图标样式'},
+                             {title:'transparency',type:'double',default:0.5,description:'遮罩层的opacity不透明度'},
+                             {title:'tpl',type:'string',default:'<span class="larLoading-wrapper %wrapper%">%text%<i class="%class% glyphicon-spin lar-spin"></i></span>',description:'text的外层元素'}];
+          each property in properties
+            div.description
+              li.description-title #{property.title}
+              div.description-type
+                span 类型：
+                span.value #{property.type}
+              div.description-default
+                span 默认值：
+                span.value #{property.default}
+              div.description-detail
+                span 描述：
+                span.value #{property.description}
+
+      include includes/footer.pug
+
+      include includes/scroll-to-top.pug
+
+      include includes/js/core.pug
+
+      include includes/js/custom.pug
+
+      script(src='../artnchina/lib/jquery-1.11.2.min.js')
+      script(src='larLoading/larLoading.js')
+      script.
+        $('#loading1').click(function(e){
+          $('#loading').larLoading({position:'overlay',text:'请等待',transparency:0.5});
+        });
+        $('#close1').click(function(e){
+          $('#loading').larLoading('hide');
+        });
+        $('#loading2').click(function(e){
+          $('body').larLoading({position:'overlay',text:'请等待',transparency:0.5});
+        });
+        $(document).keyup(function(e){
+          if (e.keyCode == '27'){
+            $('body').larLoading('hide');
+          }
+        });
+
+      // Toggle between fixed and static navbar
+      script.
+        $('#toggleNavPosition').click(function() {
+        $('body').toggleClass('fixed-nav');
+        $('nav').toggleClass('fixed-top static-top');
+        });
+
+      // Toggle between dark and light navbar
+      script.
+        $('#toggleNavColor').click(function() {
+        $('nav').toggleClass('navbar-dark navbar-light');
+        $('nav').toggleClass('bg-dark bg-light');
+        $('body').toggleClass('bg-dark bg-light');
+        });
