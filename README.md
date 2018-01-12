@@ -19,7 +19,7 @@ dist 为旧的发布代码（弃）
 
 #### 组件定位component specification
 1. 移动优先，所有组件开发优先设计移动端，再拓展PC端
-2. 
+2. 分支测试中
 
 #### 技术规格 tech specification
 ######## 组件规范 ########
