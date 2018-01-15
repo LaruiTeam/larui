@@ -1,0 +1,124 @@
+doctype html
+html(lang='en')
+
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    link(rel="stylesheet" href="larUpload/webuploader/css/webuploader.css")
+    link(rel="stylesheet" href="css/larUpload/larUpload.css")
+
+    title SB Admin - Start Bootstrap Template
+
+    include includes/css/core.pug
+
+    include includes/css/custom.pug
+
+  body#page-top.fixed-nav.sticky-footer.bg-dark.main
+    include includes/navbar.pug
+    .content-wrapper
+      .container-fluid
+        // Breadcrumbs
+        ol.breadcrumb
+          li.breadcrumb-item
+            a(href='#') Lar-ui
+          li.breadcrumb-item.active 附件上传组件
+        div.result
+          h3
+            a.headerLink |附件上传组件
+          p
+            code larUpload
+            |提供上传单附件功能。该组件默认需要提供三个服务，分别为beforeSendFile、beforeSend、afterSendFile。
+          h3
+            a.headerLink |使用方法
+            p
+            div.code-html
+              code $([selector]).larUploadSingle([options]);
+            p
+            div.code-html html
+              - var divContainerH = '<div id="upload"></div>';
+              code.block #{divContainerH}
+            p
+            div.code-js js
+              code.block $('#upload').larUploadSingle();
+                span.annotation &nbsp;&nbsp;&nbsp;&nbsp;//初始化单附件上传组件
+              code.block $('#upload').larUploadSingle('getVal');
+                span.annotation &nbsp;&nbsp;&nbsp;&nbsp;//获取已上传附件的数据
+            p
+            div.code-css css，如果bootstrap和webuploader的版本更改，以下css需要适当调整
+              code.block .input-group .webuploader-container {
+              code.block &nbsp;&nbsp;width: 100%;
+              code.block &nbsp;&nbsp;color: #ccc;
+              code.block }
+              code.block .lar-upload-single .input-group .form-control {
+              code.block &nbsp;&nbsp;display: inline-block;
+              code.block &nbsp;&nbsp;width: 100%;
+              code.block }
+              code.block .lar-upload-single .input-group .input-group-addon {
+              code.block &nbsp;&nbsp;display: table-cell;
+              code.block &nbsp;&nbsp;border: solid 1px rgb(204, 204, 204);
+              code.block &nbsp;&nbsp;white-space: nowrap;
+              code.block &nbsp;&nbsp;text-align: center;
+              code.block &nbsp;&nbsp;vertical-align: middle;
+              code.block }
+          h3
+            a.headerLink |展示效果
+          div
+            div#upload
+          br
+          p
+          h3
+            a.headerLink |属性说明
+          -
+           var properties = [{ title:'swf',type:'string',default:'webuploader/Uploader.swf',description:'swf文件的路径'},
+                             {title:'server',type:'string',default:'/sword?SwordControllerName=fileUploadChunkController',description:'上传服务的路径'},
+                             {title:'chunked',type:'boolean',default:'true',description:'true为分片上传，默认每片5M大小；false为不分片。'},
+                             {title:'compress',type:'boolean',default:'false',description:'false为不压缩；true为压缩。如果上传cmyk格式的图片且使用压缩模式，会导致上传报错。'},
+                             {title:'accept',type:'object',default:'全部文件',description:'该对象中有三个属性：extensions：string，指允许上传的文件格式，用半角逗号分隔，如gif,jpg,jpeg；mimeTypes：string，指选择文件时的过滤条件，如image/*；title，string，描述名称。当mimeTypes和extensions覆盖文件类型很大时，特别是带*号来匹配时，打开选择文件的速度会变得非常慢。'}];
+          each property in properties
+            div.description
+              li.description-title #{property.title}
+              div.description-type
+                span 类型：
+                span.value #{property.type}
+              div.description-default
+                span 默认值：
+                span.value #{property.default}
+              div.description-detail
+                span 描述：
+                span.value #{property.description}
+
+      include includes/footer.pug
+
+      include includes/scroll-to-top.pug
+
+      include includes/js/core.pug
+
+      include includes/js/custom.pug
+
+      script(src='../artnchina/lib/jquery-1.11.2.min.js')
+      script(src='larUpload/webuploader/webuploader.min.js')
+      script(src='larUpload/larUpload.js')
+      script.
+       $(document).ready(function(){
+         $('#upload').larUploadSingle({nameFields:{}});
+         $('.glyphicon-cloud-upload').removeClass('glyphicon-cloud-upload').removeClass('glyphicon').addClass('fa fa-cloud-upload');
+         $('.glyphicon-upload').removeClass('glyphicon-upload').removeClass('glyphicon').addClass('fa fa-upload');
+       });
+
+      // Toggle between fixed and static navbar
+      script.
+        $('#toggleNavPosition').click(function() {
+        $('body').toggleClass('fixed-nav');
+        $('nav').toggleClass('fixed-top static-top');
+        });
+
+      // Toggle between dark and light navbar
+      script.
+        $('#toggleNavColor').click(function() {
+        $('nav').toggleClass('navbar-dark navbar-light');
+        $('nav').toggleClass('bg-dark bg-light');
+        $('body').toggleClass('bg-dark bg-light');
+        });

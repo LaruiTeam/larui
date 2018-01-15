@@ -1,5 +1,5 @@
 /**
- * 
+ *
  * 检索工程上传组件<br/>
  * @author gaodsh@css.com.cn
  */
@@ -13,14 +13,14 @@
     }
 }(function ($) {
 	//插件代码
-	
+
 	//默认选项
 	var defaults = {
 	    // swf文件路径
-	    swf: baseUrl + '/lib/webuploader/Uploader.swf',
+	    swf: 'webuploader/Uploader.swf',
 
 	    // 文件接收服务端。
-	    server: baseUrl + '/sword?SwordControllerName=fileUploadChunkController',
+	    server: '/sword?SwordControllerName=fileUploadChunkController',
 
 	    // 选择文件的按钮。可选。
 	    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -49,7 +49,7 @@
 		//验证单个文件大小是否超出限制, 超出则不允许加入队列。1024*1024
 		fileSingleSizeLimit : null
 	};
-	
+
     $.fn.larUploadSingle = function (method) {
 		if (singleMethods[method]) {
 			return singleMethods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -57,9 +57,9 @@
 			return singleMethods.init.apply(this, arguments);
 		} else {
 			$.error('SingleMethods ' + method + ' does not exist on jQuery.larUploadSingle');
-		} 
+		}
     };
-    
+
     var singleMethods = {
     	init : function(options){
     		var settings = $.extend({},defaults,options);
@@ -75,8 +75,8 @@
 				$this = singleMethods._renderUI($this,settings);
 				settings.pick = $this.find('.single-upload .choose-file')[0];
 				singleMethods._loadUploader($this,settings);
-				
-			});	
+
+			});
     	},
     	getVal : function(){
 			var $this = $(this);
@@ -87,10 +87,10 @@
 			return val;
     	},
     	_renderUI : function($this,options){
-    		
+
     		var  lusHtmlArr = [], p = options;
     		$this.addClass('lar-upload-single');
-    		
+
     		lusHtmlArr.push('<div  class="single-upload input-group">                                                            ');
     		lusHtmlArr.push('	<div class="choose-file">                                                          ');
     		lusHtmlArr.push('		<input type="text" class="form-control"/>                                       ');
@@ -107,7 +107,7 @@
     		lusHtmlArr.push('		<div class="progress-bar" role="progressbar" style="width: 0%"></div>               ');
     		lusHtmlArr.push('	</div>                                                                                ');
     		lusHtmlArr.push('</div>                                                                                   ');
-    		
+
     		lusHtmlArr.push('<div  class="single-oper input-group">                                                            ');
     		lusHtmlArr.push('	<div class="form-control">                                                        ');
     		lusHtmlArr.push('		<a href="#"></a>                                                       ');
@@ -119,35 +119,35 @@
     		}
     		if(p.nameFields && p.nameFields.path){
     			lusHtmlArr.push('	<input type="hidden" class="fields-path" id="'+p.nameFields.path+'" name="'+p.nameFields.path+'" />         ');
-    		}    		
+    		}
     		lusHtmlArr.push('	</div>                                                        ');
     		lusHtmlArr.push('	<span class="input-group-addon">                                                  ');
     		lusHtmlArr.push('		<i class="glyphicon glyphicon-remove" style="cursor:pointer" title="删除"></i>               ');
     		lusHtmlArr.push('	</span>                                                                                ');
     		lusHtmlArr.push('</div>                                                                                  ');
-    		
+
     		$this.append(lusHtmlArr.join(''));
-    		
+
     		//选择文件
     		$this.$upload = $('.single-upload',$this);
     		$this.$chooseFile = $('.single-upload .choose-file',$this);
     		//上传图标
     		$this.$cloud = $('.single-upload .glyphicon-cloud-upload',$this);
-    		$this.$uploadIcon = $('.single-upload .glyphicon-upload',$this).hide(); 
+    		$this.$uploadIcon = $('.single-upload .glyphicon-upload',$this).hide();
     		$this.$uploadIcon.click(function(){
     			$this.uploader.upload();
     		});
     		//文件数据
-    		$this.$fileInfo = $('.single-upload .file-info',$this).hide();  
-    		
+    		$this.$fileInfo = $('.single-upload .file-info',$this).hide();
+
     		//进度条
     		$this.$progress = $('.single-progress',$this).hide();
-    		
+
     		//操作
     		$this.$oper  = $('.single-oper',$this).hide();
     		// 操作-删除
     		$this.$remove = $('.single-oper .glyphicon-remove',$this);
-    		
+
     		$this.$remove.click(function(){
     			$this.uploader.reset();
     			$this.$oper.hide();
@@ -155,15 +155,15 @@
     			$this.$oper.find('input').val('');
     			$this.$uploadIcon.hide();
     			$this.$cloud.show();
-    			$this.$upload.show();			
+    			$this.$upload.show();
     		});
-    		
+
     		return $this;
-    		  		
+
     	},
     	_loadUploader : function($this,options){
 			var p = options;
-			
+
 			if(p.chunked){
 				singleMethods._register($this);
 			}
@@ -181,14 +181,14 @@
 				$this.$uploadIcon.show();
 				file.larProgress = $this.$progress.find('div[class="progress-bar"]');
 			});
-			
+
 	         //附件上传数据发送之前触发
 			$this.uploader.on( 'uploadBeforeSend', function(object,data,headers) {
 	            data['chunkSize']   = this.options.chunkSize;                 //发送每片大小到后端
 	            data['md5']  = object.file.larFileMd5;         //文件MD5
 	            data['filePath'] = object.file.larFilePath;       //文件路径
-	        });	
-			
+	        });
+
 			//当开始上传流程时触发
 			$this.uploader.on( 'uploadStart', function( file ) {
 				$this.$upload.hide();
@@ -214,7 +214,7 @@
 			// 文件上传失败，显示上传出错。
 			$this.uploader.on('uploadError', function(file) {
 				console.log('error');
-			});						
+			});
     	},
     	_unRegister : function(){
             WebUploader.Uploader.unRegister('beforeSendFile');
@@ -246,7 +246,7 @@
 //                            console.log('总耗时: '+((new Date().getTime()) - start)/1000);
                             $.ajax({
                             	type:'POST',
-                                url: baseUrl + '/sword/fileUpload/beforeSendFile',
+                                url: '/sword/fileUpload/beforeSendFile',
                                 dataType: 'json',
                                 data: {
                                     md5: md5,
@@ -315,7 +315,7 @@
                     //上传完成修改状态
                     $.ajax({
                     	type:'POST',
-                    	url: baseUrl + '/sword/fileUpload/afterSendFile',
+                    	url: '/sword/fileUpload/afterSendFile',
                         dataType: 'json',
                         data: {
                             id : file.larFileId
@@ -328,11 +328,11 @@
                         }
                     });
                 }
-            });    		
+            });
     	}
-    
-    		
+
+
     };
-    
-    
+
+
 }));
