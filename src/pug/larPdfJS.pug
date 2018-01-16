@@ -1,0 +1,81 @@
+doctype html
+html(lang='en')
+
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(name='description', content='')
+    meta(name='author', content='')
+
+    title SB Admin - Start Bootstrap Template
+
+    include includes/css/core.pug
+
+    include includes/css/custom.pug
+    
+    include includes/mixin.pug
+
+    link(href='css/larGalleryWall/larGalleryWall.css', rel='stylesheet')
+  body#page-top.fixed-nav.sticky-footer.bg-dark
+    include includes/navbar.pug
+    .content-wrapper
+      .container-fluid
+        // 面包屑
+        ol.breadcrumb
+          li.breadcrumb-item
+            a(href='#') Lar-ui
+          li.breadcrumb-item.active PDF加载组件
+        // 撑起页面高度
+        div(style='height: 1000px')
+          // #组件名称
+          h3
+            a.headerlink(href="#全局配置")|PDF加载组件
+          // #组件概述
+          p 
+            code LarPdfJS
+            |基于H5的PDF加载组件，使用的第三方的PDFJS组件。所有PDF文件都被解析成HTML结构
+          // #组件使用方法
+          h3 
+            a.headerlink(href="#全局配置")|使用方法
+          p 1.下载源码，有两个重要的文件夹。/build /web build文件夹包括核心PDFJS代码 web包括view.html和任何你想展示的PDF文件
+          p 2.我们的工作主要在web文件夹下面。我们的adobe reader阅读器实际就是view.html
+          p 3.把所有源码文件拷贝到我们web目录下，注意pdf.js只在服务器运行环境下可以运行，单机环境测试是不行的。
+          - var pdfDemo = '<a href="/web/viewer.html?file=Test PDF.pdf">';
+          p 4.引用如下：#{pdfDemo} 其中/web/viewer.html是你的相对路径，Test PDF.pdf是你的pdf名称
+          p 5.PDFJS官网地址：https://mozilla.github.io/pdf.js/
+          // #组件展示效果
+          h3
+            a.headerlink(href="silent")|展示效果
+          iframe(src="/src/vendor/pdfjs-1.9.426-dist/web/viewer.html" name="iframe_a" width="100%" height="100%")
+          // #组件属性介绍
+      // /.container-fluid
+      // /.content-wrapper
+
+      include includes/footer.pug
+
+      include includes/scroll-to-top.pug
+
+      include includes/js/core.pug
+
+      include includes/js/custom.pug
+      script(src='larBackTop/larBackTop.js')
+      script(src='larGalleryWall/larGalleryWall.js')
+      script.
+        $('.scroll-to-top').larBackTop();
+      // Toggle between fixed and static navbar
+      script.
+        $('#toggleNavPosition').click(function() {
+        $('body').toggleClass('fixed-nav');
+        $('nav').toggleClass('fixed-top static-top');
+        });
+
+      // Toggle between dark and light navbar
+      script.
+        $('#toggleNavColor').click(function() {
+        $('nav').toggleClass('navbar-dark navbar-light');
+        $('nav').toggleClass('bg-dark bg-light');
+        $('body').toggleClass('bg-dark bg-light');
+        });
+
+

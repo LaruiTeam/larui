@@ -17,9 +17,10 @@ test 为单元测试文件（保留）
 demo 为旧的demo代码（弃）  
 dist 为旧的发布代码（弃）  
 
-#### 组件定位component specification
+#### 组件定位component strategy
 1. 移动优先，所有组件开发优先设计移动端，再拓展PC端
-2. 
+2. 组件尽量服务于文联系统，及尽量贴近文联业务，以及文联技术架构
+3. 
 
 #### 技术规格 tech specification
 ######## 组件规范 ########
