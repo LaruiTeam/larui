@@ -1,0 +1,19 @@
+/* 检索框*/
+.fulltextSearch{
+    margin: 0 auto;
+    width: 545px;
+    padding: 10px 0 40px 0;
+    .btn-default{
+        background-color: red;
+        border: 1px solid red;
+        color: white;
+    }
+    .form-control:focus {  
+        outline: none !important;
+        border-color: #ccc !important;
+        box-shadow: none !important;
+    }
+    .btn{
+        padding: 6px 16px;
+    }
+}

@@ -10,3 +10,33 @@
 @import "cards.scss";
 @import "login.scss";
 @import "footer.scss";
+@import "main.scss";
+
+h1.larTit{
+  font-size: 28px;
+  font-weight: 400;
+  color: #1f2f3d;
+}
+h2.larSubtit{
+  margin: 55px 0 20px;
+  font-size: 22px;
+  font-weight: 400;
+  color: #1f2f3d;
+}
+.larBody{
+  font-size: 14px;
+  color: #5e6d82;
+  line-height: 4em;
+}
+.demoBox{
+  border: 1px solid #ebebeb;
+  border-radius: 3px;
+  transition: .2s;
+  padding: 40px;
+}
+.codeArea{
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 4px;
+  padding: 9px 14px;
+}

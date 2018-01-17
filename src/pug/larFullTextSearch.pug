@@ -1,0 +1,98 @@
+doctype html
+html(lang='en')
+
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    link(rel="stylesheet" href="css/larFullTextSearch/larFullTextSearch.css")
+
+    title SB Admin - Start Bootstrap Template
+
+    include includes/css/core.pug
+    include includes/css/custom.pug
+
+  body#page-top.fixed-nav.sticky-footer.bg-dark
+    include includes/navbar.pug
+    .content-wrapper
+      .container-fluid
+
+        h1.larTit 全文检索组件
+        p.larBody 此组件用于在检索词不为空时，回车或点击搜索按钮，跳转到统一检索页面。
+
+        h2.larSubtit 使用方法
+        hr
+        code
+          p 引入js文件:
+          div.codeArea
+            - var divContainerH = '<script src="larFullTextSearch/larFullTextSearch.js"></script>';
+              code.block #{divContainerH}
+          p &nbsp;
+          p 引入css文件:
+          div.codeArea
+            - var divContainerH = '<link rel="stylesheet" href="css/larFullTextSearch/larFullTextSearch.css">';
+              code.block #{divContainerH}
+          p &nbsp;
+          p 调用方法:
+          div.codeArea
+            - var divContainerH = '<div class="search"></div>';
+              code.block #{divContainerH}
+            p
+            - var divContainerH = '$(\'.search\').spcFulltextSearch();';
+              code.block #{divContainerH}
+
+
+        h2.larSubtit 展示效果
+        hr
+        div.demoBox
+          div.search
+
+        h2.larSubtit 属性介绍
+        hr
+        -
+          var properties = [{ title:'scrollId',type:'string',default:'https://cn.bing.com/?FORM=Z9FD1',description:'跳转至的路径'},
+          {title:'scrollSpeed',type:'int',default:'13',description:'键盘事件为回车事件'},
+          {title:'easingType',type:'string',default:'空',description:'检索词默认为空'}];
+        each property in properties
+          div.description
+          li.description-title #{property.title}
+          div.description-type
+          span 类型：
+          span.value #{property.type}
+          div.description-default
+          span 默认值：
+          span.value #{property.default}
+          div.description-detail
+          span 描述：
+          span.value #{property.description}
+
+
+        // Blank div to give the page height to preview the fixed vs. static navbar
+        div(style='height: 1000px')
+      // /.container-fluid
+      // /.content-wrapper
+
+      include includes/footer.pug
+      include includes/scroll-to-top.pug
+      include includes/js/core.pug
+      include includes/js/custom.pug
+
+      script(src='larFullTextSearch/larFullTextSearch.js')
+      script.
+        $('.search').spcFulltextSearch();
+      // Toggle between fixed and static navbar
+      script.
+        $('#toggleNavPosition').click(function() {
+        $('body').toggleClass('fixed-nav');
+        $('nav').toggleClass('fixed-top static-top');
+        });
+
+      // Toggle between dark and light navbar
+      script.
+        $('#toggleNavColor').click(function() {
+        $('nav').toggleClass('navbar-dark navbar-light');
+        $('nav').toggleClass('bg-dark bg-light');
+        $('body').toggleClass('bg-dark bg-light');
+        });
