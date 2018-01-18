@@ -1,0 +1,159 @@
+doctype html
+html(lang='en')
+
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    link(rel="stylesheet" href="larUpload/webuploader/css/webuploader.css")
+    link(rel="stylesheet" href="css/larAccordion/larAccordion.css")
+
+    title SB Admin - Start Bootstrap Template
+
+    include includes/css/core.pug
+
+    include includes/css/custom.pug
+
+  body#page-top.fixed-nav.sticky-footer.bg-dark.main
+    include includes/navbar.pug
+    .content-wrapper
+      .container-fluid
+        // Breadcrumbs
+        ol.breadcrumb
+          li.breadcrumb-item
+            a(href='#') Lar-ui
+          li.breadcrumb-item.active 手风琴组件
+        div.result
+          h3
+            a.headerLink |手风琴组件
+          p
+            code larAccordion
+            |手风琴组件如示例所示，提供多图片的切换效果。目前只支持动态获取数据的方式，且没有添加链接的功能。
+          h3
+            a.headerLink |使用方法
+            p
+            div.code-html
+              code $([selector]).larAccordion([options]);
+            p
+            div.code-html html
+              - var divContainerH = '<div id="accordion"></div>';
+              code.block #{divContainerH}
+            p
+            div.code-js js
+              code.block $('#accordion').larAccordion({
+              code.block &nbsp;&nbsp;postUrl:'larAccordion/data.json',
+              code.block &nbsp;&nbsp;parmName:'curPageData',
+              code.block &nbsp;&nbsp;imgPathName:'imgPath',
+              code.block &nbsp;&nbsp;wordDataName:'titleName'
+              code.block });
+            p
+            div.code-css css
+              code.block .accordion {
+              code.block &nbsp;&nbsp;width: 1200px;
+              code.block &nbsp;&nbsp;height: 370px;
+              code.block &nbsp;&nbsp;margin: 0;
+              code.block &nbsp;&nbsp;padding: 0;
+              code.block }
+              code.block .accordion #accordionMain {
+              code.block &nbsp;&nbsp;height: 100%;
+              code.block &nbsp;&nbsp;width: 100%;
+              code.block &nbsp;&nbsp;padding: 0;
+              code.block }
+              code.block ul {
+              code.block &nbsp;&nbsp;list-style-type: none;
+              code.block &nbsp;&nbsp;list-style-image: none;
+              code.block &nbsp;&nbsp;list-style-position: outside;
+              code.block }
+              code.block .accordion #accordionMain .accordionList {
+              code.block &nbsp;&nbsp;float: left;
+              code.block &nbsp;&nbsp;height: 100%;
+              code.block }
+              code.block li {
+              code.block &nbsp;&nbsp;display: list-item;
+              code.block &nbsp;&nbsp;text-align: left;
+              code.block }
+              code.block .accordion #accordionMain .accordionList .accdTit {
+              code.block &nbsp;&nbsp;float: left;
+              code.block &nbsp;&nbsp;width: 50px;
+              code.block &nbsp;&nbsp;height: 100%;
+              code.block &nbsp;&nbsp;opacity: 0.8;
+              code.block &nbsp;&nbsp;border: 1px solid #000;
+              code.block &nbsp;&nbsp;cursor: pointer;
+              code.block &nbsp;&nbsp;background-color: #353535;
+              code.block }
+              code.block .accordion #accordionMain .accordionList:first-child .accdTit {
+              code.block &nbsp;&nbsp;background: #cc3535;
+              code.block }
+              code.block .accordion #accordionMain .accordionList .accdTit .accordionP {
+              code.block &nbsp;&nbsp;width: 14px;
+              code.block &nbsp;&nbsp;margin: 20px auto 0;
+              code.block &nbsp;&nbsp;font-size: 14px;
+              code.block &nbsp;&nbsp;color: #fff;
+              code.block &nbsp;&nbsp;word-wrap: break-word;
+              code.block }
+              code.block .accordion #accordionMain .accordionList .accdContent {
+              code.block &nbsp;&nbsp;float: left;
+              code.block &nbsp;&nbsp;width: 0;
+              code.block &nbsp;&nbsp;height: 100%;
+              code.block &nbsp;&nbsp;background-repeat: no-repeat;
+              code.block &nbsp;&nbsp;overflow: hidden;
+              code.block }
+          h3
+            a.headerLink |展示效果
+          div
+            div#accordion
+          br
+          p
+          h3
+            a.headerLink |属性说明
+          -
+           var properties = [{ title:'postUrl',type:'string',default:'null',description:'请求数据的服务路径'},
+                             {title:'postParm',type:'object',default:'null',description:'请求服务的参数'},
+                             {title:'parmName',type:'string',default:'空字符串',description:'返回的列表数据名称，例如data.model[parmName]，如该项parmName为空则取值data.model'},
+                             {title:'imgPathName',type:'string',default:'空字符串',description:'图片的相对路径名称'},
+                             {title:'wordDataName',type:'string',default:'空字符串',description:'每个数据的title名称'},
+                             {title:'acdContentW',type:'string',default:'"900"',description:'右侧内容区宽度'},
+                             {title:'acdContentH',type:'string',default:'"370"',description:'右侧内容区高度'},
+                             {title:'acdSpeed',type:'int',default:'350',description:'切换图片的速度'}];
+          each property in properties
+            div.description
+              li.description-title #{property.title}
+              div.description-type
+                span 类型：
+                span.value #{property.type}
+              div.description-default
+                span 默认值：
+                span.value #{property.default}
+              div.description-detail
+                span 描述：
+                span.value #{property.description}
+
+      include includes/footer.pug
+
+      include includes/scroll-to-top.pug
+
+      include includes/js/core.pug
+
+      include includes/js/custom.pug
+
+      script(src='../artnchina/lib/jquery-1.11.2.min.js')
+      script(src='larAccordion/larAccordion.js')
+      script.
+        $('#accordion').larAccordion({postUrl:'larAccordion/data.json',parmName:'curPageData',imgPathName:'imgPath',wordDataName:'titleName'});
+
+      // Toggle between fixed and static navbar
+      script.
+        $('#toggleNavPosition').click(function() {
+        $('body').toggleClass('fixed-nav');
+        $('nav').toggleClass('fixed-top static-top');
+        });
+
+      // Toggle between dark and light navbar
+      script.
+        $('#toggleNavColor').click(function() {
+        $('nav').toggleClass('navbar-dark navbar-light');
+        $('nav').toggleClass('bg-dark bg-light');
+        $('body').toggleClass('bg-dark bg-light');
+        });
