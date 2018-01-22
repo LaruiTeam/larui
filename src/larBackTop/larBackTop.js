@@ -41,9 +41,9 @@
 		this.larBackTop = element; // DOM级别对象
 		this.$larBackTop = $(element); // jQuery级别对象
 	    this.animOut;
-	    this.animSpeed; 
-	    this.scrollEvent; 
-	    this.scrollTarget; 
+	    this.animSpeed;
+	    this.scrollEvent;
+	    this.scrollTarget;
 	    this.$self;
 		/**
 		 * 调用初始化方法

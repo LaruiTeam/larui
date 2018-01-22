@@ -13,49 +13,42 @@ html(lang='en')
     include includes/css/core.pug
     include includes/css/custom.pug
 
-    style.
-      h1{
-        font-size: 2em;
-      }
-      h2{
-        margin-top: 40px;
-        font-size: 1.5em;
-      }
-      .exampleArea{
-        border: 1px solid #e1e1e8;
-        border-radius: 4px;
-        padding: 9px 14px;
-      }
-      .exampleTit{
-        font-size: 12px;
-        color: #959595;
-      }
-      .codeArea{
-        background-color: #f7f7f9;
-        border: 1px solid #e1e1e8;
-        border-radius: 4px;
-        padding: 9px 14px;
-      }
-
   body#page-top.fixed-nav.sticky-footer.bg-dark
     include includes/navbar.pug
     .content-wrapper
       .container-fluid
-        ol.breadcrumb
-          li.breadcrumb-item
-            a(href='#') Lar-ui
-          li.breadcrumb-item.active 返回顶部
-        h1 返回顶部
-        // 01、实例
-        h2 实例
+
+        h1.larTit 返回顶部
+        p.larBody 返回顶部组件用于页面长度超过屏幕浏览器高度的情况。一旦超出浏览器高度，将自动出现。
+
+        h2.larSubtit 使用方法
+          hr
+          code
+            p 引入js文件:
+            div.codeArea
+              - var divContainerH = '<script src="larFullTextSearch/larFullTextSearch.js"></script>';
+                code.block #{divContainerH}
+            p &nbsp;
+            p 引入css文件:
+            div.codeArea
+              - var divContainerH = '<link rel="stylesheet" href="css/larFullTextSearch/larFullTextSearch.css">';
+                code.block #{divContainerH}
+            p &nbsp;
+            p 调用方法:
+            div.codeArea
+              - var divContainerH = '<div class="search"></div>';
+                code.block #{divContainerH}
+              p
+              - var divContainerH = '$(\'.search\').spcFulltextSearch();';
+                code.block #{divContainerH}
+
+        h2.larSubtit 展示效果
         hr
-        p 返回顶部组件用于页面长度超过屏幕浏览器高度的情况。一旦超出浏览器高度，将自动出现。
-        div.exampleArea
-          p.exampleTit 实例：
+        div.demoBox
           a.scroll-to-top-static.rounded(href='#page-top')
             i.fa.fa-angle-up
-        // 02、使用组件
-        h2 使用组件
+
+        h2.larSubtit 属性介绍
         hr
         code
           div.codeArea
@@ -70,13 +63,6 @@ html(lang='en')
             span /i>
             span <
             span /a>
-
-        // 03、方法
-        h2 方法
-        hr
-        // 04、属性
-        h2 属性
-        hr
 
         // Blank div to give the page height to preview the fixed vs. static navbar
         div(style='height: 1000px')
