@@ -19,8 +19,30 @@ br {
     clear: both;
 }
 
-.booklet_btns {
-    float: left;
+.css-gallery {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.css-gallery-list-wrap {
+    overflow: hidden;
+    position: relative;
+}
+
+.css-gallery-list-shelf {
+    position: relative;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.css-gallery-item {
+    cursor: pointer;
+    padding: 0 16px;
+    display: inline-block;
 }
 
 img {
