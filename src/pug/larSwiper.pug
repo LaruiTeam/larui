@@ -1,0 +1,200 @@
+doctype html
+html(lang='en')
+
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    link(rel="stylesheet" href="larUpload/webuploader/css/webuploader.css")
+    link(rel="stylesheet" href="larSwiper/swiper-3.4.2/dist/css/swiper.min.css ")
+    link(rel="stylesheet" href="css/larSwiper/larSwiper.css")
+
+    title SB Admin - Start Bootstrap Template
+
+    include includes/css/core.pug
+
+    include includes/css/custom.pug
+
+  body#page-top.fixed-nav.sticky-footer.bg-dark.main
+    include includes/navbar.pug
+    .content-wrapper
+      .container-fluid
+        // Breadcrumbs
+        ol.breadcrumb
+          li.breadcrumb-item
+            a(href='#') Lar-ui
+          li.breadcrumb-item.active 书架展示组件
+        div.result
+          h3
+            a.headerLink |书架展示组件
+          p
+            code larShelfGallery
+            |实现横向滚动的展示效果，类似于轮播图。
+          h3
+            a.headerLink |使用方法
+            p
+            div.code-html
+              code $([selector]).larShelfGallery([options]);
+            p
+            div.code-html html
+              - var divContainer1 = '<div class="swiper-container">';
+              - var divContainer2 = '<div class="swiper-wrapper">';
+              - var divContainer3 = '<div class="swiper-slide">1</div>';
+              - var divContainer4 = '<div class="swiper-slide">2</div>';
+              - var divContainer5 = '<div class="swiper-slide">3</div>';
+              - var divContainer6 = '</div>';
+              code.block #{divContainer1}
+              code.block &nbsp;&nbsp;#{divContainer2}
+              code.block &nbsp;&nbsp;&nbsp;&nbsp;#{divContainer3}
+                span.annotation &nbsp;&nbsp;//该div内容未第一帧的内容，按需添加
+              code.block &nbsp;&nbsp;&nbsp;&nbsp;#{divContainer4}
+                span.annotation &nbsp;&nbsp;//该div内容未第二帧的内容，按需添加
+              code.block &nbsp;&nbsp;&nbsp;&nbsp;#{divContainer5}
+                span.annotation &nbsp;&nbsp;//该div内容未第三帧的内容，按需添加
+              code.block &nbsp;&nbsp;#{divContainer6}
+              code.block #{divContainer6}
+            p
+            div.code-js js
+              -var js1 = '<script type="javascript" src="larSwiper/swiper-2.7.6/dist/idangerous.swiper.min.js"></script>';
+              -var js2 = '<script type="javascript" src="larSwiper/larSwiper.js"></script>';
+              code.block #{js1}
+                span.annotation &nbsp;&nbsp;//引入swiper的js
+              code.block #{js2}
+                span.annotation &nbsp;&nbsp;//引入larSwiper
+              code.block $('.swiper-container').larSwiper({});
+                span.annotation &nbsp;&nbsp;//初始化swiper
+
+          p
+          div.code-css css
+            code.block body {
+            code.block &nbsp;&nbsp;position: relative;
+            code.block &nbsp;&nbsp;position: relative;
+            code.block &nbsp;&nbsp;height: 100%;
+            code.block &nbsp;&nbsp;background: #eee;
+            code.block &nbsp;&nbsp;font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            code.block &nbsp;&nbsp;font-size: 14px;
+            code.block &nbsp;&nbsp;color:#000;
+            code.block &nbsp;&nbsp;margin: 0;
+            code.block &nbsp;&nbsp;padding: 0;
+            code.block }
+            code.block .swiper-container {
+            code.block &nbsp;&nbsp;width: 100%;
+            code.block &nbsp;&nbsp;height: 100%;
+            code.block }
+            code.block .swiper-slide {
+            code.block &nbsp;&nbsp;text-align: center;
+            code.block &nbsp;&nbsp;font-size: 18px;
+            code.block &nbsp;&nbsp;background: #fff;
+            code.block &nbsp;&nbsp;height: 100px;
+            code.block &nbsp;&nbsp;width: 100%;
+            code.block &nbsp;&nbsp;background: #bf8489;
+            code.block }
+
+          h3
+            a.headerLink |展示效果
+          div
+            div.swiper-container
+              div.swiper-wrapper
+                div.swiper-slide Slide 1
+                div.swiper-slide Slide 2
+                div.swiper-slide Slide 3
+                div.swiper-slide Slide 4
+                div.swiper-slide Slide 5
+                div.swiper-slide Slide 6
+                div.swiper-slide Slide 7
+                div.swiper-slide Slide 8
+                div.swiper-slide Slide 9
+                div.swiper-slide Slide 10
+          br
+          button.btn.btn-default#defaultFunc default
+          button.btn.btn-default#navigation navigation
+          button.btn.btn-default#pagination pagination
+          button.btn.btn-default#bullets bullets
+          button.btn.btn-default#progress progress
+          button.btn.btn-default#fraction fraction
+          button.btn.btn-default#custom custom
+          button.btn.btn-default#scrollbar scrollbar
+          button.btn.btn-default#vertical vertical
+          button.btn.btn-default#space space
+          button.btn.btn-default#multiple multiple
+          button.btn.btn-default#carousel carousel
+          button.btn.btn-default#centered centered
+          button.btn.btn-default#centerAuto centerAuto
+          button.btn.btn-default#free free
+          button.btn.btn-default#scrollCtn scrollCtn
+          button.btn.btn-default#multiRow multiRow
+          button.btn.btn-default#nested nested
+          button.btn.btn-default#cursor cursor
+          button.btn.btn-default#loop loop
+          button.btn.btn-default#loopGroup loopGroup
+          button.btn.btn-default#fade fade
+          button.btn.btn-default#cube cube
+          button.btn.btn-default#coverflow coverflow
+          button.btn.btn-default#flip flip
+          button.btn.btn-default#keyboard keyboard
+          button.btn.btn-default#mousewheel mousewheel
+          button.btn.btn-default#autoplay autoplay
+          button.btn.btn-default#dynamic dynamic
+          button.btn.btn-default#twoway twoway
+          button.btn.btn-default#hash hash
+          button.btn.btn-default#parallax parallax
+          button.btn.btn-default#lazyLoading lazyLoading
+          button.btn.btn-default#responsive responsive
+          button.btn.btn-default#authoHeight authoHeight
+          button.btn.btn-default#zoom zoom
+          button.btn.btn-default#virtual virtual
+          button.button.btn.btn-default#drawer drawer
+          p
+          div.code-js 初始化方法
+            code.block
+          h3
+            a.headerLink |属性说明
+          -
+           var properties = [{ title:'selector',type:'string',default:'.swiper-container',description:'选择器'},
+                             {title:'其他',type:'object/string/...',default:'',description:'其他参数请参照http://idangero.us/swiper/api/'}];
+          each property in properties
+            div.description
+              li.description-title #{property.title}
+              div.description-type
+                span 类型：
+                span.value #{property.type}
+              div.description-default
+                span 默认值：
+                span.value #{property.default}
+              div.description-detail
+                span 描述：
+                span.value #{property.description}
+          br
+          br
+
+      include includes/footer.pug
+
+      include includes/scroll-to-top.pug
+
+      include includes/js/core.pug
+
+      include includes/js/custom.pug
+
+      script(src='larBooklet/booklet-master/src/jquery-2.1.0.min.js')
+      script(src='larSwiper/swiper-2.7.6/dist/idangerous.swiper.min.js')
+      script(src='larSwiper/larSwiper.js')
+      script(src='swiperAPI.js')
+      script.
+        $('.swiper-container').larSwiper({});
+
+      // Toggle between fixed and static navbar
+      script.
+        $('#toggleNavPosition').click(function() {
+        $('body').toggleClass('fixed-nav');
+        $('nav').toggleClass('fixed-top static-top');
+        });
+
+      // Toggle between dark and light navbar
+      script.
+        $('#toggleNavColor').click(function() {
+        $('nav').toggleClass('navbar-dark navbar-light');
+        $('nav').toggleClass('bg-dark bg-light');
+        $('body').toggleClass('bg-dark bg-light');
+        });
