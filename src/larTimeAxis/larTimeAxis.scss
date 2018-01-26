@@ -1,0 +1,174 @@
+.Spc_yearsSame{
+	float: left;
+}
+/* 时间轴 —— 左侧年份  */
+.Spc_yearsLeft{
+	width: 11%;
+	height: 360px;
+	.Spc_yearsMain{
+		height: 100%;
+		position: relative;
+		.Spc_yearsMainCont{
+            height: 348px;
+            overflow: hidden;
+            padding-top: 5px;
+			.Spc_yearsmove{
+				height: 100%;
+				position: relative;
+				.Spc_backLine{
+					width: 1px;
+					height: 375px;
+					background: #ccc;
+					position: absolute;
+					left: 13px;
+					top: -5px;
+				}
+				.Spc_yearsList{
+					position: absolute;
+					li{
+						width: 100%;
+						padding: 4px 0;
+						cursor: pointer;
+						span{
+							float: left;
+						}
+						.Spc_iconYears{
+							display: inline-block;
+							width: 26px;
+							height: 26px;
+						}
+						.Spc_years{
+							margin-left: 22px;
+							font-size: 14px;
+							font-weight: 600;
+							color: #48446b;
+						}
+					}
+					li:first-child{
+						.Spc_iconYears{
+							background: url(../lar-ui/imgs/lar_local/iconEllipse.png) no-repeat;
+						}
+						.Spc_years{
+							color: #cc3535;
+							font-size: 18px;
+						}
+					}
+				}
+			}
+		}
+		.Spc_btnYear{
+            position: absolute;
+            width: 18px;
+            height: 9px;
+            left: 55px;
+            cursor: pointer;
+            display: none;
+        }
+        .Spc_btnBack{
+            top: -12px;
+            background: url(../lar-ui/imgs/lar_local/Arrow-left.png) no-repeat;
+        }
+        .Spc_btnMore{
+            bottom: 6px;
+            background: url(../lar-ui/imgs/lar_local/Arrow-right.png) no-repeat;
+        }
+	}
+	
+}
+/* 时间轴 —— 右侧数据 */ 
+.Spc_yearsRight{
+	width: 89%;
+    height: 360px;
+    padding-left: 10px;
+    .Spc_yearsData{
+        height: 100%;
+        /*左侧大图片*/
+        .Spc_imgChange{
+        	width: 59%;
+        	float: left;
+            padding: 12px 0 0 0;
+            height: 100%;
+            img{
+                width: 100%;
+                height: 322px;
+            }
+        }
+        /*右侧信息*/
+        .Spc_RightCount{
+        	width: 41%;
+        	height: 100%;
+        	float: left;
+            padding: 13px 5px 0 40px;
+            .Spc_dataList{
+                height: 242px;
+                li{
+                    font-size: 14px;
+                    color: #333;
+                    padding-left: 33px;
+                    line-height: 38px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    background: url(../lar-ui/imgs/lar_local/iconSpecial.png) no-repeat 0 10px;
+                }
+            }
+            .Spc_imglist{
+                height: 70px;
+                width: 100%;
+                img{
+                    width: 90px;
+                    height: 70px;
+                    margin-right: 10px;
+                    cursor: pointer;
+                }
+                .Spc_SmImg{
+                    float: left;
+                    .Spc_imgBorder{ 
+                        width: 90px;
+                        height: 70px;
+                        position: absolute;
+                        cursor: pointer;
+                    }
+                }
+                .Spc_SmImg:first-child{
+                    .Spc_imgBorder{
+                        border: 3px solid #cc3535;
+                    }
+                }
+            }
+        }
+    }
+    // ==========  右侧数据 第二种展现方式
+    .Spc_yearsDataSec{
+    	height: 100%;
+        width: 100%;
+    	/*左侧图片*/
+        .Spc_imgChangeSec{
+            padding: 12px 0 0 0;
+            height: 340px;
+            img{
+                width: 100%;
+                height: 322px;
+            }
+        }
+        /*右侧信息*/
+        .Spc_RightCountSec{
+            padding: 13px 0 0 20px;
+            height: 334px;
+            .Spc_ListTitle{
+                font-size: 16px;
+                font-weight: 600;
+                text-align: center;
+                line-height: 36px;
+                color: #91a0c4;
+            }
+            .Spc_ListP{
+                font-size: 16px;
+                color: #91a0c4;
+                line-height: 28px;
+                text-align: justify;
+                text-indent: 32px;
+            }
+        }
+    }
+}

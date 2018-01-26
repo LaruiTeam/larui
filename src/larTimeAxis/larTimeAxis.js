@@ -55,7 +55,7 @@
     
     TimeAxis.DEFAULTS = { };
     
-    // TimeAxis.TEMPLATE = ;      
+    // TimeAxis.TEMPLATE = ;
 
     TimeAxis.init = function() {
         var _this = this,
@@ -112,10 +112,28 @@
             $btnBack = vars.$btnBack,
             $btnMore = vars.$btnMore,
             yearRightType = vars.yearRightType,
-            yeardictCode = vars.yeardictCode
+            yeardictCode = vars.yeardictCode,
             yearslistH = vars.yearslistH;
-        var postUrl = baseUrl + '/sword/dictService/findSubCodesByPcodeAndType';
-        $.post(postUrl,{dictCode:yeardictCode,dictType:'D_SEARCH_PLATE'}).done(function(data) {
+        // var postUrl = baseUrl + '/sword/dictService/findSubCodesByPcodeAndType';
+        // $.post(postUrl,{dictCode:yeardictCode,dictType:'D_SEARCH_PLATE'}).done(function(data) {
+            var data = {
+                "model" : [{
+                "dictCode" : "year2017",
+                "dictName" : "2017"
+            },{
+                "dictCode" : "year2016",
+                "dictName" : "2016"
+            },{
+                "dictCode" : "year2015",
+                "dictName" : "2015"
+            },{
+                "dictCode" : "year2014",
+                "dictName" : "2014"
+            },{
+                "dictCode" : "year2013",
+                "dictName" : "2013"
+            }]
+            }
             var yearLists = data.model;
             var yersli = '';
             for (var i = 0; i < yearLists.length; i++) {
@@ -155,7 +173,7 @@
                 $(this).siblings().find('.Spc_years').css({'color': '#48446b','font-size':'14px'});
             });
             
-        });
+        // });
         $btnBack.on('click', function() {
         	TimeAxis.back.call(_this);
         });
@@ -194,12 +212,13 @@
     TimeAxis.timelineDataRight = function(idName) {
         var _this = this,
             vars = _this._vars,
-            yearsId = vars.yearsId;   
+            yearsId = vars.yearsId;
         if (idName) {
             yearsId = idName;
         }
         $('.Spc_yearsRight').empty();
-        var postUrl = baseUrl + '/sword/search/ChannelService/getResultDataByIds';
+        // var postUrl = baseUrl + '/sword/search/ChannelService/getResultDataByIds';
+        var postUrl = 'data1.json';
         $.post(postUrl,{ids:yearsId}).done(function(data) {
             var listData = data.model,html = '';
             listData = listData[yearsId];
@@ -258,7 +277,8 @@
             yearsId = idName;
         }
         $('.Spc_yearsRight').empty();
-        var postUrl = baseUrl + '/sword/search/ChannelService/getResultDataByIds';
+        // var postUrl = baseUrl + '/sword/search/ChannelService/getResultDataByIds';
+        var postUrl = 'data2.json';
         $.post(postUrl,{ids:yearsId}).done(function(data) {
             var listData = data.model,html = '';
             listData = listData[yearsId];
