@@ -32,22 +32,24 @@
 
     CssSwiper.TEMPLATE = '';
     CssSwiper.prototype.init = function() {
-        var swiper = new Swiper(this.options.selector, this.options);
+        swiper = new Swiper(this.options.selector, this.options);
     };
 
 
     function CssSwiper_Plugin(options) {
 
         if(!options || typeof(options) !== 'object') return false;
-        this.each(function() {
+        var resultArr = [];
+        $(this).each(function() {
             var $this = $(this);
             var _options = $.extend(true, {}, CssSwiper.DEFAULTS, options);
-            new CssSwiper(this, _options);
+            // var swiperObj = new CssSwiper(this, _options);
+            var swiperObj = new Swiper(_options.selector, _options);
+            resultArr.push(swiperObj);
         });
+        return resultArr;
 
     };
 
-    $.fn.larSwiper = function(options){
-        CssSwiper_Plugin(options);
-    }
+    $.fn.larSwiper = CssSwiper_Plugin;
 });

@@ -8,7 +8,7 @@ html(lang='en')
     meta(name='description', content='')
     meta(name='author', content='')
     link(rel="stylesheet" href="larUpload/webuploader/css/webuploader.css")
-    link(rel="stylesheet" href="larSwiper/swiper-3.4.2/dist/css/swiper.min.css ")
+    link(rel="stylesheet" href="larSwiper/swiper-4.1.0/dist/css/swiper.min.css")
     link(rel="stylesheet" href="css/larSwiper/larSwiper.css")
 
     title SB Admin - Start Bootstrap Template
@@ -94,7 +94,7 @@ html(lang='en')
 
           h3
             a.headerLink |展示效果
-          div
+          div#swiper-ss
             div.swiper-container
               div.swiper-wrapper
                 div.swiper-slide Slide 1
@@ -133,7 +133,6 @@ html(lang='en')
           button.btn.btn-default#cube cube
           button.btn.btn-default#coverflow coverflow
           button.btn.btn-default#flip flip
-          button.btn.btn-default#keyboard keyboard
           button.btn.btn-default#mousewheel mousewheel
           button.btn.btn-default#autoplay autoplay
           button.btn.btn-default#dynamic dynamic
@@ -177,12 +176,11 @@ html(lang='en')
 
       include includes/js/custom.pug
 
-      script(src='larBooklet/booklet-master/src/jquery-2.1.0.min.js')
-      script(src='larSwiper/swiper-2.7.6/dist/idangerous.swiper.min.js')
+      script(src='larSwiper/swiper-3.4.2/dist/js/swiper.jquery.min.js')
+      script(src='larSwiper/swiper-4.1.0/dist/js/swiper.min.js')
       script(src='larSwiper/larSwiper.js')
       script(src='swiperAPI.js')
-      script.
-        $('.swiper-container').larSwiper({});
+
 
       // Toggle between fixed and static navbar
       script.
