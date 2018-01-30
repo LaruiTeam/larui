@@ -7,7 +7,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     meta(name='description', content='')
     meta(name='author', content='')
-    link(rel="stylesheet" href="css/larFullTextSearch/larFullTextSearch.css")
+    link(rel="stylesheet" href="css/larTimeAxis/larTimeAxis.css")
 
     title SB Admin - Start Bootstrap Template
 
@@ -19,35 +19,34 @@ html(lang='en')
     .content-wrapper
       .container-fluid
 
-        h1.larTit 全文检索组件
-        p.larBody 此组件用于在检索词不为空时，回车或点击搜索按钮，跳转到统一检索页面。
+        h1.larTit 时间轴组件
+        p.larBody 多用于按时间顺序展示一系列事件。
 
         h2.larSubtit 使用方法
         hr
         code
           p 引入js文件:
           div.codeArea
-            - var divContainerH = '<script src="larFullTextSearch/larFullTextSearch.js"></script>';
+            - var divContainerH = '<script src="larTimeAxis/larTimeAxis.js"></script>';
               code.block #{divContainerH}
           p &nbsp;
           p 引入css文件:
           div.codeArea
-            - var divContainerH = '<link rel="stylesheet" href="css/larFullTextSearch/larFullTextSearch.css">';
+            - var divContainerH = '<link rel="stylesheet" href="css/larTimeAxis/larTimeAxis.css">';
               code.block #{divContainerH}
           p &nbsp;
           p 调用方法:
           div.codeArea
-            - var divContainerH = '<div class="search"></div>';
+            - var divContainerH = '<div class="reviewMain"></div>';
               code.block #{divContainerH}
             p
-            - var divContainerH = '$(\'.search\').spcFulltextSearch();';
+            - var divContainerH = '$(\'.reviewMain\').larTimeAxis({\n'+'yeardictCode: \'ZTjchg\',\n'+'yearsId: \'year2017\',\n'+'yearRightType: 1\n'+'})';
               code.block #{divContainerH}
-
 
         h2.larSubtit 展示效果
         hr
         div.demoBox
-          div.search
+          div.reviewMain
 
         h2.larSubtit 属性介绍
         hr
@@ -83,9 +82,13 @@ html(lang='en')
       include includes/js/core.pug
       include includes/js/custom.pug
 
-      script(src='larFullTextSearch/larFullTextSearch.js')
+      script(src='larTimeAxis/larTimeAxis.js')
       script.
-        $('.search').spcFulltextSearch();
+          $('.reviewMain').larTimeAxis({
+              yeardictCode: 'ZTjchg',
+              yearsId: 'year2017',
+              yearRightType: 1
+          })
       // Toggle between fixed and static navbar
       script.
         $('#toggleNavPosition').click(function() {

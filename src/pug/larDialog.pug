@@ -7,7 +7,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     meta(name='description', content='')
     meta(name='author', content='')
-    link(rel="stylesheet" href="css/larFullTextSearch/larFullTextSearch.css")
+    link(rel="stylesheet" href="css/larDialog/larDialog.css")
 
     title SB Admin - Start Bootstrap Template
 
@@ -19,25 +19,25 @@ html(lang='en')
     .content-wrapper
       .container-fluid
 
-        h1.larTit 全文检索组件
-        p.larBody 此组件用于在检索词不为空时，回车或点击搜索按钮，跳转到统一检索页面。
+        h1.larTit 弹出框组件
+        p.larBody 。。。。
 
         h2.larSubtit 使用方法
         hr
         code
           p 引入js文件:
           div.codeArea
-            - var divContainerH = '<script src="larFullTextSearch/larFullTextSearch.js"></script>';
+            - var divContainerH = '<script src="larDialog/larDialog.js"></script>';
               code.block #{divContainerH}
           p &nbsp;
           p 引入css文件:
           div.codeArea
-            - var divContainerH = '<link rel="stylesheet" href="css/larFullTextSearch/larFullTextSearch.css">';
+            - var divContainerH = '<link rel="stylesheet" href="css/larDialog/larDialog.css">';
               code.block #{divContainerH}
           p &nbsp;
           p 调用方法:
           div.codeArea
-            - var divContainerH = '<div class="search"></div>';
+            - var divContainerH = '<button class="clickButton">点击按钮</button>';
               code.block #{divContainerH}
             p
             - var divContainerH = '$(\'.search\').spcFulltextSearch();';
@@ -47,7 +47,7 @@ html(lang='en')
         h2.larSubtit 展示效果
         hr
         div.demoBox
-          div.search
+          button.clickButton 点击按钮
 
         h2.larSubtit 属性介绍
         hr
@@ -61,8 +61,11 @@ html(lang='en')
               th 说明
           tbody
             -
-              var properties = [{ title:'scrollId',type:'string',default:'url',description:'跳转至的路径'},
-              {title:'easingType',type:'string',default:'空',description:'检索词默认为空'}];
+              var properties = [{ title:'dialogSize',type:'',default:'url',description:'大小，modal-lg或modal-sm'},
+              {title:'width',type:'',default:'空',description:'宽度'},
+              {title:'height',type:'',default:'空',description:'高度'},
+              {title:'defaultClose',type:'',default:'空',description:'是否显示“关闭”按钮，默认显示'},
+              {title:'buttons',type:'',default:'空',description:'按钮'}];
             each property in properties
               tr
                 td #{property.title}
@@ -83,9 +86,42 @@ html(lang='en')
       include includes/js/core.pug
       include includes/js/custom.pug
 
-      script(src='larFullTextSearch/larFullTextSearch.js')
+      script(src='./larDialog/larDialog.js')
       script.
-        $('.search').spcFulltextSearch();
+        function alertDialog(message, title, status, callback) {
+            var dialog = $('body').larDialog({
+                id: 'system_dialog_alert',
+                title: (title ? title : '信息提示'),
+                modal: {backdrop: 'static', show: true},
+                dialogSize: 'modal-sm',
+                zIndex: 1150,
+                width: 450,
+                height: 90,
+                defaultClose: false,					//是否显示“关闭”按钮，默认显示
+                buttons: [{
+                    name: '确定',
+                    close: true
+                }],							//按钮
+                afterClose: callback
+            });
+            var icon = '';
+            if (status == 'success') {
+                icon = '<span class="success"></span>';
+            } else if (status == 'error') {
+                icon = '<span class="error"></span>';
+            }
+            message = '<span>' + message + '</span>';
+            dialog.setBody('<div class="lar-alert">' + icon + message + '</div>');
+            var $dialog = dialog.$getDialog();
+            $dialog.css({'margin-top': '13%'});
+            $dialog.find('.modal-footer').addClass('lar-alertFooter');
+            $dialog.find('.modal-footer .btn').addClass('lar-alertBtn');
+            dialog.show();
+        }
+        $('body').on('click', '.clickButton', function(){
+            alertDialog('旅行的青蛙🐸','','');
+        });
+
       // Toggle between fixed and static navbar
       script.
         $('#toggleNavPosition').click(function() {

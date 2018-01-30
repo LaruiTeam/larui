@@ -1,0 +1,18 @@
+{
+  "model" : [{
+    "dictCode" : "year2017",
+    "dictName" : "2017"
+  },{
+    "dictCode" : "year2016",
+    "dictName" : "2016"
+  },{
+    "dictCode" : "year2015",
+    "dictName" : "2015"
+  },{
+    "dictCode" : "year2014",
+    "dictName" : "2014"
+  },{
+    "dictCode" : "year2013",
+    "dictName" : "2013"
+  }]
+}
