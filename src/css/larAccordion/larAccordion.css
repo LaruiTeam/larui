@@ -1,0 +1,110 @@
+span.hidden {
+  display: none; }
+
+nav.navbar a.navbar-brand {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }
+
+div.container-fluid ol.breadcrumb {
+  margin-top: 20px;
+  margin-bottom: 10px; }
+
+div.container-fluid {
+  padding-left: 10px;
+  padding-right: 10px; }
+
+br {
+  clear: both; }
+
+.accordion {
+  width: 1200px;
+  height: 370px;
+  margin: 0;
+  padding: 0; }
+
+.accordion #accordionMain {
+  height: 100%;
+  width: 100%;
+  padding: 0; }
+
+ul {
+  list-style-type: none;
+  list-style-image: none;
+  list-style-position: outside; }
+
+.accordion #accordionMain .accordionList {
+  float: left;
+  height: 100%; }
+
+li {
+  display: list-item;
+  text-align: left; }
+
+.accordion #accordionMain .accordionList .accdTit {
+  float: left;
+  width: 50px;
+  height: 100%;
+  opacity: 0.8;
+  border: 1px solid #000;
+  cursor: pointer;
+  background-color: #353535; }
+
+.accordion #accordionMain .accordionList:first-child .accdTit {
+  background: #cc3535; }
+
+.accordion #accordionMain .accordionList .accdTit .accordionP {
+  width: 14px;
+  margin: 20px auto 0;
+  font-size: 14px;
+  color: #fff;
+  word-wrap: break-word; }
+
+.accordion #accordionMain .accordionList .accdContent {
+  float: left;
+  width: 0;
+  height: 100%;
+  background-repeat: no-repeat;
+  overflow: hidden; }
+
+code.block {
+  display: block;
+  background-color: rgba(230, 215, 215, 0.28); }
+
+div.code-html, div.code-js, div.code-css {
+  font-size: 0.9rem; }
+
+span.annotation {
+  color: #aaa; }
+
+.description-title {
+  color: #6b8e72;
+  font-weight: bold; }
+
+div.description {
+  font-size: 0.9rem;
+  padding-bottom: 10px; }
+
+div.description-default span.value {
+  color: #bd4147; }
+
+@media screen and (min-width: 631px) {
+  div.container-fluid ol.breadcrumb {
+    margin-top: -10px; }
+  nav.navbar a.navbar-brand {
+    overflow: visible; } }
+
+@media screen and (min-width: 992px) {
+  div.container-fluid ol.breadcrumb {
+    margin-top: -10px; }
+  nav.navbar a.navbar-brand {
+    overflow: visible; }
+  div.result {
+    padding-left: 15px; }
+  div.item-content {
+    height: 160px; }
+  div.item-img img {
+    width: 140px;
+    height: 140px; }
+  div.item-description {
+    padding-left: 10px; } }

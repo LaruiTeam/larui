@@ -1,0 +1,16 @@
+@charset "UTF-8";
+/* 检索框*/
+.fulltextSearch {
+  margin: 0 auto;
+  width: 545px;
+  padding: 10px 0 40px 0; }
+  .fulltextSearch .btn-default {
+    background-color: red;
+    border: 1px solid red;
+    color: white; }
+  .fulltextSearch .form-control:focus {
+    outline: none !important;
+    border-color: #ccc !important;
+    box-shadow: none !important; }
+  .fulltextSearch .btn {
+    padding: 6px 16px; }
