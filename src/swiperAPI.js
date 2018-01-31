@@ -227,6 +227,7 @@
     //显示多行多列slide
     functionObj.multiRow = function(){
         $('.swiper-container').append('<div class="swiper-pagination"></div>');
+        $('#swiper-ss').css('height','100%');
         swiper = ($('.swiper-container').larSwiper({
             slidesPerView: 3,
             slidesPerColumn: 2,
