@@ -13,7 +13,7 @@ html(lang='en')
     include includes/css/core.pug
 
     include includes/css/custom.pug
-    
+
     include includes/mixin.pug
 
     link(href='css/larGalleryWall/larGalleryWall.css', rel='stylesheet')
@@ -32,13 +32,13 @@ html(lang='en')
           h3
             a.headerlink(href="#全局配置")|照片墙组件
           // #组件概述
-          p 
+          p
             code LarGalleryWall
             |照片墙组件用于页面长度超过屏幕浏览器高度的情况。一旦超出浏览器高度，将自动出现。
           // #组件使用方法
-          h3 
+          h3
             a.headerlink(href="#全局配置")|使用方法
-          p 
+          p
             code $(selector).larGalleryWall(option)
           // #组件展示效果
           h3
@@ -47,9 +47,9 @@ html(lang='en')
              div.galleryWallContainer
              div.lar-arrow
           // #组件属性介绍
-          h3 
+          h3
             a.headerlink(href="silent")|属性介绍
-          - 
+          -
             var objs = [{ title : 'dataUrl' , type : 'string' , default : 'data.json' , description : '照片墙数据请求URL,需后台返回JSON,格式参考data.json' },
                         { title : 'galleryType' , type : 'string' , default : 'tall' , description : 'gallery有两种展示,高的tall和方的square' },
                         { title : 'titleType' , type : 'string' , default : 'mask' , description : '设置标题的展示类型,分为两种,default和马赛克,其中default为默认展示方式,mask为遮罩展示方式' },
@@ -75,6 +75,7 @@ html(lang='en')
       script.
          $(document).ready(function(){
             $('.galleryWallContainer').galleryWall({
+               dataUrl: 'larGalleryWall/data.json',
                galleryType : 'square',
                pageSize :'3',
                titleType : 'mask',
@@ -101,5 +102,3 @@ html(lang='en')
         $('nav').toggleClass('bg-dark bg-light');
         $('body').toggleClass('bg-dark bg-light');
         });
-
-

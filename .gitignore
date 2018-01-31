@@ -4,5 +4,6 @@
 /src/**/*.html
 /src/**/*.css
 !/src/vendor/**/*.css
+!/src/vendor/**/*.html
 !/src/larSwiper/**/*.css
 !/src/larUpload/**/*.css
