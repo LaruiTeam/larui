@@ -57,7 +57,7 @@ html(lang='en')
               code.block #{divContainer6}
             p
             div.code-js js
-              -var js1 = '<script type="javascript" src="larSwiper/swiper-2.7.6/dist/idangerous.swiper.min.js"></script>';
+              -var js1 = 'script(src="larSwiper/swiper-4.1.0/dist/js/swiper.min.js")';
               -var js2 = '<script type="javascript" src="larSwiper/larSwiper.js"></script>';
               code.block #{js1}
                 span.annotation &nbsp;&nbsp;//引入swiper的js
@@ -68,8 +68,9 @@ html(lang='en')
 
           p
           div.code-css css
+            -var link = '<link rel="stylesheet" href="larSwiper/swiper-4.1.0/dist/css/swiper.min.css">';
+            code.block #{link}
             code.block body {
-            code.block &nbsp;&nbsp;position: relative;
             code.block &nbsp;&nbsp;position: relative;
             code.block &nbsp;&nbsp;height: 100%;
             code.block &nbsp;&nbsp;background: #eee;
@@ -98,15 +99,6 @@ html(lang='en')
             div.swiper-container
               div.swiper-wrapper
                 div.swiper-slide Slide 1
-                div.swiper-slide Slide 2
-                div.swiper-slide Slide 3
-                div.swiper-slide Slide 4
-                div.swiper-slide Slide 5
-                div.swiper-slide Slide 6
-                div.swiper-slide Slide 7
-                div.swiper-slide Slide 8
-                div.swiper-slide Slide 9
-                div.swiper-slide Slide 10
           br
           button.btn.btn-default#defaultFunc default
           button.btn.btn-default#navigation navigation
@@ -141,13 +133,9 @@ html(lang='en')
           button.btn.btn-default#parallax parallax
           button.btn.btn-default#lazyLoading lazyLoading
           button.btn.btn-default#responsive responsive
-          button.btn.btn-default#authoHeight authoHeight
           button.btn.btn-default#zoom zoom
-          button.btn.btn-default#virtual virtual
           button.button.btn.btn-default#drawer drawer
           p
-          div.code-js 初始化方法
-            code.block
           h3
             a.headerLink |属性说明
           -

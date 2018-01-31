@@ -112,6 +112,7 @@
     functionObj.vertical = function(){
         //还存在问题，需要修改
         $('.swiper-container').append('<div class="swiper-pagination"></div>');
+        $('.swiper-slide').css('height','100%');
         swiper = ($('.swiper-container').larSwiper({
             direction: 'vertical',
             pagination : {
@@ -210,6 +211,7 @@
     //  有问题
     functionObj.scrollCtn = function(){
         $('.swiper-container').append('<div class="swiper-scrollbar"></div>');
+        $('.swiper-slide').css('height','100%');
         swiper = ($('.swiper-container').larSwiper({
             slidesPerView: 'auto',
             direction: 'vertical',
@@ -569,21 +571,233 @@
         galleryThumbs.controller.control = galleryTop;
     };
 
-    functionObj.hash = function(){};
+    functionObj.hash = function(){
+      $('.swiper-container').append('<div class="swiper-pagination"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div>');
+      swiper = ($('.swiper-container').larSwiper({
+          spaceBetween: 30,
+          hashNavigation: {
+            watchState: true
+          },
+          pagination : {
+              el: '.swiper-pagination',
+              clickable: true
+          },
+          navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev'
+          }
+      }))[0];
+      $('code.description').append('hash方法，');
+    };
 
-    functionObj.parallax = function(){};
+    functionObj.parallax = function(){
+      $('.swiper-container').empty();
+      $('.swiper-container').append('<div class="parallax-bg" style="background-image:url(http://lorempixel.com/900/600/nightlife/2/)" data-swiper-parallax="-23%"></div>' +
+      '<div class="swiper-wrapper">' +
+      '<div class="swiper-slide">' +
+      '  <div class="title" data-swiper-parallax="-300">Slide 1</div>' +
+        '<div class="subtitle" data-swiper-parallax="-200">Subtitle</div>' +
+        '<div class="text" data-swiper-parallax="-100">' +
+        '  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dictum mattis velit, sit amet faucibus felis iaculis nec. Nulla laoreet justo vitae porttitor porttitor. Suspendisse in sem justo. Integer laoreet magna nec elit suscipit, ac laoreet nibh euismod. Aliquam hendrerit lorem at elit facilisis rutrum. Ut at ullamcorper velit. Nulla ligula nisi, imperdiet ut lacinia nec, tincidunt ut libero. Aenean feugiat non eros quis feugiat.</p>' +
+        '</div>' +
+      '</div>' +
+      '<div class="swiper-slide">' +
+      '  <div class="title" data-swiper-parallax="-300" data-swiper-parallax-opacity="0">Slide 2</div>' +
+      '  <div class="subtitle" data-swiper-parallax="-200">Subtitle</div>' +
+      '  <div class="text" data-swiper-parallax="-100">' +
+      '    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dictum mattis velit, sit amet faucibus felis iaculis nec. Nulla laoreet justo vitae porttitor porttitor. Suspendisse in sem justo. Integer laoreet magna nec elit suscipit, ac laoreet nibh euismod. Aliquam hendrerit lorem at elit facilisis rutrum. Ut at ullamcorper velit. Nulla ligula nisi, imperdiet ut lacinia nec, tincidunt ut libero. Aenean feugiat non eros quis feugiat.</p>' +
+      '  </div>' +
+      '</div>' +
+      '<div class="swiper-slide">' +
+      '  <div class="title" data-swiper-parallax="-300">Slide 3</div>' +
+      '  <div class="subtitle" data-swiper-parallax="-200">Subtitle</div>' +
+      '  <div class="text" data-swiper-parallax="-100">' +
+      '    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dictum mattis velit, sit amet faucibus felis iaculis nec. Nulla laoreet justo vitae porttitor porttitor. Suspendisse in sem justo. Integer laoreet magna nec elit suscipit, ac laoreet nibh euismod. Aliquam hendrerit lorem at elit facilisis rutrum. Ut at ullamcorper velit. Nulla ligula nisi, imperdiet ut lacinia nec, tincidunt ut libero. Aenean feugiat non eros quis feugiat.</p>' +
+      '  </div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="swiper-pagination swiper-pagination-white"></div>' +
+    '<div class="swiper-button-prev swiper-button-white"></div>' +
+    '<div class="swiper-button-next swiper-button-white"></div>');
+      swiper = $('.swiper-container').larSwiper({
+        speed: 600,
+        parallax: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+      });
 
-    functionObj.lazyLoading = function(){};
 
-    functionObj.responsive = function(){};
+    };
 
-    functionObj.authoHeight = function(){};
+    functionObj.lazyLoading = function(){
+      $('.swiper-container').empty();
+      $('.swiper-container').append('<div class="swiper-wrapper">' +
+      '<div class="swiper-slide">' +
+        '<img data-src="http://lorempixel.com/1600/1200/nature/1/" class="swiper-lazy">' +
+        '<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>' +
+      '</div>' +
+      '<div class="swiper-slide">' +
+        '<img data-src="http://lorempixel.com/1600/1200/nature/2/" class="swiper-lazy">' +
+        '<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>' +
+      '</div>' +
+      '<div class="swiper-slide">' +
+        '<img data-src="http://lorempixel.com/1600/1200/nature/3/" class="swiper-lazy">' +
+        '<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>' +
+      '</div>' +
+      '<div class="swiper-slide">' +
+        '<img data-src="http://lorempixel.com/1600/1200/nature/4/" class="swiper-lazy">' +
+        '<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>' +
+      '</div>' +
+    '  <div class="swiper-slide">' +
+        '<img data-src="http://lorempixel.com/1600/1200/nature/5/" class="swiper-lazy">' +
+        '<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>' +
+      '</div>' +
+      '<div class="swiper-slide">' +
+        '<img data-src="http://lorempixel.com/1600/1200/nature/6/" class="swiper-lazy">' +
+        '<div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>' +
+      '</div>' +
 
-    functionObj.zoom = function(){};
+    '</div>' +
+    '<div class="swiper-pagination swiper-pagination-white"></div>' +
+    '<div class="swiper-button-next swiper-button-white"></div>' +
+    '<div class="swiper-button-prev swiper-button-white"></div>');
+      swiper = $('.swiper-container').larSwiper({
+        lazy: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+      });
+    };
+
+    functionObj.responsive = function(){
+      $('.swiper-container').append('<div class="swiper-pagination"></div>');
+      swiper = $('.swiper-container').larSwiper({
+        slidesPerView: 5,
+        spaceBetween: 50,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        breakpoints: {
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 40
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 30
+          },
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20
+          },
+          320: {
+            slidesPerView: 1,
+            spaceBetween:10
+          }
+        }
+      });
+    };
+
+    functionObj.authoHeight = function(){
+      $('.swiper-container').append('<div class="swiper-pagination"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div>');
+      $('.swiper-container').css('height','auto');
+      $('.swiper-.swiper-container .swiper-slide').css({'height':'300px','line-height':'300px'});
+      $('.swiper-container .swiper-slide:nth-child(2n) ').css({'height':'500px','line-height':'500px'});
+      swiper = $('.swiper-container').larSwiper({
+        authoHeight: true,
+        spaceBetween: 20,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+      });
+    };
+
+    functionObj.zoom = function(){
+      $('.swiper-container').append('<div class="swiper-pagination swiper-pagination-white"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div>');
+      $('.swiper-slide').css('overflow','hidden');
+      $('.swiper-wrapper').empty();
+      $('.swiper-wrapper').append('<div class="swiper-slide">' +
+        '<div class="swiper-zoom-container">' +
+          '<img src="http://lorempixel.com/800/800/sports/1/">' +
+        '</div>'+
+      '</div>'+
+      '<div class="swiper-slide">'+
+        '<div class="swiper-zoom-container">'+
+          '<img src="http://lorempixel.com/800/400/sports/2/">'+
+        '</div>' +
+      '</div>' +
+      '<div class="swiper-slide">' +
+        '<div class="swiper-zoom-container">' +
+          '<img src="http://lorempixel.com/400/800/sports/3/">' +
+        '</div>' +
+      '</div>');
+      swiper = $('.swiper-container').larSwiper({
+        zoom: true, //是否可放大
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+      });
+    };
 
     functionObj.virtual = function(){};
 
-    functionObj.drawer = function(){};
+    functionObj.drawer = function(){
+      $('.swiper-wrapper').empty();
+      $('.swiper-wrapper').append('<div class="swiper-slide menu">Menu slide</div>'+
+                      '<div class="swiper-slide content">' +
+                    '<div class="menu-button">' +
+                  '<div class="bar"></div><div class="bar"></div><div class="bar"></div>' +
+                '</div> Content slide </div></div>');
+      var menuButton = document.querySelector('.menu-button');
+      swiper = $('.swiper-container').larSwiper({
+        slidesPerView: 'auto',
+        initialSlide: 1,
+        resistanceRatio: 0,
+        slideToClickedSlide: true,
+        on: {
+          init: function(){
+            var slider = this;
+            menuButton.addEventListener('click', function () {
+              if (slider.activeIndex === 0) {
+                slider.slideNext();
+              } else {
+                slider.slidePrev();
+              }
+            }, true);
+          },
+          slideChange: function(){
+            var slider = this;
+            if (slider.activeIndex === 0) {
+              menuButton.classList.add('cross');
+            } else {
+              menuButton.classList.remove('cross');
+            }
+          }
+        }
+      });
+    };
 
     var refreshDom = function(){
         $('#swiper-ss').off();
