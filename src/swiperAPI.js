@@ -113,6 +113,7 @@
         //还存在问题，需要修改
         $('.swiper-container').append('<div class="swiper-pagination"></div>');
         $('.swiper-slide').css('height','100%');
+        $('#swiper-ss').css('height','200px');
         swiper = ($('.swiper-container').larSwiper({
             direction: 'vertical',
             pagination : {
@@ -212,6 +213,7 @@
     functionObj.scrollCtn = function(){
         $('.swiper-container').append('<div class="swiper-scrollbar"></div>');
         $('.swiper-slide').css('height','100%');
+        $('#swiper-ss').css('height','200px');
         swiper = ($('.swiper-container').larSwiper({
             slidesPerView: 'auto',
             direction: 'vertical',
@@ -445,6 +447,7 @@
     functionObj.mousewheel = function(){
         $('.swiper-container').addClass('swiper-container-vertical swiper-container-wp8-vertical');
         $('.swiper-container').append('<div class="swiper-pagination"></div>');
+        $('#swiper-ss').css('height','200px');
         swiper = ($('.swiper-container').larSwiper({
             direction: 'vertical',
             slidesPerView: 1,
