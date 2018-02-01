@@ -527,6 +527,7 @@
 
     functionObj.twoway = function(){
         $('.swiper-container').addClass('gallery-top');
+        $('#swiper-ss').css('height','100%');
         $('.swiper-wrapper').empty();
         $('.swiper-wrapper').append('<div class="swiper-slide" style="background-image:url(http://lorempixel.com/600/600/nature/1)"></div>' +
                                     '<div class="swiper-slide" style="background-image:url(http://lorempixel.com/600/600/nature/2)"></div>' +
